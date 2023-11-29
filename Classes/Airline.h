@@ -1,0 +1,25 @@
+
+#ifndef AVIÕES_AIRLINE_H
+#define AVIÕES_AIRLINE_H
+
+#include <string>
+using namespace std;
+
+class Airline {
+
+private:
+    string airlineCode_;
+    string airlineName_;
+    string callSign_;
+    string country_;
+
+public:
+    Airport(string airlineCode, string airlineName, string callSign, string country);
+    string get_AirlineCode();
+    string get_AirlineName();
+    string get_CallSign();
+    string get_Country();
+};
+
+
+#endif
