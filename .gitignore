@@ -1,0 +1,25 @@
+# CLion
+/.idea/
+
+# CMake
+/CMakeLists.txt.user
+/cmake-build-debug/
+/cmake-build-release/
+
+# Compiled output
+/out/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+*.log
+*.iml
+.idea/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
