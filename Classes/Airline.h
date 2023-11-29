@@ -14,7 +14,7 @@ private:
     string country_;
 
 public:
-    Airport(string airlineCode, string airlineName, string callSign, string country);
+    Airline(string airlineCode, string airlineName, string callSign, string country);
     string get_AirlineCode();
     string get_AirlineName();
     string get_CallSign();
