@@ -1,5 +1,5 @@
-#ifndef PROJETO2AED_AIRPORT_H
-#define PROJETO2AED_AIRPORT_H
+#ifndef Project_Air_AIRPORT_H
+#define Project_Air_AIRPORT_H
 
 #include <string>
 using namespace std;

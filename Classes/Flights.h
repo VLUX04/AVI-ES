@@ -2,8 +2,11 @@
 // Created by psclr on 29/11/2023.
 //
 
-#ifndef AVIÕES_FLIGHTS_H
-#define AVIÕES_FLIGHTS_H
+#ifndef Project_Air_FLIGHTS_H
+#define Project_Air_FLIGHTS_H
+
+#include <string>
+using namespace std;
 
 
 class Flight {
