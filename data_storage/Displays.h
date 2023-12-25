@@ -6,6 +6,7 @@
 #define PROJECT_AIR_DISPLAYS_H
 
 #include <vector>
+#include <unordered_set>
 #include "../Classes/Airline.h"
 #include "../Classes/Airport.h"
 #include "../Classes/Flights.h"
@@ -172,7 +173,68 @@ void numCitiesDestAtDistance(string airport,int k){
     }
     cout << cities.size() << endl;
 }
+bool airportCompareByFlights(Airport a, Airport b){
+    size_t adj1= connections.findVertex(a.get_AirportCode())->getAdj().size();
+    size_t adj2= connections.findVertex(b.get_AirportCode())->getAdj().size();
+    if(adj1!=adj2)return adj1> adj2;
+    else{return a.get_AirportCode()>b.get_AirportCode();}
+}
+void greatestAirTrafficCapacity(int k){
+    if(k<=airports.size()) {
+        vector<Airport> airportss = airports;
+        sort(airportss.begin(), airportss.end(), [](const Airport &a, const Airport &b) {
+            return airportCompareByFlights(a, b);
+        });
+        for (int i = 0; i < k; i++) {
+            cout << airportss[i].get_AirportCode() << "| ";
+        }
+    }
+    else{cout<<"Incorrect input (k is larger than number of airports)";}
+}
+/*
+void essentialAirports(){
+    articulationPoints(connections);
+}
 
+unordered_set<string> articulationPoints(Graph<string>  g){
+    unordered_set<string> res;
+    stack<string> s;
+    int i = 0;
+    for(Vertex<string>* vertex:g.getVertexSet()){
+        vertex->setNum(i);
+        for(Edge<string> edge:vertex->getAdj()){
+            g.addEdge(edge.getDest()->getInfo(),vertex->getInfo(),0);
+        }
+    }
+    i++;
+    for(Vertex<string>* vertex:g.getVertexSet()){
+        if(vertex->getNum() == 0){ dfs_art(g,vertex,s,res,i);}
+    }
+    return res;
+}
+
+void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<string> &l, int & i){
+    v->setNum(i);
+    v->setLow(i);
+    i++;
+    int children = 0;
+    s.push(v->getInfo());
+    for(Edge<string> edge:v->getAdj()){
+        if(edge.getDest()->getNum() == 0){
+            children++;
+            dfs_art(q,edge.getDest(),s,l,i);
+            v->setLow(min(v->getLow(),edge.getDest()->getLow()));
+            if(v->getInfo()!= 1 && edge.getDest()->getLow() >= v->getNum())
+                l.insert(v->getInfo());
+        }
+        else if(edge.getDest()->getNum() > 0)
+            v->setLow(min(v->getLow(),edge.getDest()->getNum()));
+    }
+    s.pop();
+    if(v. == 1 && children > 1)
+        l.insert(v->getInfo());
+}
+*/
 
 
 #endif //PROJECT_AIR_DISPLAYS_H
