@@ -11,5 +11,13 @@ int main() {
     numberOut("MAG");
     flightsPerCity("Paris");
     flightsPerAirline("Ryanair");
+    countriesPerCity("Paris");
+    countriesPerAirport("ORY");
+    numAirportsDest("ORY");
+    numCitiesDest("ORY");
+    countriesPerAirportAtDistance("ORY",3);
+    numAirportsDestAtDistance("ORY",3);
+    numCitiesDestAtDistance("ORY",3);
+
     return 0;
 }

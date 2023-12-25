@@ -95,6 +95,7 @@ public:
     vector<T> bfs(const T &source) const;
     vector<T> topsort() const;
     bool isDAG() const;
+    vector<string> nodesAtDistanceBFS(const string &source, int k);
 };
 
 /****************** Provided constructors and functions ********************/
@@ -518,6 +519,46 @@ vector<int> Graph<T>::numberSourcesSinks(){
 
     res.push_back(numSources);
     res.push_back(numSinks);
+    return res;
+}
+
+template<class T>
+vector<string> Graph<T>::nodesAtDistanceBFS( const string &source, int k) {
+
+    vector<string> res;
+    int count=0;
+    for (auto b: getVertexSet()){
+        b->setVisited(false);
+    }
+    auto a=findVertex(source);
+    queue<Vertex<string>*> b;
+    b.push(a);
+    int s=1;
+    int l=0;
+    while(!b.empty()){
+        auto d=b.front();
+        b.pop();
+        s--;
+        if(k==count){
+            res.push_back(d->getInfo());
+        }
+        for (auto e: d->getAdj()){
+            auto q=e.getDest();
+            if(!q->isVisited()){
+                l++;
+                q->setVisited(true);
+                b.push(q);
+            }
+        }
+        if (s==0){
+            s=l;
+            l=0;
+            count++;
+            if(count>k){
+                break;
+            }
+        }
+    }
     return res;
 }
 
