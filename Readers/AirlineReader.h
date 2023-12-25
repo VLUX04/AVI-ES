@@ -22,11 +22,9 @@
 
 using namespace std;
 
+vector<Airline> airlines;
+
 void AirlineReader() {
-
-
-    vector<Airline> airlines;
-
 
     string FILENAME = "dataset/airlines.csv";
     ifstream file;
@@ -52,9 +50,9 @@ void AirlineReader() {
         airlines.emplace_back(AirlineCode,AirlineName,Callsign,Country);
 
     }
-    cout << airlines.size() << endl;
     file.close();
 }
+
 
 
 #endif //Project_Air_AIRLINEREADER_H

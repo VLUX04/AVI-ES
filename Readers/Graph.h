@@ -9,6 +9,7 @@
 #include <queue>
 #include <stack>
 #include <list>
+#include <string>
 
 using namespace std;
 
@@ -29,7 +30,7 @@ class Vertex {
     int num;               // auxiliary field
     int low;               // auxiliary field
 
-    void addEdge(Vertex<T> *dest, double w);
+    void addEdge(Vertex<T> *dest, basic_string<char> w);
     bool removeEdgeTo(Vertex<T> *d);
 public:
     Vertex(T in);
@@ -60,13 +61,13 @@ public:
 template <class T>
 class Edge {
     Vertex<T> * dest;      // destination vertex
-    double weight;         // edge weight
+    string weight;         // edge weight
 public:
-    Edge(Vertex<T> *d, double w);
+    Edge(Vertex<T> *d, string w);
     Vertex<T> *getDest() const;
     void setDest(Vertex<T> *dest);
-    double getWeight() const;
-    void setWeight(double weight);
+    string getWeight() const;
+    void setWeight(string weight);
     friend class Graph<T>;
     friend class Vertex<T>;
 };
@@ -81,11 +82,12 @@ class Graph {
     void dfsVisit(Vertex<T> *v,  vector<T> & res) const;
     bool dfsIsDAG(Vertex<T> *v) const;
 public:
+    vector<int> numberSourcesSinks();
     Vertex<T> *findVertex(const T &in) const;
     int getNumVertex() const;
     bool addVertex(const T &in);
     bool removeVertex(const T &in);
-    bool addEdge(const T &sourc, const T &dest, double w);
+    bool addEdge(const T &sourc, const T &dest, string w);
     bool removeEdge(const T &sourc, const T &dest);
     vector<Vertex<T> * > getVertexSet() const;
     vector<T> dfs() const;
@@ -101,7 +103,7 @@ template <class T>
 Vertex<T>::Vertex(T in): info(in) {}
 
 template <class T>
-Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w) {}
+Edge<T>::Edge(Vertex<T> *d, string w): dest(d), weight(w) {}
 
 
 template <class T>
@@ -145,12 +147,12 @@ void Edge<T>::setDest(Vertex<T> *d) {
 }
 
 template<class T>
-double Edge<T>::getWeight() const {
+string Edge<T>::getWeight() const {
     return weight;
 }
 
 template<class T>
-void Edge<T>::setWeight(double weight) {
+void Edge<T>::setWeight(string weight) {
     Edge::weight = weight;
 }
 
@@ -235,7 +237,7 @@ bool Graph<T>::addVertex(const T &in) {
  * Returns true if successful, and false if the source or destination vertex does not exist.
  */
 template <class T>
-bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
+bool Graph<T>::addEdge(const T &sourc, const T &dest, string w) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == NULL || v2 == NULL)
@@ -249,7 +251,7 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
  * with a given destination vertex (d) and edge weight (w).
  */
 template <class T>
-void Vertex<T>::addEdge(Vertex<T> *d, double w) {
+void Vertex<T>::addEdge(Vertex<T> *d, basic_string<char> w) {
     adj.push_back(Edge<T>(d, w));
 }
 
@@ -467,6 +469,55 @@ vector<T> Graph<T>::topsort() const {
             res.push_back(top->info);
         }
     }
+    return res;
+}
+
+template<class T>
+vector<int> Graph<T>::numberSourcesSinks(){
+    int k, i, sz;
+    int numSinks;
+    int numSources;
+    vector<int> res;
+    stack<int> edge_stack;
+    stack<int> aux_stack;
+    int *r;
+
+    numSinks   = 0;
+    numSources = 0;
+
+    sz =  getVertexSet().size();
+    r = new int[sz];
+    for (i = 0; i < sz; i++){
+        r[i] = 0;
+    }
+
+    for (auto v : getVertexSet()) {
+        for (auto & e : v->getAdj()) {
+            int dst;
+            auto w = e.getDest();
+            dst = w->getInfo();
+            r[dst] = 1;
+        }
+    }
+
+    numSinks = 0;
+    for (i = 0; i < sz; i++){
+        if(r[i] == 0){
+            numSources++;
+        }
+    }
+
+    for (auto v : getVertexSet()) {
+        k = (v->getAdj().size());
+        if(k == 0){
+            numSinks++;
+        }
+    }
+
+    delete []r;
+
+    res.push_back(numSources);
+    res.push_back(numSinks);
     return res;
 }
 

@@ -13,11 +13,9 @@
 
 using namespace std;
 
+vector<Airport> airports;
+
 void AirportReader() {
-
-
-    vector<Airport> airports;
-
 
     string FILENAME = "dataset/airports.csv";
     ifstream file;
@@ -51,11 +49,10 @@ void AirportReader() {
         airports.emplace_back(AirportCode,AirportName,City,Country,Latitude,Longitude);
 
     }
-    cout << airports.size() << endl;
     file.close();
 
-
 }
+
 
 
 #endif //Project_Air_AIRPORTREADER_H

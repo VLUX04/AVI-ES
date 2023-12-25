@@ -2,11 +2,14 @@
 #include "Readers/AirlineReader.h"
 #include "Readers/AirportReader.h"
 #include "Readers/FlightsReader.h"
+#include "data_storage/Displays.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
     AirlineReader();
     AirportReader();
     FlightsReader();
+    numberOut("MAG");
+    flightsPerCity("Paris");
+    flightsPerAirline("Ryanair");
     return 0;
 }

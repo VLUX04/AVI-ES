@@ -7,13 +7,16 @@
 #include <fstream>
 #include <iostream>
 #include "../Classes/Flights.h"
+#include "Graph.h"
+#include <algorithm>
 
 using namespace std;
 
+vector<Flight> flights;
+
+Graph<string> connections;
+
 void FlightsReader() {
-
-    vector<Flight> flights;
-
 
     string FILENAME = "dataset/flights.csv";
     ifstream file;
@@ -35,11 +38,13 @@ void FlightsReader() {
 
         flights.emplace_back(Source,Target,Airline);
 
+        connections.addVertex(Source);
+        connections.addVertex(Target);
+        connections.addEdge(Source,Target,Airline);
     }
     file.close();
 
-    cout << flights.size()<<endl;
-
 }
+
 
 #endif //Project_Air_FLIGHTSREADER_H
