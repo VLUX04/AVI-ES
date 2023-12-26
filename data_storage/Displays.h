@@ -191,27 +191,7 @@ void greatestAirTrafficCapacity(int k){
     }
     else{cout<<"Incorrect input (k is larger than number of airports)";}
 }
-/*
-void essentialAirports(){
-    articulationPoints(connections);
-}
 
-unordered_set<string> articulationPoints(Graph<string>  g){
-    unordered_set<string> res;
-    stack<string> s;
-    int i = 0;
-    for(Vertex<string>* vertex:g.getVertexSet()){
-        vertex->setNum(i);
-        for(Edge<string> edge:vertex->getAdj()){
-            g.addEdge(edge.getDest()->getInfo(),vertex->getInfo(),0);
-        }
-    }
-    i++;
-    for(Vertex<string>* vertex:g.getVertexSet()){
-        if(vertex->getNum() == 0){ dfs_art(g,vertex,s,res,i);}
-    }
-    return res;
-}
 
 void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<string> &l, int & i){
     v->setNum(i);
@@ -224,17 +204,40 @@ void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<
             children++;
             dfs_art(q,edge.getDest(),s,l,i);
             v->setLow(min(v->getLow(),edge.getDest()->getLow()));
-            if(v->getInfo()!= 1 && edge.getDest()->getLow() >= v->getNum())
+            if(v->getAdj().size() != 1 && edge.getDest()->getLow() >= v->getNum())
                 l.insert(v->getInfo());
         }
         else if(edge.getDest()->getNum() > 0)
             v->setLow(min(v->getLow(),edge.getDest()->getNum()));
     }
     s.pop();
-    if(v. == 1 && children > 1)
+    if(v->getAdj().size() == 1 && children > 1)
         l.insert(v->getInfo());
 }
-*/
+
+unordered_set<string> articulationPoints(Graph<string>  g){
+    unordered_set<string> res;
+    stack<string> s;
+    int i = 0;
+    Graph<string> copy = g;
+    for(auto vertex:copy.getVertexSet()){
+        vertex->setNum(i);
+        for(auto edge:vertex->getAdj()){
+            g.addEdge(edge.getDest()->getInfo(),vertex->getInfo(),"");
+        }
+    }
+    i++;
+    for(auto vertex:g.getVertexSet()){
+        if(vertex->getNum() == 0){dfs_art(copy,vertex,s,res,i);}
+    }
+    return res;
+}
+void essentialAirports(){  //pus so a dar para ver o size
+    unordered_set<string> res;
+    res = articulationPoints(connections);
+    cout<<res.size();
+}
+
 
 
 #endif //PROJECT_AIR_DISPLAYS_H
