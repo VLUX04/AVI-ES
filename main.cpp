@@ -8,7 +8,7 @@ int main() {
    AirlineReader();
    AirportReader();
    FlightsReader();
-   /*numberOut("MAG");
+   numberOut("MAG");
    flightsPerCity("Paris");
    flightsPerAirline("Ryanair");
    countriesPerCity("Paris");

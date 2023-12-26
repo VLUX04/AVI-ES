@@ -40,6 +40,7 @@ void FlightsReader() {
 
         connections.addVertex(Source);
         connections.addVertex(Target);
+        connections.findVertex(Target)->setIndegree(connections.findVertex(Target)->getIndegree()+1);
         connections.addEdge(Source,Target,Airline);
     }
     file.close();
