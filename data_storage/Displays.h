@@ -191,26 +191,41 @@ void greatestAirTrafficCapacity(int k){
     }
     else{cout<<"Incorrect input (k is larger than number of airports)";}
 }
-/*
-void essentialAirports(){
-    articulationPoints(connections);
-}
+void dfs(Vertex<string>* v, vector<string> &path, vector<string> &maxPath, int &maxStops,set<pair<string,string>> &trips){
+    v->setVisited(true);
+    path.push_back(v->getInfo());
+    for (auto& in : v->getAdj()){
 
-unordered_set<string> articulationPoints(Graph<string>  g){
-    unordered_set<string> res;
-    stack<string> s;
-    int i = 0;
-    for(Vertex<string>* vertex:g.getVertexSet()){
-        vertex->setNum(i);
-        for(Edge<string> edge:vertex->getAdj()){
-            g.addEdge(edge.getDest()->getInfo(),vertex->getInfo(),0);
+        if (!in.getDest()->isVisited())dfs(in.getDest(),path,maxPath,maxStops,trips);
+
+    }
+
+}
+void maxTrip(){
+    int maxStops=0;
+    set<pair<string,string>> trips;
+    vector<string> path, maxPath;
+    for (auto& in :connections.getVertexSet())in->setVisited(false);
+
+    for (auto& in :connections.getVertexSet()){
+
+        if (!in->isVisited())dfs(in,path,maxPath,maxStops,trips);
+        if (path.size()>maxStops){
+            maxStops=path.size();
+            maxPath=path;
+            trips.clear();
+            trips.insert({path[0],path[path.size()-1]});
         }
+        else if(path.size()==maxStops)trips.insert({path[0],path[path.size()-1]});
+        for (auto& in1 : connections.getVertexSet())in1->setVisited(false);
+        path.clear();
+
     }
-    i++;
-    for(Vertex<string>* vertex:g.getVertexSet()){
-        if(vertex->getNum() == 0){ dfs_art(g,vertex,s,res,i);}
+    cout<<maxStops << endl;
+    for(auto in : trips){
+        cout << in.first << " " << in.second << endl;
     }
-    return res;
+
 }
 
 void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<string> &l, int & i){
@@ -224,17 +239,40 @@ void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<
             children++;
             dfs_art(q,edge.getDest(),s,l,i);
             v->setLow(min(v->getLow(),edge.getDest()->getLow()));
-            if(v->getInfo()!= 1 && edge.getDest()->getLow() >= v->getNum())
+            if(v->getAdj().size() != 1 && edge.getDest()->getLow() >= v->getNum())
                 l.insert(v->getInfo());
         }
         else if(edge.getDest()->getNum() > 0)
             v->setLow(min(v->getLow(),edge.getDest()->getNum()));
     }
     s.pop();
-    if(v. == 1 && children > 1)
+    if(v->getAdj().size() == 1 && children > 1)
         l.insert(v->getInfo());
 }
-*/
+
+unordered_set<string> articulationPoints(Graph<string>  g){
+    unordered_set<string> res;
+    stack<string> s;
+    int i = 0;
+    Graph<string> copy = g;
+    for(auto vertex:copy.getVertexSet()){
+        vertex->setNum(i);
+        for(auto edge:vertex->getAdj()){
+            g.addEdge(edge.getDest()->getInfo(),vertex->getInfo(),"");
+        }
+    }
+    i++;
+    for(auto vertex:g.getVertexSet()){
+        if(vertex->getNum() == 0){dfs_art(copy,vertex,s,res,i);}
+    }
+    return res;
+}
+void essentialAirports(){  //pus so a dar para ver o size
+    unordered_set<string> res;
+    res = articulationPoints(connections);
+    cout<<res.size();
+}
+
 
 
 #endif //PROJECT_AIR_DISPLAYS_H
