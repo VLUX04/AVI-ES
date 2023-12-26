@@ -1,7 +1,3 @@
-//
-// Created by psclr on 29/11/2023.
-//
-
 #ifndef Project_Air_AIRLINEREADER_H
 #define Project_Air_AIRLINEREADER_H
 

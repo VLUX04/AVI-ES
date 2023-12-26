@@ -1,7 +1,3 @@
-//
-// Created by psclr on 25/12/2023.
-//
-
 #ifndef PROJECT_AIR_DISPLAYS_H
 #define PROJECT_AIR_DISPLAYS_H
 
@@ -272,67 +268,76 @@ void essentialAirports(){  //pus so a dar para ver o size
     cout<<res.size();
 }
 
-void bestFlightAirportDFS(Airport& currentAirport, Airport& target, unordered_set<string>& visited, unordered_set<string>& currentPath, vector<Flight>& currentItinerary, vector<Flight>& bestItinerary) {
-    visited.insert(currentAirport.get_AirportCode());
-    currentPath.insert(currentAirport.get_AirportCode());
+Vertex<string>* findAirportVertex(const string& identifier) {
+    for (auto v : connections.getVertexSet()) {
+        if (v->getInfo() == identifier) {
+            return v;
+        }
+        for(auto a: airports) {
+            if(identifier==a.get_AirportName() && v->getInfo() == a.get_AirportCode())
+                return v;
+        }
+    }
+    return nullptr;
+}
 
-    if (!bestItinerary.empty() && currentItinerary.size() >= bestItinerary.size()) {
-        currentPath.erase(currentAirport.get_AirportCode());
+void bestFlightAirportToAirport(const string& source, const string& target) {
+    Vertex<string>* v1 = findAirportVertex(source);
+    Vertex<string>* v2 = findAirportVertex(target);
+    if (!v1 || !v2) {
+        cout << "ERROR: Invalid Input" << endl;
         return;
     }
 
-    for (auto& flight : flights) {
-        if (flight.get_Source() == currentAirport.get_AirportCode() && currentPath.find(flight.get_Target()) == currentPath.end()) {
-            currentItinerary.push_back(flight);
+    queue<pair<Vertex<string>*, vector<Flight>>> q;
+    unordered_set<string> visited;
+    int minStops = -1;
+    vector<vector<Flight>> validItineraries;
 
-            if (flight.get_Target() == target.get_AirportCode()) {
-                if (bestItinerary.empty() || currentItinerary.size() < bestItinerary.size()) {
-                    bestItinerary = currentItinerary;
-                }
-            } else {
-                for (auto& a : airports) {
-                    if (a.get_AirportCode() == flight.get_Target() || a.get_AirportName() == flight.get_Target()) {
-                        if (visited.find(a.get_AirportCode()) == visited.end()) {
-                            bestFlightAirportDFS(a, target, visited, currentPath, currentItinerary, bestItinerary);
-                        }
-                        break;
+    q.push({v1, {}});
+    visited.insert(v1->getInfo());
+
+    while (!q.empty()) {
+        auto current = q.front();
+        q.pop();
+
+        Vertex<string>* currentVertex = current.first;
+        const vector<Flight>& currentItinerary = current.second;
+
+        for (const auto& edge : currentVertex->getAdj()) {
+            Vertex<string>* nextVertex = edge.getDest();
+            if (visited.find(nextVertex->getInfo()) == visited.end()) {
+                vector<Flight> newItinerary = currentItinerary;
+                newItinerary.push_back(Flight(currentVertex->getInfo(), nextVertex->getInfo(), edge.getWeight()));
+
+                if (nextVertex->getInfo() == v2->getInfo()) {
+                    if (minStops == -1 || newItinerary.size() < minStops) {
+                        minStops = newItinerary.size();
+                        validItineraries.clear();
                     }
+                    else if(newItinerary.size()==minStops)
+                        validItineraries.push_back(newItinerary);
+                } else {
+                    q.push({nextVertex, newItinerary});
+                    visited.insert(nextVertex->getInfo());
                 }
             }
-
-            currentItinerary.pop_back();
         }
     }
 
-    currentPath.erase(currentAirport.get_AirportCode());
-}
-
-
-void bestFlightAirportToAirport(const string& source, const string& target) {
-    Airport a1 = findAirport(source);
-    Airport a2 = findAirport(target);
-    if(a1.get_AirportCode()=="" || a2.get_AirportCode()=="") {
-        cout << "ERROR: Invalid Input";
+    if (minStops == -1) {
+        cout << "No valid flights found." << endl;
         return;
     }
-    unordered_set<string> visited;
-    unordered_set<string> currentPath;
-    vector<Flight> currentItinerary;
-    vector<Flight> bestItinerary;
 
-    bestFlightAirportDFS(a1, a2, visited, currentPath, currentItinerary, bestItinerary);
-
-    if(bestItinerary.empty()) {
-        cout << "No valid itinerary found." << endl;
-        return;
-    }
-    cout << "Best itinerary:" << endl;
-    for (auto& flight : bestItinerary) {
-        cout << flight.get_Source() << "->" << flight.get_Target() << endl;
+    cout << "Best itineraries:" << endl;
+    for (const auto& itinerary : validItineraries) {
+        for (const auto& f : itinerary) {
+            cout << f.get_Source() << "->" << f.get_Target() << " (" << f.get_Airline() << ")" << endl;
+        }
+        cout << endl;
     }
 }
-
-
 
 
 #endif //PROJECT_AIR_DISPLAYS_H

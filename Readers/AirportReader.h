@@ -1,7 +1,3 @@
-//
-// Created by psclr on 29/11/2023.
-//
-
 #ifndef Project_Air_AIRPORTREADER_H
 #define Project_Air_AIRPORTREADER_H
 
@@ -51,14 +47,6 @@ void AirportReader() {
     }
     file.close();
 
-}
-
-Airport findAirport(const string& airport) {
-    for(auto& a: airports) {
-        if(a.get_AirportCode()==airport || a.get_AirportName()==airport)
-            return a;
-    }
-    return Airport();
 }
 
 

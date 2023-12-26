@@ -8,7 +8,7 @@ int main() {
    AirlineReader();
    AirportReader();
    FlightsReader();
-   numberOut("MAG");
+   /*numberOut("MAG");
    flightsPerCity("Paris");
    flightsPerAirline("Ryanair");
    countriesPerCity("Paris");
@@ -18,7 +18,8 @@ int main() {
    countriesPerAirportAtDistance("ORY",3);
    numAirportsDestAtDistance("ORY",3);
    numCitiesDestAtDistance("ORY",3);
-   greatestAirTrafficCapacity(4);    //3.8*/
-   essentialAirports();
+   greatestAirTrafficCapacity(4);    //3.8
+   essentialAirports();*/
+   bestFlightAirportToAirport("OPO", "PEK");
    return 0;
 }

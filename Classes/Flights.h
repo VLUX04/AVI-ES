@@ -17,9 +17,9 @@ private:
 
 public:
     Flight(string source, string target, string airline);
-    string get_Source();
-    string get_Target();
-    string get_Airline();
+    string get_Source() const;
+    string get_Target() const;
+    string get_Airline() const;
 };
 
 
