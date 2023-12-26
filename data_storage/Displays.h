@@ -5,6 +5,7 @@
 #ifndef PROJECT_AIR_DISPLAYS_H
 #define PROJECT_AIR_DISPLAYS_H
 
+#include <utility>
 #include <vector>
 #include <unordered_set>
 #include <limits>
@@ -174,9 +175,10 @@ void numCitiesDestAtDistance(string airport,int k){
     }
     cout << cities.size() << endl;
 }
-bool airportCompareByFlights(Airport a, Airport b){
-    size_t adj1= connections.findVertex(a.get_AirportCode())->getAdj().size();
-    size_t adj2= connections.findVertex(b.get_AirportCode())->getAdj().size();
+
+bool airportCompareByFlights(Graph<string> g,Airport a, Airport b){
+    size_t adj1= connections.findVertex(a.get_AirportCode())->getAdj().size() + connections.findVertex(a.get_AirportCode())->getIndegree();
+    size_t adj2= connections.findVertex(b.get_AirportCode())->getAdj().size() + connections.findVertex(b.get_AirportCode())->getIndegree();
     if(adj1!=adj2)return adj1> adj2;
     else{return a.get_AirportCode()>b.get_AirportCode();}
 }
@@ -184,10 +186,11 @@ void greatestAirTrafficCapacity(int k){
     if(k<=airports.size()) {
         vector<Airport> airportss = airports;
         sort(airportss.begin(), airportss.end(), [](const Airport &a, const Airport &b) {
-            return airportCompareByFlights(a, b);
+            return airportCompareByFlights(connections,a, b);
         });
         for (int i = 0; i < k; i++) {
-            cout << airportss[i].get_AirportCode() << "| ";
+
+            cout << airportss[i].get_AirportCode() << "| " << connections.findVertex(airportss[i].get_AirportCode())->getAdj().size() + connections.findVertex(airportss[i].get_AirportCode())->getIndegree() << endl;
         }
     }
     else{cout<<"Incorrect input (k is larger than number of airports)";}
@@ -196,9 +199,7 @@ void dfs(Vertex<string>* v, vector<string> &path, vector<string> &maxPath, int &
     v->setVisited(true);
     path.push_back(v->getInfo());
     for (auto& in : v->getAdj()){
-
         if (!in.getDest()->isVisited())dfs(in.getDest(),path,maxPath,maxStops,trips);
-
     }
 
 }
@@ -251,26 +252,23 @@ void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<
         l.insert(v->getInfo());
 }
 
-unordered_set<string> articulationPoints(Graph<string>  g){
+unordered_set<string> articulationPoints(){
     unordered_set<string> res;
     stack<string> s;
     int i = 0;
-    Graph<string> copy = g;
+    Graph<string> copy = connections;
     for(auto vertex:copy.getVertexSet()){
         vertex->setNum(i);
-        for(auto edge:vertex->getAdj()){
-            g.addEdge(edge.getDest()->getInfo(),vertex->getInfo(),"");
-        }
     }
     i++;
-    for(auto vertex:g.getVertexSet()){
+    for(auto vertex:copy.getVertexSet()){
         if(vertex->getNum() == 0){dfs_art(copy,vertex,s,res,i);}
     }
     return res;
 }
 void essentialAirports(){  //pus so a dar para ver o size
     unordered_set<string> res;
-    res = articulationPoints(connections);
+    res = articulationPoints();
     cout<<res.size();
 }
 
@@ -333,6 +331,8 @@ void bestFlightAirportToAirport(const string& source, const string& target) {
         cout << flight.get_Source() << "->" << flight.get_Target() << endl;
     }
 }
+
+
 
 
 #endif //PROJECT_AIR_DISPLAYS_H
