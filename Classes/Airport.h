@@ -14,6 +14,7 @@ private:
     double longitude_;
 
 public:
+    Airport();
     Airport(string airportCode, string airportName, string city, string country, double latitude, double longitude);
     string get_AirportCode();
     string get_AirportName();

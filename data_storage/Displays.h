@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <unordered_set>
+#include <limits>
 #include "../Classes/Airline.h"
 #include "../Classes/Airport.h"
 #include "../Classes/Flights.h"
@@ -273,6 +274,65 @@ void essentialAirports(){  //pus so a dar para ver o size
     cout<<res.size();
 }
 
+void bestFlightAirportDFS(Airport& currentAirport, Airport& target, unordered_set<string>& visited, unordered_set<string>& currentPath, vector<Flight>& currentItinerary, vector<Flight>& bestItinerary) {
+    visited.insert(currentAirport.get_AirportCode());
+    currentPath.insert(currentAirport.get_AirportCode());
+
+    if (!bestItinerary.empty() && currentItinerary.size() >= bestItinerary.size()) {
+        currentPath.erase(currentAirport.get_AirportCode());
+        return;
+    }
+
+    for (auto& flight : flights) {
+        if (flight.get_Source() == currentAirport.get_AirportCode() && currentPath.find(flight.get_Target()) == currentPath.end()) {
+            currentItinerary.push_back(flight);
+
+            if (flight.get_Target() == target.get_AirportCode()) {
+                if (bestItinerary.empty() || currentItinerary.size() < bestItinerary.size()) {
+                    bestItinerary = currentItinerary;
+                }
+            } else {
+                for (auto& a : airports) {
+                    if (a.get_AirportCode() == flight.get_Target() || a.get_AirportName() == flight.get_Target()) {
+                        if (visited.find(a.get_AirportCode()) == visited.end()) {
+                            bestFlightAirportDFS(a, target, visited, currentPath, currentItinerary, bestItinerary);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            currentItinerary.pop_back();
+        }
+    }
+
+    currentPath.erase(currentAirport.get_AirportCode());
+}
+
+
+void bestFlightAirportToAirport(const string& source, const string& target) {
+    Airport a1 = findAirport(source);
+    Airport a2 = findAirport(target);
+    if(a1.get_AirportCode()=="" || a2.get_AirportCode()=="") {
+        cout << "ERROR: Invalid Input";
+        return;
+    }
+    unordered_set<string> visited;
+    unordered_set<string> currentPath;
+    vector<Flight> currentItinerary;
+    vector<Flight> bestItinerary;
+
+    bestFlightAirportDFS(a1, a2, visited, currentPath, currentItinerary, bestItinerary);
+
+    if(bestItinerary.empty()) {
+        cout << "No valid itinerary found." << endl;
+        return;
+    }
+    cout << "Best itinerary:" << endl;
+    for (auto& flight : bestItinerary) {
+        cout << flight.get_Source() << "->" << flight.get_Target() << endl;
+    }
+}
 
 
 #endif //PROJECT_AIR_DISPLAYS_H

@@ -53,6 +53,13 @@ void AirportReader() {
 
 }
 
+Airport findAirport(const string& airport) {
+    for(auto& a: airports) {
+        if(a.get_AirportCode()==airport || a.get_AirportName()==airport)
+            return a;
+    }
+    return Airport();
+}
 
 
 #endif //Project_Air_AIRPORTREADER_H

@@ -11,7 +11,7 @@
 #include <list>
 #include <map>
 #include <fstream>
-#include "../CLASSES/Airline.h"
+#include "../Classes/Airline.h"
 #include <list>
 #include <map>
 #include <vector>
