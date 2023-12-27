@@ -20,9 +20,9 @@ public:
     string get_AirportName() const;
     string get_City() const;
     string get_Country() const;
-    double get_Latitude();
-    double get_Longitude();
+    double get_Latitude() const;
+    double get_Longitude() const;
 };
 
 
-#endif //PROJETO2AED_AIRPORT_H
+#endif //Project_Air_AIRPORT_H

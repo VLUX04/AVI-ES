@@ -314,6 +314,7 @@ void bestFlightAirportToAirport(const string& source, const string& target) {
                     if (minStops == -1 || newItinerary.size() < minStops) {
                         minStops = newItinerary.size();
                         validItineraries.clear();
+                        validItineraries.push_back(newItinerary);
                     }
                     else if(newItinerary.size()==minStops)
                         validItineraries.push_back(newItinerary);
@@ -388,6 +389,7 @@ void bestFlightCityToCity(const string& sourceCity, const string& targetCity) {
                             if (minStops == -1 || newItinerary.size() < minStops) {
                                 minStops = newItinerary.size();
                                 validItineraries.clear();
+                                validItineraries.push_back(newItinerary);
                             }
                             else if(newItinerary.size() == minStops)
                                 validItineraries.push_back(newItinerary);

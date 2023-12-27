@@ -6,5 +6,5 @@ string Airport::get_AirportCode() const {return airportCode_;}
 string Airport::get_AirportName() const {return airportName_;}
 string Airport::get_City() const {return city_;}
 string Airport::get_Country() const {return country_;}
-double Airport::get_Latitude() {return latitude_;}
-double Airport::get_Longitude() {return longitude_;}
+double Airport::get_Latitude() const {return latitude_;}
+double Airport::get_Longitude() const {return longitude_;}

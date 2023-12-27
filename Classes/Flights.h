@@ -1,7 +1,3 @@
-//
-// Created by psclr on 29/11/2023.
-//
-
 #ifndef Project_Air_FLIGHTS_H
 #define Project_Air_FLIGHTS_H
 
@@ -23,4 +19,4 @@ public:
 };
 
 
-#endif //AVIÕES_FLIGHTS_H
+#endif //Project_Air_FLIGHTS_H
