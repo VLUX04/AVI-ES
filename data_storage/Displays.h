@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_set>
 #include <limits>
+#include <climits>
 #include <cmath>
 #include "../Classes/Airline.h"
 #include "../Classes/Airport.h"
@@ -464,9 +465,6 @@ void filterChosedAirline(string ChosedAirline_){
 void filterAirpots(set<string> airpotsToFilter_){
     airpotsToFilter = airpotsToFilter_;
 }
-
-
-
 
 
 #endif //PROJECT_AIR_DISPLAYS_H
