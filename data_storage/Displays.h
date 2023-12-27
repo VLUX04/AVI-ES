@@ -14,6 +14,11 @@
 #include "../Readers/AirportReader.h"
 #include "../Readers/FlightsReader.h"
 
+set<string> airlinesToFilter;
+int NumAirline =INT_MAX;
+string ChosedAirline;
+set<string> airpotsToFilter;
+
 void numberAirlines(){
     cout << airlines.size()<< endl;
 }
@@ -333,12 +338,36 @@ vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const st
     }
 
     cout << "Best itineraries:" << endl;
-    cout << validItineraries.size() << endl;
+    set<string> diffAirlines;
+    cout << endl;
     for (const auto& itinerary : validItineraries) {
+        bool flag1 = true;
+        bool flag2 = true;
+        bool flag3 = true;
         for (const auto& f : itinerary) {
-            cout << f.get_Source() << "->" << f.get_Target() << " (" << f.get_Airline() << ")" << endl;
+            diffAirlines.insert(f.get_Airline());
+            if(!airlinesToFilter.empty()){
+                flag1 = airlinesToFilter.find(f.get_Airline()) == airlinesToFilter.end();
+                if(!flag1)break;
+            }
         }
-        cout << endl;
+        for (const auto& f : itinerary) {
+            if(!ChosedAirline.empty()){
+                flag2 = ChosedAirline == f.get_Airline();
+                if(!flag2)break;
+            }
+        }
+        for (const auto& f : itinerary) {
+            if(!airpotsToFilter.empty()){
+                flag3 = (airpotsToFilter.find(f.get_Source()) == airpotsToFilter.end()) && (airpotsToFilter.find(f.get_Target()) == airpotsToFilter.end());
+                if(!flag3)break;
+            }
+        }
+        if(flag1 && diffAirlines.size() <= NumAirline && flag2 && flag3){
+            for (const auto& f : itinerary)cout << f.get_Source() << "->" << f.get_Target() << " (" << f.get_Airline() << ")" << endl;
+            cout << endl;
+        }
+
     }
     return validItineraries;
 }
@@ -420,6 +449,24 @@ void bestFlightCityToCity(const string& sourceCity, const string& targetCity) {
         }
     }
 }
+
+void filterNumAirline(int k){
+    NumAirline = k;
+}
+
+void filterAirlines(set<string> airlinesToFilter_){
+    airlinesToFilter = airlinesToFilter_;
+}
+
+void filterChosedAirline(string ChosedAirline_){
+    ChosedAirline = ChosedAirline_;
+}
+void filterAirpots(set<string> airpotsToFilter_){
+    airpotsToFilter = airpotsToFilter_;
+}
+
+
+
 
 
 #endif //PROJECT_AIR_DISPLAYS_H

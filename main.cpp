@@ -19,9 +19,23 @@ int main() {
    numAirportsDestAtDistance("ORY",3);
    numCitiesDestAtDistance("ORY",3);
    greatestAirTrafficCapacity(4);    //3.8
-   essentialAirports();*/
-   //bestFlightAirportToAirport("OPO", "NRT");
-   bestFlightCityToCity("Moscow", "Paris");
+   essentialAirports();
+    filterNumAirline(1);
+    set<string> airlinesToFilter_;
+    airlinesToFilter_.insert("AFR");
+    filterAirlines(airlinesToFilter_);
+    filterChosedAirline("AFL");
+    set<string> airpotsToFilter_;
+    airpotsToFilter_.insert("YYZ");
+    airpotsToFilter_.insert("MXP");
+    filterAirpots(airpotsToFilter_);*/
+
+
+   bestFlightAirportToAirport("NRT", "OPO");
+   //bestFlightCityToCity("Moscow", "Paris");
    //coordsBestFlight(55.591531,37.261486,48.725278,2.359444);
+
+
+
    return 0;
 }
