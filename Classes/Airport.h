@@ -16,10 +16,10 @@ private:
 public:
     Airport();
     Airport(string airportCode, string airportName, string city, string country, double latitude, double longitude);
-    string get_AirportCode();
-    string get_AirportName();
-    string get_City();
-    string get_Country();
+    string get_AirportCode() const;
+    string get_AirportName() const;
+    string get_City() const;
+    string get_Country() const;
     double get_Latitude();
     double get_Longitude();
 };

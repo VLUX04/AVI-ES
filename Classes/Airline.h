@@ -15,10 +15,10 @@ private:
 
 public:
     Airline(string airlineCode, string airlineName, string callSign, string country);
-    string get_AirlineCode();
-    string get_AirlineName();
-    string get_CallSign();
-    string get_Country();
+    string get_AirlineCode() const;
+    string get_AirlineName() const;
+    string get_CallSign() const;
+    string get_Country() const;
 };
 
 

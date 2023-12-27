@@ -317,9 +317,86 @@ void bestFlightAirportToAirport(const string& source, const string& target) {
                     }
                     else if(newItinerary.size()==minStops)
                         validItineraries.push_back(newItinerary);
-                } else {
+                }
+                else {
                     q.push({nextVertex, newItinerary});
                     visited.insert(nextVertex->getInfo());
+                }
+            }
+        }
+    }
+
+    if (minStops == -1) {
+        cout << "No valid flights found." << endl;
+        return;
+    }
+
+    cout << "Best itineraries:" << endl;
+    for (const auto& itinerary : validItineraries) {
+        for (const auto& f : itinerary) {
+            cout << f.get_Source() << "->" << f.get_Target() << " (" << f.get_Airline() << ")" << endl;
+        }
+        cout << endl;
+    }
+}
+
+vector<Airport> findAirportsInCity(const string& city) {
+    vector<Airport> cityAirports;
+    for(const auto& a: airports) {
+        if(a.get_City()==city)
+            cityAirports.push_back(a);
+    }
+    return cityAirports;
+}
+
+void bestFlightCityToCity(const string& sourceCity, const string& targetCity) {
+    vector<Airport> sourceAirports = findAirportsInCity(sourceCity);
+    vector<Airport> targetAirports = findAirportsInCity(targetCity);
+
+    vector<vector<Flight>> validItineraries;
+    int minStops = -1;
+
+    for (const auto& source : sourceAirports) {
+        for (const auto& target : targetAirports) {
+            Vertex<string>* v1 = findAirportVertex(source.get_AirportCode());
+            Vertex<string>* v2 = findAirportVertex(target.get_AirportCode());
+            if (!v1 || !v2) {
+                cout << "ERROR: Invalid Input" << endl;
+                return;
+            }
+
+            queue<pair<Vertex<string>*, vector<Flight>>> q;
+            unordered_set<string> visited;
+
+            q.push({v1, {}});
+            visited.insert(v1->getInfo());
+
+            while (!q.empty()) {
+                auto current = q.front();
+                q.pop();
+
+                Vertex<string>* currentVertex = current.first;
+                const vector<Flight>& currentItinerary = current.second;
+
+                for (const auto& edge : currentVertex->getAdj()) {
+                    Vertex<string>* nextVertex = edge.getDest();
+                    if (visited.find(nextVertex->getInfo()) == visited.end()) {
+                        vector<Flight> newItinerary = currentItinerary;
+                        newItinerary.push_back(Flight(currentVertex->getInfo(), nextVertex->getInfo(), edge.getWeight()));
+
+                        if (nextVertex->getInfo() == v2->getInfo()) {
+                            if (minStops == -1 || newItinerary.size() < minStops) {
+                                minStops = newItinerary.size();
+                                validItineraries.clear();
+                            }
+                            else if(newItinerary.size() == minStops)
+                                validItineraries.push_back(newItinerary);
+                        }
+                        else {
+                            q.push({nextVertex, newItinerary});
+                            visited.insert(nextVertex->getInfo());
+                        }
+                    }
                 }
             }
         }

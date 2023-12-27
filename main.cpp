@@ -20,6 +20,7 @@ int main() {
    numCitiesDestAtDistance("ORY",3);
    greatestAirTrafficCapacity(4);    //3.8
    essentialAirports();*/
-   bestFlightAirportToAirport("OPO", "PEK");
+   bestFlightAirportToAirport("SVO", "AGP");
+   //bestFlightCityToCity("Moscow", "Paris");
    return 0;
 }
