@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_set>
 #include <limits>
+#include <cmath>
 #include "../Classes/Airline.h"
 #include "../Classes/Airport.h"
 #include "../Classes/Flights.h"
@@ -281,18 +282,18 @@ Vertex<string>* findAirportVertex(const string& identifier) {
     return nullptr;
 }
 
-void bestFlightAirportToAirport(const string& source, const string& target) {
+vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const string& target) {
     Vertex<string>* v1 = findAirportVertex(source);
     Vertex<string>* v2 = findAirportVertex(target);
+    vector<vector<Flight>> validItineraries;
     if (!v1 || !v2) {
         cout << "ERROR: Invalid Input" << endl;
-        return;
+        return validItineraries;
     }
 
     queue<pair<Vertex<string>*, vector<Flight>>> q;
     unordered_set<string> visited;
     int minStops = -1;
-    vector<vector<Flight>> validItineraries;
 
     q.push({v1, {}});
     visited.insert(v1->getInfo());
@@ -314,12 +315,10 @@ void bestFlightAirportToAirport(const string& source, const string& target) {
                     if (minStops == -1 || newItinerary.size() < minStops) {
                         minStops = newItinerary.size();
                         validItineraries.clear();
-                        validItineraries.push_back(newItinerary);
                     }
                     else if(newItinerary.size()==minStops)
                         validItineraries.push_back(newItinerary);
-                }
-                else {
+                } else {
                     q.push({nextVertex, newItinerary});
                     visited.insert(nextVertex->getInfo());
                 }
@@ -329,15 +328,82 @@ void bestFlightAirportToAirport(const string& source, const string& target) {
 
     if (minStops == -1) {
         cout << "No valid flights found." << endl;
-        return;
+        return validItineraries;
     }
 
     cout << "Best itineraries:" << endl;
+    cout << validItineraries.size() << endl;
     for (const auto& itinerary : validItineraries) {
         for (const auto& f : itinerary) {
             cout << f.get_Source() << "->" << f.get_Target() << " (" << f.get_Airline() << ")" << endl;
         }
         cout << endl;
+    }
+    return validItineraries;
+}
+
+double toRadians(double degree) {
+    return degree * (M_PI / 180.0);
+}
+
+double haversine(double lat1, double lon1, double lat2, double lon2) {
+    lat1 = toRadians(lat1);
+    lon1 = toRadians(lon1);
+    lat2 = toRadians(lat2);
+    lon2 = toRadians(lon2);
+
+    double dlat = lat2 - lat1;
+    double dlon = lon2 - lon1;
+
+    double a = std::sin(dlat / 2.0) * std::sin(dlat / 2.0) +
+               std::cos(lat1) * std::cos(lat2) *
+               std::sin(dlon / 2.0) * std::sin(dlon / 2.0);
+    double c = 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
+
+    double distance = 6371 * c;
+
+    return distance;
+}
+
+void coordsBestFlight( double lon, double lat, double targetLon,double targetLat){
+    double min = INT_MAX;
+    vector<Airport> sourcePossible;
+    for(auto in :airports){
+        double temp = haversine(in.get_Latitude(),in.get_Longitude(),lon,lat);
+        if(temp < min)min = temp;
+    }
+    for(auto in :airports){
+        double temp = haversine(in.get_Latitude(),in.get_Longitude(),lon,lat);
+        if(temp == min)sourcePossible.push_back(in);
+    }
+    cout << sourcePossible.size() << endl;
+    min = INT_MAX;
+    vector<Airport> destPossible;
+    for(auto in :airports){
+        double temp = haversine(in.get_Latitude(),in.get_Longitude(),targetLon,targetLat);
+        if(temp < min)min = temp;
+    }
+    for(auto in :airports){
+        double temp = haversine(in.get_Latitude(),in.get_Longitude(),targetLon,targetLat);
+        if(temp == min)destPossible.push_back(in);
+    }
+    cout << destPossible.size() << endl;
+
+    vector<vector<vector<Flight>>> allPaths;
+
+    for(auto in : sourcePossible){
+        for(auto in1 : destPossible){
+            allPaths.push_back(bestFlightAirportToAirport(in.get_AirportCode(),in1.get_AirportCode()));
+        }
+    }
+
+    for(auto in : allPaths){
+        for (const auto& itinerary : in) {
+            for (const auto& f : itinerary) {
+                cout << f.get_Source() << "->" << f.get_Target() << " (" << f.get_Airline() << ")" << endl;
+            }
+            cout << endl;
+        }
     }
 }
 
