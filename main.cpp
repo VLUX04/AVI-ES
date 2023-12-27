@@ -21,7 +21,7 @@ int main() {
    greatestAirTrafficCapacity(4);    //3.8
    essentialAirports();*/
    //bestFlightAirportToAirport("OPO", "NRT");
-   //bestFlightCityToCity("Moscow", "Paris");
-   coordsBestFlight(39.696388,20.822500,18.450711,-68.911833);
+   bestFlightCityToCity("Moscow", "Paris");
+   //coordsBestFlight(55.591531,37.261486,48.725278,2.359444);
    return 0;
 }
