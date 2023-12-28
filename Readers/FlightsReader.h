@@ -1,7 +1,6 @@
 #ifndef Project_Air_FLIGHTSREADER_H
 #define Project_Air_FLIGHTSREADER_H
 
-
 #include <list>
 #include <fstream>
 #include <iostream>
@@ -11,40 +10,40 @@
 
 using namespace std;
 
-vector<Flight> flights;
+vector<Flight> flights; ///< Vector that stores all the flight objects from the CSV file.
 
-Graph<string> connections;
+Graph<string> connections; ///< Graph that contains the connections between airports.
 
+/**
+ * @brief Reads flight data from a CSV file, populates a vector of Flight objects, and updates a graph of airport connections.
+ */
 void FlightsReader() {
+    string FILENAME = "dataset/flights.csv"; ///< File path for the flight data CSV file.
+    ifstream file; ///< Input file stream.
+    string file_text; ///< Variable to store each line of the file.
 
-    string FILENAME = "dataset/flights.csv";
-    ifstream file;
-    string file_text;
     file.open(FILENAME);
 
     getline(file, file_text);
 
     while(!file.eof()) {
+        getline(file, file_text, ',');
+        string source = file_text; ///< Source airport code.
 
         getline(file, file_text, ',');
-        string Source = file_text;
-
-        getline(file, file_text, ',');
-        string Target = file_text;
+        string target = file_text; ///< Target airport code.
 
         getline(file, file_text);
-        string Airline = file_text;
+        string airline = file_text; ///< Airline code.
 
-        flights.emplace_back(Source,Target,Airline);
+        flights.emplace_back(source,target,airline);
 
-        connections.addVertex(Source);
-        connections.addVertex(Target);
-        connections.findVertex(Target)->setIndegree(connections.findVertex(Target)->getIndegree()+1);
-        connections.addEdge(Source,Target,Airline);
+        connections.addVertex(source);
+        connections.addVertex(target);
+        connections.findVertex(target)->setIndegree(connections.findVertex(target)->getIndegree()+1);
+        connections.addEdge(source, target, airline);
     }
     file.close();
-
 }
-
 
 #endif //Project_Air_FLIGHTSREADER_H

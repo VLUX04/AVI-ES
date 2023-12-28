@@ -434,10 +434,6 @@ bool Graph<T>::dfsIsDAG(Vertex<T> *v) const {
 
 
 /****************** toposort ********************/
-//=============================================================================
-// Exercise 1: Topological Sorting
-//=============================================================================
-// TODO
 /*
  * Performs a topological sorting of the vertices of a graph (this).
  * Returns a vector with the contents of the vertices by topological order.
