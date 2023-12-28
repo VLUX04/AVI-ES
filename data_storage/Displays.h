@@ -136,6 +136,21 @@ void numCitiesDest(string airport){
     }
     cout << cities.size() << endl;
 }
+void numCountriesDest(string airport){
+    set<string> countries;
+    for(auto in : airports){
+        if(in.get_AirportCode() == airport && connections.findVertex(airport) != nullptr){
+            for(auto in1 : connections.findVertex(airport)->getAdj()){
+                for(auto in2 : airports){
+                    if(in2.get_AirportCode() == in1.getDest()->getInfo()){
+                        countries.insert(in2.get_Country());
+                    }
+                }
+            }
+        }
+    }
+    cout << countries.size() << endl;
+}
 
 void countriesPerAirportAtDistance(string airport,int k){
     set<string> countries;

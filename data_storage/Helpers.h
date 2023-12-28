@@ -294,7 +294,7 @@ string destinationsPerAirportHelper(){
     }
     numAirportsDest(airport);
     numCitiesDest(airport);
-    //funcao para os paises
+    numCountriesDest(airport);
     return "qwert";
 }
 string reachableDestinationsHelper(int stops){
@@ -351,7 +351,7 @@ string bestFlightAirportToAirportHelper(){
         cout << endl;
         cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
         cout << "Select a source by code or name or a tool: ";
-        cin >> source;
+        getline(cin,source);
         Vertex<string>* v1 = findAirportVertex(source);
         if (v1) {
             start1 = 0;
@@ -361,23 +361,27 @@ string bestFlightAirportToAirportHelper(){
                 cout << "Display Tools: Enter 'N' to view the next " << groupSize1
                      << " airports, 'P' to see the previous " << groupSize1 << " or 'R' to return" << endl;
                 cout << "Now select a destiny by code or name or a tool: ";
-                cin >> destiny;
+                getline(cin,destiny);
                 Vertex<string> *v2 = findAirportVertex(destiny);
-                if (v2) { bestFlightAirportToAirport(source, destiny); }
-                else if (source == "N") {
+                if (v2) {
+                    cout << endl;
+                    bestFlightAirportToAirport(source, destiny);
+                    return "qwert";
+                }
+                else if (destiny == "N") {
                     if (start1 <= airportCodes.size() - 10) { start1 += groupSize1; }
                     else {
                         cout << "ERROR: Cannot go further" << endl;
                         cout << endl;
                     }
                 }
-                else if (source == "P") {
+                else if (destiny == "P") {
                     if (start1 >= 10) { start1 -= groupSize1; }
                     else {
                         cout << "ERROR: Cannot go back" << endl;
                         cout << endl;
                     }
-                } else if (source == "R") {
+                } else if (destiny == "R") {
                     return "r";
                 } else {
                     cout << "ERROR: Invalid input" << endl;
@@ -407,10 +411,9 @@ string bestFlightAirportToAirportHelper(){
             cout << endl;
         }
     }
-    return "qwert";
 }
-string bestFlightCityToCityHelper(){ // falta acabar, parei pq tava cansado
-    /*set<string> cities;
+string bestFlightCityToCityHelper(){/*
+    set<string> cities;
     for(auto a: airports){cities.insert(a.get_City());}
     vector<string> citiess;
     for(auto a:cities)citiess.push_back(a);
@@ -479,8 +482,10 @@ string bestFlightCityToCityHelper(){ // falta acabar, parei pq tava cansado
             cout << endl;
         }
     }
-    return "qwert";*/
+    return "qwert";
+    */
 }
+
 
 
 #endif //PROJECT_AIR_HELPERS_H
