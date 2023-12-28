@@ -29,9 +29,7 @@ int main() {
     airpotsToFilter_.insert("YYZ");
     airpotsToFilter_.insert("MXP");
     filterAirpots(airpotsToFilter_);*/
-
-
-   bestFlightAirportToAirport("NRT", "OPO");
+   bestFlightAirportToAirport("LED", "PCL");
    //bestFlightCityToCity("Moscow", "Paris");
    //coordsBestFlight(55.591531,37.261486,48.725278,2.359444);
 

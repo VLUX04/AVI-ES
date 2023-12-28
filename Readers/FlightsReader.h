@@ -11,7 +11,7 @@
 
 using namespace std;
 
-vector<Flight> flights;
+set<Flight> flights;
 
 Graph<string> connections;
 
@@ -35,7 +35,7 @@ void FlightsReader() {
         getline(file, file_text);
         string Airline = file_text;
 
-        flights.emplace_back(Source,Target,Airline);
+        flights.insert(Flight(Source,Target,Airline));
 
         connections.addVertex(Source);
         connections.addVertex(Target);
@@ -45,6 +45,5 @@ void FlightsReader() {
     file.close();
 
 }
-
 
 #endif //Project_Air_FLIGHTSREADER_H

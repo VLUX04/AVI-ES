@@ -16,6 +16,8 @@ public:
     string get_Source() const;
     string get_Target() const;
     string get_Airline() const;
+    bool operator<(const Flight& other) const ;
+    bool operator==(const Flight& other) const;
 };
 
 
