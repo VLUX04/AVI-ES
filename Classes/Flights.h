@@ -40,6 +40,8 @@ public:
      * @return The airline code.
      */
     string get_Airline() const;
+    bool operator<(const Flight& other) const ;
+    bool operator==(const Flight& other) const;
 };
 
 #endif //Project_Air_FLIGHTS_H

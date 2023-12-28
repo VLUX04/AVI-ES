@@ -249,7 +249,7 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, string w) {
  * with a given destination vertex (d) and edge weight (w).
  */
 template <class T>
-void Vertex<T>::addEdge(Vertex<T> *d, basic_string<char> w) {
+void Vertex<T>::addEdge(Vertex<T> *d, string w) {
     adj.push_back(Edge<T>(d, w));
 }
 

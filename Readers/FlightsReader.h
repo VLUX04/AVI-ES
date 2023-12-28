@@ -10,7 +10,7 @@
 
 using namespace std;
 
-vector<Flight> flights; ///< Vector that stores all the flight objects from the CSV file.
+set<Flight> flights;
 
 Graph<string> connections; ///< Graph that contains the connections between airports.
 
@@ -36,7 +36,7 @@ void FlightsReader() {
         getline(file, file_text);
         string airline = file_text; ///< Airline code.
 
-        flights.emplace_back(source,target,airline);
+        flights.insert(Flight(source,target,airline));
 
         connections.addVertex(source);
         connections.addVertex(target);

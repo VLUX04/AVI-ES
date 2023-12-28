@@ -2,14 +2,20 @@
 #include "data_storage/Interface.h"
 
 int main() {
-    string pais;
-    getline(cin,pais);
-    cout << pais;
+
     //Initialize();
     //AirlineReader();
     //AirportReader();
     //FlightsReader();
     /*numberOut("MAG");
+    //Initialize();
+    AirlineReader();
+    AirportReader();
+    FlightsReader();
+    /*AirlineReader();
+    AirportReader();
+    FlightsReader();
+    numberOut("MAG");
     flightsPerCity("Paris");
     flightsPerAirline("Ryanair");
     countriesPerCity("Paris");
@@ -30,9 +36,11 @@ int main() {
     airpotsToFilter_.insert("YYZ");
     airpotsToFilter_.insert("MXP");
     filterAirpots(airpotsToFilter_);*/
-    //bestFlightAirportToAirport("OPO", "La Guardia");
-    /*bestFlightCityToCity("Moscow", "Paris");
-    coordsBestFlight(55.591531,37.261486,48.725278,2.359444);*/
+   bestFlightAirportToAirport("LED", "PCL");
+   //bestFlightCityToCity("Moscow", "Paris");
+   //coordsBestFlight(55.591531,37.261486,48.725278,2.359444);
+
+
 
    return 0;
 }
