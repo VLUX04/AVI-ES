@@ -317,11 +317,7 @@ vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const st
             v2 = connections.findVertex(a.get_AirportCode());
     }
     vector<vector<Flight>> validItineraries;
-    if (!v1 || !v2) {
-        cout << "ERROR: Invalid Input" << endl;
-        return validItineraries;
-    }
-
+    // passei a verificacao para os helpers
     queue<pair<Vertex<string>*, vector<Flight>>> q;
     set<Flight> flightsVisited;
     int minStops = INT_MAX;
