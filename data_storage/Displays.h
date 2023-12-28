@@ -179,7 +179,7 @@ void numCitiesDestAtDistance(string airport,int k){
     cout << cities.size() << endl;
 }
 
-bool airportCompareByFlights(Graph<string> g,Airport a, Airport b){
+bool airportCompareByFlights(Airport a, Airport b){
     size_t adj1= connections.findVertex(a.get_AirportCode())->getAdj().size() + connections.findVertex(a.get_AirportCode())->getIndegree();
     size_t adj2= connections.findVertex(b.get_AirportCode())->getAdj().size() + connections.findVertex(b.get_AirportCode())->getIndegree();
     if(adj1!=adj2)return adj1> adj2;
@@ -189,7 +189,7 @@ void greatestAirTrafficCapacity(int k){
     if(k<=airports.size()) {
         vector<Airport> airportss = airports;
         sort(airportss.begin(), airportss.end(), [](const Airport &a, const Airport &b) {
-            return airportCompareByFlights(connections,a, b);
+            return airportCompareByFlights(a, b);
         });
         for (int i = 0; i < k; i++) {
 
@@ -317,7 +317,6 @@ vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const st
             v2 = connections.findVertex(a.get_AirportCode());
     }
     vector<vector<Flight>> validItineraries;
-    // passei a verificacao para os helpers
     queue<pair<Vertex<string>*, vector<Flight>>> q;
     set<Flight> flightsVisited;
     int minStops = INT_MAX;
@@ -332,7 +331,7 @@ vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const st
 
         q.pop();
 
-        for (auto edge : currentVertex->getAdj()) {
+        for (const auto& edge : currentVertex->getAdj()) {
             Vertex<string>* nextVertex = edge.getDest();
             Flight currentFlight = Flight(currentVertex->getInfo(), nextVertex->getInfo(), edge.getWeight());
             if (flightsVisited.find(currentFlight) == flightsVisited.end()) {
@@ -348,7 +347,7 @@ vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const st
                         validItineraries.emplace_back(newItinerary);
                     }
                 } else {
-                    q.push({nextVertex, newItinerary});
+                    q.emplace(nextVertex, newItinerary);
                     flightsVisited.insert(currentFlight);
                 }
             }

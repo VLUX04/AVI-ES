@@ -352,7 +352,11 @@ string bestFlightAirportToAirportHelper(){
         cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
         cout << "Select a source by code or name or a tool: ";
         cin >> source;
-        Vertex<string>* v1 = findAirportVertex(source);
+        Vertex<string>* v1;
+        for(auto a: airports) {
+            if(source==a.get_AirportName() || source == a.get_AirportCode())
+                v1 = connections.findVertex(a.get_AirportCode());
+        }
         if (v1) {
             start1 = 0;
             while(start1 < airportCodes.size()) {
@@ -362,7 +366,11 @@ string bestFlightAirportToAirportHelper(){
                      << " airports, 'P' to see the previous " << groupSize1 << " or 'R' to return" << endl;
                 cout << "Now select a destiny by code or name or a tool: ";
                 cin >> destiny;
-                Vertex<string> *v2 = findAirportVertex(destiny);
+                Vertex<string> *v2 ;
+                for(auto a: airports) {
+                    if(destiny==a.get_AirportName() || destiny == a.get_AirportCode())
+                        v1 = connections.findVertex(a.get_AirportCode());
+                }
                 if (v2) { bestFlightAirportToAirport(source, destiny); }
                 else if (source == "N") {
                     if (start1 <= airportCodes.size() - 10) { start1 += groupSize1; }

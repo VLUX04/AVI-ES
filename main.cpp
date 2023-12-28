@@ -2,7 +2,10 @@
 #include "data_storage/Interface.h"
 
 int main() {
-    Initialize();
+    //Initialize();
+    AirlineReader();
+    AirportReader();
+    FlightsReader();
     /*AirlineReader();
     AirportReader();
     FlightsReader();
