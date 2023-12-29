@@ -1,16 +1,9 @@
-//
-// Created by tomas on 26/12/2023.
-//
-
 #ifndef PROJECT_AIR_INTERFACE_H
 #define PROJECT_AIR_INTERFACE_H
-#include <windows.h>
+
 #include "Helpers.h"
 
 void Initialize() {
-    // DÁ PARA BRINCAR COM AS CORES RED,GREEN,BLUE SÓ
-    HANDLE hconsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hconsole, FOREGROUND_GREEN);
     AirlineReader();
     AirportReader();
     FlightsReader();
@@ -39,6 +32,12 @@ void Initialize() {
                 cout << "|------------------------------------------------------------|" << endl;
                 cout << " Enter the index number to select or 'B' to exit: ";
                 cin >> input;
+                if (cin.peek() != '\n') {
+                    cout << "ERROR: Invalid input" << endl;
+                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    position = 0;
+                    break;
+                }
                 switch (input) {
                     case '1':
                         position = 1;
@@ -67,8 +66,8 @@ void Initialize() {
                 cout << "| 2. Number of flights given an airport                      |" << endl;
                 cout << "| 3. Number of flights given a city/airline                  |" << endl;
                 cout << "| 4. Number of  countries that a given airport/city flies to |" << endl;
-                cout << "| 5. Number of destinations available for a given airport    |" << endl; //(airports, cities or countries)
-                cout << "| 6. Number of reachable destinations from a given airport   |" << endl; //(airports, cities or countries)
+                cout << "| 5. Number of destinations available for a given airport    |" << endl;
+                cout << "| 6. Number of reachable destinations from a given airport   |" << endl;
                 cout << "|    in a maximum number of X stops                          |" << endl;
                 cout << "| 7. Trip with the maximum number of stops between them      |" << endl;
                 cout << "|    and corresponding pair of source-destination            |" << endl;
@@ -78,11 +77,17 @@ void Initialize() {
                 cout << "|------------------------------------------------------------|" << endl;
                 cout << " Enter the index number to select or 'B' to go back: ";
                 cin >> input;
+                if (cin.peek() != '\n') {
+                    cout << "ERROR: Invalid input" << endl;
+                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    position = 1;
+                    break;
+                }
                 switch (input) {
                     case '1':
                         cout << endl;
-                        numberAirports();
-                        numberFlights();
+                        cout << "The global number of airports is " << numberAirports() << endl;
+                        cout << "The global number of flights is " << numberFlights() << endl;
                         break;
                     case '2':
                         cout << endl;
@@ -100,7 +105,12 @@ void Initialize() {
                         cout << "|------------------------------------------------------------|" << endl;
                         cout << " Enter the index number to select or 'B' to go back: ";
                         cin >> city_airline;
-                        switch (input) {
+                        if (cin.peek() != '\n') {
+                            cout << "ERROR: Invalid input" << endl;
+                            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                            break;
+                        }
+                        switch (city_airline) {
                             case '1':
                                 cout << endl;
                                 flightsPerCityHelper();
@@ -110,7 +120,7 @@ void Initialize() {
                                 flightsPerAirlineHelper();
                                 break;
                             case 'B':
-                                position = 0;
+                                position = 1;
                                 break;
                             default:
                                 cout << "ERROR: Invalid input" << endl;
@@ -130,7 +140,12 @@ void Initialize() {
                         cout << "|------------------------------------------------------------|" << endl;
                         cout << " Enter the index number to select or 'B' to go back: ";
                         cin >> airport_city;
-                        switch (input) {
+                        if (cin.peek() != '\n') {
+                            cout << "ERROR: Invalid input" << endl;
+                            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                            break;
+                        }
+                        switch (airport_city) {
                             case '1':
                                 cout << endl;
                                 countriesPerAirportHelper();
@@ -140,7 +155,7 @@ void Initialize() {
                                 countriesPerCityHelper();
                                 break;
                             case 'B':
-                                position = 0;
+                                position = 1;
                                 break;
                             default:
                                 cout << "ERROR: Invalid input" << endl;
@@ -162,8 +177,7 @@ void Initialize() {
                             cout << "Invalid input. Please enter a valid integer." << std::endl;
                             position = 1;
                             break;
-                        }
-                        else {
+                        } else {
                             reachableDestinationsHelper(stops);
                         }
                         break;
@@ -181,8 +195,7 @@ void Initialize() {
                             cout << "Invalid input. Please enter a valid integer." << std::endl;
                             position = 1;
                             break;
-                        }
-                        else {
+                        } else {
                             greatestAirTrafficCapacity(k);
                         }
                         break;
@@ -213,6 +226,12 @@ void Initialize() {
                 cout << "|------------------------------------------------------------|" << endl;
                 cout << " Enter the index number to select or 'B' to go back: ";
                 cin >> input;
+                if (cin.peek() != '\n') {
+                    cout << "ERROR: Invalid input" << endl;
+                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    position = 2;
+                    break;
+                }
                 switch (input) {
                     case '1':
                         cout << endl;

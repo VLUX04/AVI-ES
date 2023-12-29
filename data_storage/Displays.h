@@ -26,28 +26,25 @@ void numberAirlines(){
     cout << airlines.size()<< endl;
 }
 
-void numberAirports(){
-    cout << airports.size()<< endl;
+int numberAirports(){
+    return airports.size();
 }
 
-void numberFlights(){
-    cout << flights.size()<< endl;
+int numberFlights(){
+    return flights.size();
 }
 
 void numberOut(string airport){
-
-    if(connections.findVertex(airport) != nullptr){
-        cout << connections.findVertex(airport)->getAdj().size() << endl;
-        set<string> numAirlines;
-        for(auto in : connections.findVertex(airport)->getAdj()){
-            numAirlines.insert(in.getWeight());
-        }
-        cout << numAirlines.size() << endl;
+    cout << endl;
+    cout << "The number of flights out of " << airport << " is " << connections.findVertex(airport)->getAdj().size();
+    set<string> numAirlines;
+    for(auto in : connections.findVertex(airport)->getAdj()){
+        numAirlines.insert(in.getWeight());
     }
-    else{cout << "Wrong Input." << endl;}
+    cout << " and they are from " << numAirlines.size() << " different airlines." << endl;
 }
 
-void flightsPerCity(string city){
+int flightsPerCity(string city){
     int count = 0;
     for(auto in : airports){
         if(in.get_City() == city){
@@ -56,10 +53,10 @@ void flightsPerCity(string city){
             }
         }
     }
-    cout << count << endl;
+    return count;
 }
 
-void flightsPerAirline(string name){
+int flightsPerAirline(string name){
     int count = 0;
     for(auto in : airlines){
         if(in.get_AirlineName() == name){
@@ -70,13 +67,13 @@ void flightsPerAirline(string name){
             }
         }
     }
-    cout << count << endl;
+    return count;
 }
 
-void countriesPerCity(string city){
+int countriesPerCity(string country, string city){
     set<string> countries;
     for(auto in : airports){
-        if(in.get_City() == city){
+        if(in.get_City() == city && in.get_Country() == country){
             if(connections.findVertex(in.get_AirportCode()) != nullptr){
                 for(auto in1 : connections.findVertex(in.get_AirportCode())->getAdj()){
                     for(auto in2 : airports){
@@ -85,13 +82,14 @@ void countriesPerCity(string city){
                         }
                     }
                 }
+
             }
         }
     }
-    cout << countries.size() << endl;
+    return countries.size();
 }
 
-void countriesPerAirport(string code){
+int countriesPerAirport(string code){
     set<string> countries;
     for(auto in : airports){
         if(in.get_AirportCode() == code && connections.findVertex(code) != nullptr){
@@ -104,10 +102,10 @@ void countriesPerAirport(string code){
             }
         }
     }
-    cout << countries.size() << endl;
+    return countries.size();
 }
 
-void numAirportsDest(string airport){
+int numAirportsDest(string airport){
     set<string> airportss;
     for(auto in : airports){
         if(in.get_AirportCode() == airport && connections.findVertex(airport) != nullptr){
@@ -120,10 +118,10 @@ void numAirportsDest(string airport){
             }
         }
     }
-    cout << airportss.size() << endl;
+    return airportss.size();
 
 }
-void numCitiesDest(string airport){
+int numCitiesDest(string airport){
     set<string> cities;
     for(auto in : airports){
         if(in.get_AirportCode() == airport && connections.findVertex(airport) != nullptr){
@@ -136,7 +134,22 @@ void numCitiesDest(string airport){
             }
         }
     }
-    cout << cities.size() << endl;
+    return cities.size();
+}
+int numCountriesDest(string airport){
+    set<string> countries;
+    for(auto in : airports){
+        if(in.get_AirportCode() == airport && connections.findVertex(airport) != nullptr){
+            for(auto in1 : connections.findVertex(airport)->getAdj()){
+                for(auto in2 : airports){
+                    if(in2.get_AirportCode() == in1.getDest()->getInfo()){
+                        countries.insert(in2.get_Country());
+                    }
+                }
+            }
+        }
+    }
+    return countries.size();
 }
 
 void countriesPerAirportAtDistance(string airport,int k){

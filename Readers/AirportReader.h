@@ -7,7 +7,8 @@
 #include "../Classes/Airport.h"
 
 using namespace std;
-
+map<string,set<string>> Countries;
+set<string> Cities;
 vector<Airport> airports; ///< Vector that stores all the airport objects from the CSV file.
 
 /**
@@ -42,7 +43,8 @@ void AirportReader() {
         getline(file, file_text);
         helper = file_text;
         double longitude = atof(helper.c_str()); ///< Longitude of the airport's location.
-
+        Countries[country].insert(city);
+        Cities.insert(city);
         airports.emplace_back(airportCode, airportName, city, country, latitude, longitude);
     }
     file.close();
