@@ -59,7 +59,7 @@ int flightsPerCity(string city){
 int flightsPerAirline(string name){
     int count = 0;
     for(auto in : airlines){
-        if(in.get_AirlineName() == name){
+        if(in.get_AirlineName() == name || in.get_AirlineCode() == name){
             for(auto in1 : connections.getVertexSet()){
                 for(auto in2 : in1->getAdj()){
                     if(in2.getWeight() == in.get_AirlineCode())count++;
@@ -152,7 +152,7 @@ int numCountriesDest(string airport){
     return countries.size();
 }
 
-void countriesPerAirportAtDistance(string airport,int k){
+int countriesPerAirportAtDistance(string airport,int k){
     set<string> countries;
     for(int i = 1; i <= k; i++){
         for(auto in : connections.nodesAtDistanceBFS(airport,i)){
@@ -163,10 +163,10 @@ void countriesPerAirportAtDistance(string airport,int k){
             }
         }
     }
-    cout << countries.size() << endl;
+    return countries.size();
 }
 
-void numAirportsDestAtDistance(string airport,int k){
+int numAirportsDestAtDistance(string airport,int k){
     set<string> airportss;
     for(int i = 1; i <= k; i++){
         for(auto in : connections.nodesAtDistanceBFS(airport,i)){
@@ -177,10 +177,10 @@ void numAirportsDestAtDistance(string airport,int k){
             }
         }
     }
-    cout << airportss.size() << endl;
+    return airportss.size();
 
 }
-void numCitiesDestAtDistance(string airport,int k){
+int numCitiesDestAtDistance(string airport,int k){
     set<string> cities;
     for(int i = 1; i <= k; i++){
         for(auto in : connections.nodesAtDistanceBFS(airport,i)){
@@ -191,7 +191,7 @@ void numCitiesDestAtDistance(string airport,int k){
             }
         }
     }
-    cout << cities.size() << endl;
+    return cities.size();
 }
 
 bool airportCompareByFlights(Airport a, Airport b){
@@ -206,9 +206,10 @@ void greatestAirTrafficCapacity(int k){
         sort(airportss.begin(), airportss.end(), [](const Airport &a, const Airport &b) {
             return airportCompareByFlights(a, b);
         });
+        cout << "The top " << k << " airports with the greatest air traffic capacity are:" << endl;
+        cout << "  Airport Code   Air traffic capacity" << endl;
         for (int i = 0; i < k; i++) {
-
-            cout << airportss[i].get_AirportCode() << "| " << connections.findVertex(airportss[i].get_AirportCode())->getAdj().size() + connections.findVertex(airportss[i].get_AirportCode())->getIndegree() << endl;
+            cout << "      " << airportss[i].get_AirportCode() << "                " << connections.findVertex(airportss[i].get_AirportCode())->getAdj().size() + connections.findVertex(airportss[i].get_AirportCode())->getIndegree() << endl;
         }
     }
     else{cout<<"Incorrect input (k is larger than number of airports)";}
@@ -241,11 +242,11 @@ void maxTrip(){
         path.clear();
 
     }
-    cout<<maxStops << endl;
+    cout << "The maximum number of stops is " << maxStops << " and the pairs of source and destiny of those trips are:" << endl;
+    cout << "Source -> Destiny:" << endl;
     for(auto in : trips){
-        cout << in.first << " " << in.second << endl;
+        cout << "  " << in.first << "      " << in.second << endl;
     }
-
 }
 
 void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<string> &l, int & i){
@@ -287,7 +288,7 @@ unordered_set<string> articulationPoints(){
 void essentialAirports(){  //pus so a dar para ver o size
     unordered_set<string> res;
     res = articulationPoints();
-    cout<<res.size();
+    cout << "In total there are " << res.size() << " essential airports to the network's circulation capability" << endl;
 }
 
 
@@ -492,6 +493,53 @@ void filterChosedAirline(string ChosedAirline_){
 void filterAirpots(set<string> airpotsToFilter_){
     airpotsToFilter = airpotsToFilter_;
 }
+
+
+
+/*
+void teste(){
+    int adj = 0;
+    for(auto x: connections.getVertexSet()){
+        adj += x->getAdj().size();
+    }
+    cout << "original " << adj << endl;
+
+    Graph<string> copia;
+    int adj1 =0;
+    for (auto x : connections.getVertexSet()) {
+        Vertex<string>* newVertex = new Vertex<string>(*x);
+        for(auto e:x->getAdj()){
+            newVertex.addEdge
+        }
+
+        copia.addVertex(newVertex->getInfo());
+
+    }
+
+    for(auto x:copia.getVertexSet()){
+        adj1 += x->getAdj().size();
+    }
+    cout << "copia " << adj1 << endl;
+
+    for(auto x :copia.getVertexSet()){
+        for(auto edge: x->getAdj()){
+            copia.addEdge(edge.getDest()->getInfo(),x->getInfo()," ");
+        }
+    }
+    adj = 0;
+    for(auto x: connections.getVertexSet()){
+        adj += x->getAdj().size();
+    }
+    cout << " dps da copia original " << adj << endl;
+    adj1 = 0;
+    for(auto x:copia.getVertexSet()){
+        adj1 += x->getAdj().size();
+    }
+    cout << "copia " << adj1 << endl;
+}
+ */
+
+
 
 
 #endif //PROJECT_AIR_DISPLAYS_H

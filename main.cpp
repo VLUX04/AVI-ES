@@ -2,17 +2,14 @@
 #include "data_storage/Interface.h"
 
 int main() {
-    //Initialize();
-    AirlineReader();
-    AirportReader();
-    FlightsReader();
-    /*AirlineReader();
-    AirportReader();
-    FlightsReader();
-    numberOut("MAG");
-    flightsPerCity("Paris");
-    flightsPerAirline("Ryanair");
-    countriesPerCity("Paris");
+    Initialize();
+    //AirlineReader();
+    //AirportReader();
+    //FlightsReader();
+    //numberOut("MAG");
+    //flightsPerCity("Paris");
+    //cout << flightsPerAirline("DTA");
+    /*countriesPerCity("Paris");
     countriesPerAirport("ORY");
     numAirportsDest("ORY");
     numCitiesDest("ORY");
@@ -30,15 +27,12 @@ int main() {
     airpotsToFilter_.insert("YYZ");
     airpotsToFilter_.insert("MXP");
     filterAirpots(airpotsToFilter_);*/
-    char input;
-    cout << "qwert" << endl;
-    cin >> input;
 
-    bestFlightAirportToAirport("LED", "PCL");
+    //bestFlightAirportToAirport("LED", "PCL");
 
    //bestFlightCityToCity("Moscow", "Paris");
    //coordsBestFlight(55.591531,37.261486,48.725278,2.359444);
-
+    //essentialAirports();
 
 
    return 0;

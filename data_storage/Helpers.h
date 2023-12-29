@@ -26,7 +26,7 @@ void displayGroupCountriesHelper(int start, int groupSize) {
 void displayGroupAirportsHelper(vector<Airport> cityAirports,int start, int groupSize) {
     cout << endl;
     cout << "|------------------------------------------------------------|" << endl;
-    cout << "| Airports List                                              |" << endl;
+    cout << "| Available airports List                                    |" << endl;
     cout << "|------------------------------------------------------------|" << endl;
     // Display the current group of 10 elements
     for (int i = start; i < start + groupSize && i < cityAirports.size(); ++i) {
@@ -42,26 +42,28 @@ void displayGroupCitiesHelper(string country,int start ,int groupSize) {
             for(auto x: a.second)cities.push_back(x);
         }
     }
+    string linha = multString(" ", 46 - country.size());
     cout << endl;
     cout << "|------------------------------------------------------------|" << endl;
-    cout << "| Cities List                                                |" << endl;
+    cout << "| Cities from " << country << linha << " |" << endl;
     cout << "|------------------------------------------------------------|" << endl;
     // Display the current group of 10 elements
     for (int i = start; i < start + groupSize && i < cities.size(); ++i) {
-        string linha = multString(" ", 58 - cities[i].size());
+        linha = multString(" ", 58 - cities[i].size());
         cout << "| " << cities[i] << linha << " |" << endl;
         cout << "|------------------------------------------------------------|" << endl;
     }
 }
-void displayGroupAirlineHelper(int start ,int groupSize) {
+void displayGroupAirlineHelper(vector<Airline> airlinePerCountry,int start ,int groupSize) {
+    string linha = multString(" ",34 - airlinePerCountry[0].get_Country().size());
     cout << endl;
     cout << "|------------------------------------------------------------|" << endl;
-    cout << "| Airlines List                                              |" << endl;
+    cout << "| Available airlines from " << airlinePerCountry[0].get_Country() << linha << " |" << endl;
     cout << "|------------------------------------------------------------|" << endl;
     // Display the current group of 10 elements
-    for (int i = start; i < start + groupSize && i < airlines.size(); ++i) {
-        string linha = multString(" ", 49 - airlines[i].get_AirlineCode().size() - airlines[i].get_AirlineName().size());
-        cout << "| Code: " << airlines[i].get_AirlineCode() << " (" << airlines[i].get_AirlineName() << ")" << linha << " |" << endl;
+    for (int i = start; i < start + groupSize && i < airlinePerCountry.size(); ++i) {
+        linha = multString(" ", 49 - airlinePerCountry[i].get_AirlineCode().size() - airlinePerCountry[i].get_AirlineName().size());
+        cout << "| Code: " << airlinePerCountry[i].get_AirlineCode() << " (" << airlinePerCountry[i].get_AirlineName() << ")" << linha << " |" << endl;
         cout << "|------------------------------------------------------------|" << endl;
     }
 }
@@ -74,7 +76,6 @@ string flightsAirportHelper(){
     int startCity = 0;
     int startAirport = 0;
     int groupSize1 = 10;
-
     while (startCountry < Countries.size()) {
         displayGroupCountriesHelper(startCountry,groupSize1);
         cout << endl;
@@ -100,7 +101,7 @@ string flightsAirportHelper(){
                         cout << endl;
                         cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
                         cout << "Select a airport by code or a tool: ";
-                        cin >> airport;
+                        getline(cin >> ws,airport);
                         if(find(cityAirportCodes.begin(),cityAirportCodes.end(),airport) != cityAirportCodes.end()){
                             numberOut(airport);
                             return "qwert";
@@ -179,7 +180,7 @@ string flightsAirportHelper(){
             cout << "ERROR: Invalid input" << endl;
         }
     }
-}
+}  //1 2
 
 string flightsPerCityHelper(){
     string country;
@@ -189,9 +190,9 @@ string flightsPerCityHelper(){
     while (start1 < Countries.size()) {
         displayGroupCountriesHelper(start1,groupSize1);
         cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " cities, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " countries, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
         cout << "Select a country or a tool: ";
-        getline(cin,country);
+        getline(cin >> ws,country);
         auto it = Countries.find(country);
         if(it != Countries.end()) {
             start1 = 0;
@@ -200,9 +201,12 @@ string flightsPerCityHelper(){
                 cout << endl;
                 cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " cities, 'P' to see the previous " << groupSize1 << " or 'R' to return" << endl;
                 cout << "Select a city or a tool: ";
-                getline(cin,city);
+                getline(cin >> ws,city);
                 if (find(Countries[country].begin(), Countries[country].end(), city) != Countries[country].end()) {
-                    cout << "There are " << flightsPerCity(city) << " flights from " << city << endl;
+                    if(flightsPerCity(city) == 1) {
+                        cout << endl << "There is " << flightsPerCity(city) << " flight from " << city << endl;
+                    }
+                    else{cout << endl << "There are " << flightsPerCity(city) << " flights from " << city << endl;}
                     return "qwert";
                 }
                 else if (city == "N") {
@@ -250,39 +254,82 @@ string flightsPerCityHelper(){
             cout << endl;
         }
     }
-}
+}  //1 3
 
 string flightsPerAirlineHelper(){
-    list<string> airlinesCode;
-    for(auto a: airlines){airlinesCode.push_back(a.get_AirlineCode());}
-    string airport;
+    string country;
     string airline;
     int start1 = 0;
     int groupSize1 = 10;
-    while (start1 < airlines.size()) {
-        displayGroupAirlineHelper(start1 ,groupSize1);
+    while (start1 < Countries.size()) {
+        displayGroupCountriesHelper(start1,groupSize1);
         cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airlines, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
-        cout << "Select an airline by code or a tool: ";
-        cin >> airline;
-        if(find(airlinesCode.begin(),airlinesCode.end(),airline) != airlinesCode.end()) {
-            break;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " countries, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+        cout << "Select a country or a tool: ";
+        getline(cin >> ws,country);
+        auto it = Countries.find(country);
+        if(it != Countries.end()){
+            vector<string>airliness;
+            vector<Airline> airlinePerCountry;
+            for(auto airlinee:airlines){
+                if(airlinee.get_Country() == country){
+                    airlinePerCountry.push_back(airlinee);
+                    airliness.push_back(airlinee.get_AirlineCode());
+                    airliness.push_back(airlinee.get_AirlineName());
+                }
+            }
+            start1 = 0;
+            while(start1 < airlinePerCountry.size()){
+                displayGroupAirlineHelper(airlinePerCountry,start1 ,groupSize1);
+                cout << endl;
+                cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airlines, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+                cout << "Select an airline by code or name or a tool: ";
+                getline(cin >> ws, airline);
+                if(find(airliness.begin(),airliness.end(),airline) != airliness.end()) {
+                    if(flightsPerAirline(airline) == 1){
+                        cout << endl << "There is " << flightsPerAirline(airline) << " flight from the airline " << airline << endl;
+                    }
+                    else{cout << endl << "There are " << flightsPerAirline(airline) << " flights from the airline " << airline << endl;}
+                    return "qwert";
+                }
+                else if(airline == "N") {
+                    if(start1 <= airliness.size()/2 - 10){start1 += groupSize1;}
+                    else{
+                        cout << "ERROR: Cannot go further" << endl;
+                        cout << endl;
+                    }
+                }
+                else if(airline == "P") {
+                    if(start1 >= 10){start1 -= groupSize1;}
+                    else{
+                        cout << "ERROR: Cannot go back" << endl;
+                        cout << endl;
+                    }
+                }
+                else if(airline == "R"){
+                    return "r";
+                }
+                else {
+                    cout << "ERROR: Invalid input" << endl;
+                    cout << endl;
+                }
+            }
         }
-        else if(airline == "N") {
-            if(start1 <= airlinesCode.size()-10){start1 += groupSize1;}
+        else if(country == "N") {
+            if(start1 <= Countries.size()-10){start1 += groupSize1;}
             else{
                 cout << "ERROR: Cannot go further" << endl;
                 cout << endl;
             }
         }
-        else if(airline == "P") {
+        else if(country == "P") {
             if(start1 >= 10){start1 -= groupSize1;}
             else{
                 cout << "ERROR: Cannot go back" << endl;
                 cout << endl;
             }
         }
-        else if(airline == "R"){
+        else if(country == "R"){
             return "r";
         }
         else {
@@ -290,172 +337,458 @@ string flightsPerAirlineHelper(){
             cout << endl;
         }
     }
-    cout << "There are " << flightsPerAirline(airline) << " flights from the airline " << airline << endl;;
-    return "qwert";
-}
+}  //1 3
+
 string countriesPerAirportHelper(){
-    list<string> airportCodes;
-    for(auto a: airports){airportCodes.push_back(a.get_AirportCode());}
-    string airport;
-    int start1 = 0;
-    int groupSize1 = 10;
-    while (start1 < airportCodes.size()) {
-        //displayGroupAirportsHelper(start1 ,groupSize1);
-        cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
-        cout << "Select an airport by code or a tool: ";
-        cin >> airport;
-        if(find(airportCodes.begin(),airportCodes.end(),airport) != airportCodes.end()) {
-            break;
-        }
-        else if(airport == "N") {
-            if(start1 <= airportCodes.size()-10){start1 += groupSize1;}
-            else{
-                cout << "ERROR: Cannot go further" << endl;
-                cout << endl;
-            }
-        }
-        else if(airport == "P") {
-            if(start1 >= 10){start1 -= groupSize1;}
-            else{
-                cout << "ERROR: Cannot go back" << endl;
-                cout << endl;
-            }
-        }
-        else if(airport == "R"){
-            return "r";
-        }
-        else {
-            cout << "ERROR: Invalid input" << endl;
-            cout << endl;
-        }
-    }
-    cout << "There are " << countriesPerAirport(airport) << " reachable countries from the airport " << airport << endl;
-    return "qwert";
-}
-string countriesPerCityHelper(){
-    string city;
     string country;
-    int start1 = 0;
+    string city;
+    string airport;
+    int startCountry = 0;
+    int startCity = 0;
+    int startAirport = 0;
     int groupSize1 = 10;
-    while (start1 < Cities.size()) {
-        displayGroupCitiesHelper(country,start1 ,groupSize1);
+
+    while (startCountry < Countries.size()) {
+        displayGroupCountriesHelper(startCountry,groupSize1);
         cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " cities, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
-        cout << "Select an city or a tool: ";
-        cin >> city;
-        if(find(Cities.begin(),Cities.end(),city) != Cities.end()) {
-            break;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " countries, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+        cout << "Select a country or a tool: ";
+        getline(cin >> ws,country);
+        auto it = Countries.find(country);
+        if(it != Countries.end()) {
+            while(startCity < Countries[country].size()){
+                displayGroupCitiesHelper(country,startCity,groupSize1);
+                cout << endl;
+                cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " cities, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+                cout << "Select a city or a tool: ";
+                getline(cin >> ws,city);
+                if(find(Countries[country].begin(),Countries[country].end(),city) != Countries[country].end()){
+                    vector<string> cityAirportCodes;
+                    vector<Airport> cityAirports;
+                    for(const auto& a: airports){
+                        if(a.get_Country() == country && a.get_City() == city){cityAirports.push_back(a);cityAirportCodes.push_back(a.get_AirportCode());}
+                    }
+                    while(startAirport < cityAirports.size()){
+                        displayGroupAirportsHelper(cityAirports,startAirport,groupSize1);
+                        cout << endl;
+                        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+                        cout << "Select a airport by code or a tool: ";
+                        getline(cin >> ws,airport);
+                        if(find(cityAirportCodes.begin(),cityAirportCodes.end(),airport) != cityAirportCodes.end()){
+                            if(countriesPerAirport(airport) == 1){
+                                cout << endl << "There is " << countriesPerAirport(airport) << " reachable country from the airport " << airport << endl;
+                            }
+                            else{cout << endl << "There are " << countriesPerAirport(airport) << " reachable countries from the airport " << airport << endl;}
+                            return "qwert";
+                        }
+                        else if(airport == "N") {
+                            if(startAirport <= cityAirportCodes.size()-10 && (startAirport+groupSize1)<cityAirportCodes.size()){
+                                startAirport += groupSize1;
+                            }
+                            else{
+                                cout << endl;
+                                cout << "ERROR: Cannot go further" << endl;
+                            }
+                        }
+                        else if(airport == "P") {
+                            if(startAirport >= 10){startAirport -= groupSize1;}
+                            else{
+                                cout << endl;
+                                cout << "ERROR: Cannot go back" << endl;
+                            }
+                        }
+                        else if(airport == "R"){
+                            return "r";
+                        }
+                        else {
+                            cout << endl;
+                            cout << "ERROR: Invalid input" << endl;
+                        }
+                    }
+                }
+                else if(city == "N") {
+                    if(startCity <= Countries[country].size()-10 && (startCity+groupSize1)<Countries[country].size()){
+                        startCity += groupSize1;
+                    }
+                    else{
+                        cout << endl;
+                        cout << "ERROR: Cannot go further" << endl;
+                    }
+                }
+                else if(city == "P") {
+                    if(startCity >= 10){startCity -= groupSize1;}
+                    else{
+                        cout << endl;
+                        cout << "ERROR: Cannot go back" << endl;
+                    }
+                }
+                else if(city == "R"){
+                    return "r";
+                }
+                else {
+                    cout << endl;
+                    cout << "ERROR: Invalid input" << endl;
+                }
+            }
         }
-        else if(city == "N") {
-            if(start1 <= Cities.size()-10){start1 += groupSize1;}
+        else if(country == "N") {
+            if(startCountry <= Countries.size()-10 && (startCountry+groupSize1)<Countries.size()) {
+                startCountry += groupSize1;
+            }
             else{
+                cout << endl;
                 cout << "ERROR: Cannot go further" << endl;
-                cout << endl;
             }
         }
-        else if(city == "P") {
-            if(start1 >= 10){start1 -= groupSize1;}
+        else if(country == "P") {
+            if(startCountry >= 10){startCountry -= groupSize1;}
             else{
-                cout << "ERROR: Cannot go back" << endl;
                 cout << endl;
+                cout << "ERROR: Cannot go back" << endl;
             }
         }
-        else if(city == "R"){
+        else if(country == "R"){
             return "r";
         }
         else {
-            cout << "ERROR: Invalid input" << endl;
             cout << endl;
+            cout << "ERROR: Invalid input" << endl;
         }
     }
-    countriesPerCity(country,city);
-    return "qwert";
-}
+} //1 4
+
+string countriesPerCityHelper(){
+    string country;
+    string city;
+    int startCountry = 0;
+    int startCity = 0;
+    int groupSize1 = 10;
+
+    while (startCountry < Countries.size()) {
+        displayGroupCountriesHelper(startCountry,groupSize1);
+        cout << endl;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " countries, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+        cout << "Select a country or a tool: ";
+        getline(cin >> ws,country);
+        auto it = Countries.find(country);
+        if(it != Countries.end()) {
+            while(startCity < Countries[country].size()){
+                displayGroupCitiesHelper(country,startCity,groupSize1);
+                cout << endl;
+                cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " cities, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+                cout << "Select a city or a tool: ";
+                getline(cin >> ws,city);
+                if(find(Countries[country].begin(),Countries[country].end(),city) != Countries[country].end()){
+                    if(countriesPerCity(country,city) == 1){
+                        cout << endl << "There is " << countriesPerCity(country,city) << " reachable country from the city " << city << endl;
+                    }
+                    else{cout << endl << "There are " << countriesPerCity(country,city) << " reachable countries from the city " << city << endl;}
+                    return "qwert";
+                }
+                else if(city == "N") {
+                    if(startCity <= Countries[country].size()-10 && (startCity+groupSize1)<Countries[country].size()){
+                        startCity += groupSize1;
+                    }
+                    else{
+                        cout << endl;
+                        cout << "ERROR: Cannot go further" << endl;
+                    }
+                }
+                else if(city == "P") {
+                    if(startCity >= 10){startCity -= groupSize1;}
+                    else{
+                        cout << endl;
+                        cout << "ERROR: Cannot go back" << endl;
+                    }
+                }
+                else if(city == "R"){
+                    return "r";
+                }
+                else {
+                    cout << endl;
+                    cout << "ERROR: Invalid input" << endl;
+                }
+            }
+        }
+        else if(country == "N") {
+            if(startCountry <= Countries.size()-10 && (startCountry+groupSize1)<Countries.size()) {
+                startCountry += groupSize1;
+            }
+            else{
+                cout << endl;
+                cout << "ERROR: Cannot go further" << endl;
+            }
+        }
+        else if(country == "P") {
+            if(startCountry >= 10){startCountry -= groupSize1;}
+            else{
+                cout << endl;
+                cout << "ERROR: Cannot go back" << endl;
+            }
+        }
+        else if(country == "R"){
+            return "r";
+        }
+        else {
+            cout << endl;
+            cout << "ERROR: Invalid input" << endl;
+        }
+    }
+}  //1 4
+
 string destinationsPerAirportHelper(){
-    list<string> airportCodes;
-    for(auto a: airports){airportCodes.push_back(a.get_AirportCode());}
+    string country;
+    string city;
     string airport;
-    int start1 = 0;
+    int startCountry = 0;
+    int startCity = 0;
+    int startAirport = 0;
     int groupSize1 = 10;
-    while (start1 < airportCodes.size()) {
-        //displayGroupAirportsHelper(start1 ,groupSize1);
+    while (startCountry < Countries.size()) {
+        displayGroupCountriesHelper(startCountry,groupSize1);
         cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
-        cout << "Select an airport by code or a tool: ";
-        cin >> airport;
-        if(find(airportCodes.begin(),airportCodes.end(),airport) != airportCodes.end()) {
-            break;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " countries, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+        cout << "Select a country or a tool: ";
+        getline(cin >> ws,country);
+        auto it = Countries.find(country);
+        if(it != Countries.end()) {
+            while(startCity < Countries[country].size()){
+                displayGroupCitiesHelper(country,startCity,groupSize1);
+                cout << endl;
+                cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " cities, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+                cout << "Select a city or a tool: ";
+                getline(cin >> ws,city);
+                if(find(Countries[country].begin(),Countries[country].end(),city) != Countries[country].end()){
+                    vector<string> cityAirportCodes;
+                    vector<Airport> cityAirports;
+                    for(const auto& a: airports){
+                        if(a.get_Country() == country && a.get_City() == city){cityAirports.push_back(a);cityAirportCodes.push_back(a.get_AirportCode());}
+                    }
+                    while(startAirport < cityAirports.size()){
+                        displayGroupAirportsHelper(cityAirports,startAirport,groupSize1);
+                        cout << endl;
+                        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+                        cout << "Select a airport by code or a tool: ";
+                        getline(cin >> ws,airport);
+                        if(find(cityAirportCodes.begin(),cityAirportCodes.end(),airport) != cityAirportCodes.end()){
+                            cout << endl;
+                            if(numAirportsDest(airport) == 1){
+                                cout << "There is " << numAirportsDest(airport) << " airport as destination from the airport " << airport << endl;
+                            }
+                            else{cout << "There are " << numAirportsDest(airport) << " different airports as destination from the airport " << airport << endl;}
+                            if(numCitiesDest(airport) == 1){
+                                cout << "There is " << numCitiesDest(airport) << "  city as destination from the airport " << airport << endl;
+                            }
+                            else{cout << "There are " << numCitiesDest(airport) << " different cities as destination from the airport " << airport << endl;}
+                            if(numCountriesDest(airport) == 1){
+                                cout << "There is " << numCountriesDest(airport) << " airport as destination from the airport " << airport << endl;
+                            }
+                            else{cout << "There are " << numCountriesDest(airport) << " different airports as destination from the airport " << airport << endl;}
+                            return "qwert";
+                        }
+                        else if(airport == "N") {
+                            if(startAirport <= cityAirportCodes.size()-10 && (startAirport+groupSize1)<cityAirportCodes.size()){
+                                startAirport += groupSize1;
+                            }
+                            else{
+                                cout << endl;
+                                cout << "ERROR: Cannot go further" << endl;
+                            }
+                        }
+                        else if(airport == "P") {
+                            if(startAirport >= 10){startAirport -= groupSize1;}
+                            else{
+                                cout << endl;
+                                cout << "ERROR: Cannot go back" << endl;
+                            }
+                        }
+                        else if(airport == "R"){
+                            return "r";
+                        }
+                        else {
+                            cout << endl;
+                            cout << "ERROR: Invalid input" << endl;
+                        }
+                    }
+                }
+                else if(city == "N") {
+                    if(startCity <= Countries[country].size()-10 && (startCity+groupSize1)<Countries[country].size()){
+                        startCity += groupSize1;
+                    }
+                    else{
+                        cout << endl;
+                        cout << "ERROR: Cannot go further" << endl;
+                    }
+                }
+                else if(city == "P") {
+                    if(startCity >= 10){startCity -= groupSize1;}
+                    else{
+                        cout << endl;
+                        cout << "ERROR: Cannot go back" << endl;
+                    }
+                }
+                else if(city == "R"){
+                    return "r";
+                }
+                else {
+                    cout << endl;
+                    cout << "ERROR: Invalid input" << endl;
+                }
+            }
         }
-        else if(airport == "N") {
-            if(start1 <= airportCodes.size()-10){start1 += groupSize1;}
+        else if(country == "N") {
+            if(startCountry <= Countries.size()-10 && (startCountry+groupSize1)<Countries.size()) {
+                startCountry += groupSize1;
+            }
             else{
+                cout << endl;
                 cout << "ERROR: Cannot go further" << endl;
-                cout << endl;
             }
         }
-        else if(airport == "P") {
-            if(start1 >= 10){start1 -= groupSize1;}
+        else if(country == "P") {
+            if(startCountry >= 10){startCountry -= groupSize1;}
             else{
-                cout << "ERROR: Cannot go back" << endl;
                 cout << endl;
+                cout << "ERROR: Cannot go back" << endl;
             }
         }
-        else if(airport == "R"){
+        else if(country == "R"){
             return "r";
         }
         else {
-            cout << "ERROR: Invalid input" << endl;
             cout << endl;
+            cout << "ERROR: Invalid input" << endl;
         }
     }
-    cout << "There are " << numAirportsDest(airport) << " different airports as destinations." << endl;
-    cout << "There are " << numCitiesDest(airport) << " different airports as destinations." << endl;
-    cout << "There are " << numCountriesDest(airport) << " different airports as destinations." << endl;
-    return "qwert";
-}
+}  //1 5
+
 string reachableDestinationsHelper(int stops){
-    list<string> airportCodes;
-    for(auto a: airports){airportCodes.push_back(a.get_AirportCode());}
+    string country;
+    string city;
     string airport;
-    int start1 = 0;
+    int startCountry = 0;
+    int startCity = 0;
+    int startAirport = 0;
     int groupSize1 = 10;
-    while (start1 < airportCodes.size()) {
-        //displayGroupAirportsHelper(start1 ,groupSize1);
+
+    while (startCountry < Countries.size()) {
+        displayGroupCountriesHelper(startCountry,groupSize1);
         cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
-        cout << "Select an airport by code or a tool: ";
-        cin >> airport;
-        if(find(airportCodes.begin(),airportCodes.end(),airport) != airportCodes.end()) {
-            break;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " countries, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+        cout << "Select a country or a tool: ";
+        getline(cin >> ws,country);
+        auto it = Countries.find(country);
+        if(it != Countries.end()) {
+            while(startCity < Countries[country].size()){
+                displayGroupCitiesHelper(country,startCity,groupSize1);
+                cout << endl;
+                cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " cities, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+                cout << "Select a city or a tool: ";
+                getline(cin >> ws,city);
+                if(find(Countries[country].begin(),Countries[country].end(),city) != Countries[country].end()){
+                    vector<string> cityAirportCodes;
+                    vector<Airport> cityAirports;
+                    for(const auto& a: airports){
+                        if(a.get_Country() == country && a.get_City() == city){cityAirports.push_back(a);cityAirportCodes.push_back(a.get_AirportCode());}
+                    }
+                    while(startAirport < cityAirports.size()){
+                        displayGroupAirportsHelper(cityAirports,startAirport,groupSize1);
+                        cout << endl;
+                        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+                        cout << "Select a airport by code or a tool: ";
+                        getline(cin >> ws,airport);
+                        if(find(cityAirportCodes.begin(),cityAirportCodes.end(),airport) != cityAirportCodes.end()){
+                            cout << endl;
+                            if(numAirportsDestAtDistance(airport,stops) == 1){
+                                cout << "There is " << numAirportsDestAtDistance(airport,stops) << " reachable airport from the airport " << airport << " with " << stops << " stops." << endl;
+                            }
+                            else{cout << "There are " << numAirportsDestAtDistance(airport,stops) << " reachable airports from the airport " << airport << " with " << stops << " stops." << endl;}
+                            if(numCitiesDestAtDistance(airport,stops) == 1){
+                                cout << "There is " << numCitiesDestAtDistance(airport,stops) << " reachable city from the airport " << airport << " with " << stops << " stops." << endl;
+                            }
+                            else{cout << "There are " << numCitiesDestAtDistance(airport,stops) << " reachable cities from the airport " << airport << " with " << stops << " stops." << endl;}
+                            if(countriesPerAirportAtDistance(airport,stops) == 1){
+                                cout << "There is " << countriesPerAirportAtDistance(airport,stops) << " reachable country from the airport " << airport << " with " << stops << " stops." << endl;
+                            }
+                            else{cout << "There are " << countriesPerAirportAtDistance(airport,stops) << " reachable countries from the airport " << airport << " with " << stops << " stops." << endl;}
+                            return "qwert";
+                        }
+                        else if(airport == "N") {
+                            if(startAirport <= cityAirportCodes.size()-10 && (startAirport+groupSize1)<cityAirportCodes.size()){
+                                startAirport += groupSize1;
+                            }
+                            else{
+                                cout << endl;
+                                cout << "ERROR: Cannot go further" << endl;
+                            }
+                        }
+                        else if(airport == "P") {
+                            if(startAirport >= 10){startAirport -= groupSize1;}
+                            else{
+                                cout << endl;
+                                cout << "ERROR: Cannot go back" << endl;
+                            }
+                        }
+                        else if(airport == "R"){
+                            return "r";
+                        }
+                        else {
+                            cout << endl;
+                            cout << "ERROR: Invalid input" << endl;
+                        }
+                    }
+                }
+                else if(city == "N") {
+                    if(startCity <= Countries[country].size()-10 && (startCity+groupSize1)<Countries[country].size()){
+                        startCity += groupSize1;
+                    }
+                    else{
+                        cout << endl;
+                        cout << "ERROR: Cannot go further" << endl;
+                    }
+                }
+                else if(city == "P") {
+                    if(startCity >= 10){startCity -= groupSize1;}
+                    else{
+                        cout << endl;
+                        cout << "ERROR: Cannot go back" << endl;
+                    }
+                }
+                else if(city == "R"){
+                    return "r";
+                }
+                else {
+                    cout << endl;
+                    cout << "ERROR: Invalid input" << endl;
+                }
+            }
         }
-        else if(airport == "N") {
-            if(start1 <= airportCodes.size()-10){start1 += groupSize1;}
+        else if(country == "N") {
+            if(startCountry <= Countries.size()-10 && (startCountry+groupSize1)<Countries.size()) {
+                startCountry += groupSize1;
+            }
             else{
+                cout << endl;
                 cout << "ERROR: Cannot go further" << endl;
-                cout << endl;
             }
         }
-        else if(airport == "P") {
-            if(start1 >= 10){start1 -= groupSize1;}
+        else if(country == "P") {
+            if(startCountry >= 10){startCountry -= groupSize1;}
             else{
-                cout << "ERROR: Cannot go back" << endl;
                 cout << endl;
+                cout << "ERROR: Cannot go back" << endl;
             }
         }
-        else if(airport == "R"){
+        else if(country == "R"){
             return "r";
         }
         else {
-            cout << "ERROR: Invalid input" << endl;
             cout << endl;
+            cout << "ERROR: Invalid input" << endl;
         }
     }
-    numAirportsDestAtDistance(airport,stops);
-    numCitiesDestAtDistance(airport,stops);
-    countriesPerAirportAtDistance(airport,stops);
-    return "qwert";
-}
+} //1 6
+
 string bestFlightAirportToAirportHelper(){
     list<string> airportCodes;
     for(auto a: airports){airportCodes.push_back(a.get_AirportCode());}
@@ -533,6 +866,7 @@ string bestFlightAirportToAirportHelper(){
         }
     }
 }
+
 string bestFlightCityToCityHelper(){/*
     set<string> cities;
     for(auto a: airports){cities.insert(a.get_City());}
