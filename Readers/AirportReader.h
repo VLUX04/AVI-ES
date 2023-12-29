@@ -43,7 +43,7 @@ void AirportReader() {
         getline(file, file_text);
         helper = file_text;
         double longitude = atof(helper.c_str()); ///< Longitude of the airport's location.
-        Countries[country].insert(city);
+        if(!country.empty()) Countries[country].insert(city);
         Cities.insert(city);
         airports.emplace_back(airportCode, airportName, city, country, latitude, longitude);
     }

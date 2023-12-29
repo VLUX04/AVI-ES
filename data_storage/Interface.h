@@ -33,6 +33,7 @@ void Initialize() {
                 cout << " Enter the index number to select or 'B' to exit: ";
                 cin >> input;
                 if (cin.peek() != '\n') {
+                    cout << endl;
                     cout << "ERROR: Invalid input" << endl;
                     cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
                     position = 0;
@@ -51,6 +52,7 @@ void Initialize() {
                     case 'B':
                         return;  //exit
                     default:
+                        cout << endl;
                         cout << "ERROR: Invalid input" << endl;
                         position = 0;
                         break;
@@ -78,6 +80,7 @@ void Initialize() {
                 cout << " Enter the index number to select or 'B' to go back: ";
                 cin >> input;
                 if (cin.peek() != '\n') {
+                    cout << endl;
                     cout << "ERROR: Invalid input" << endl;
                     cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
                     position = 1;
@@ -106,6 +109,7 @@ void Initialize() {
                         cout << " Enter the index number to select or 'B' to go back: ";
                         cin >> city_airline;
                         if (cin.peek() != '\n') {
+                            cout << endl;
                             cout << "ERROR: Invalid input" << endl;
                             cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
                             break;
@@ -123,6 +127,7 @@ void Initialize() {
                                 position = 1;
                                 break;
                             default:
+                                cout << endl;
                                 cout << "ERROR: Invalid input" << endl;
                                 position = 1;
                                 break;
@@ -141,6 +146,7 @@ void Initialize() {
                         cout << " Enter the index number to select or 'B' to go back: ";
                         cin >> airport_city;
                         if (cin.peek() != '\n') {
+                            cout << endl;
                             cout << "ERROR: Invalid input" << endl;
                             cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
                             break;
@@ -158,6 +164,7 @@ void Initialize() {
                                 position = 1;
                                 break;
                             default:
+                                cout << endl;
                                 cout << "ERROR: Invalid input" << endl;
                                 position = 1;
                                 break;
@@ -174,6 +181,7 @@ void Initialize() {
                         if (std::cin.fail() || stops < 1) {
                             cin.clear();
                             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                            cout << endl;
                             cout << "Invalid input. Please enter a valid integer." << std::endl;
                             position = 1;
                             break;
@@ -192,7 +200,8 @@ void Initialize() {
                         if (std::cin.fail() || k < 1) {
                             cin.clear();
                             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                            cout << "Invalid input. Please enter a valid integer." << std::endl;
+                            cout << endl;
+                            cout << "ERROR: Invalid input. Please enter a valid integer." << std::endl;
                             position = 1;
                             break;
                         } else {
@@ -207,6 +216,7 @@ void Initialize() {
                         position = 0;
                         break;
                     default:
+                        cout << endl;
                         cout << "ERROR: Invalid input" << endl;
                         position = 1;
                         break;
@@ -227,6 +237,7 @@ void Initialize() {
                 cout << " Enter the index number to select or 'B' to go back: ";
                 cin >> input;
                 if (cin.peek() != '\n') {
+                    cout << endl;
                     cout << "ERROR: Invalid input" << endl;
                     cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
                     position = 2;
@@ -249,6 +260,7 @@ void Initialize() {
                         position = 0;
                         break;
                     default:
+                        cout << endl;
                         cout << "ERROR: Invalid input" << endl;
                         position = 2;
                         break;

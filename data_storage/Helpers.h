@@ -210,48 +210,48 @@ string flightsPerCityHelper(){
                     return "qwert";
                 }
                 else if (city == "N") {
-                    if (start1 <= Countries[country].size() - 10) { start1 += groupSize1; }
+                    if (start1 <= Countries[country].size() - 10 && (start1+groupSize1)<Countries[country].size()) { start1 += groupSize1; }
                     else {
-                        cout << "ERROR: Cannot go further" << endl;
                         cout << endl;
+                        cout << "ERROR: Cannot go further" << endl;
                     }
                 }
                 else if (city == "P") {
                     if (start1 >= 10) { start1 -= groupSize1; }
                     else {
-                        cout << "ERROR: Cannot go back" << endl;
                         cout << endl;
+                        cout << "ERROR: Cannot go back" << endl;
                     }
                 }
                 else if (city == "R") {
                     return "r";
                 }
                 else {
-                    cout << "ERROR: Invalid input" << endl;
                     cout << endl;
+                    cout << "ERROR: Invalid input" << endl;
                 }
             }
         }
         else if(country == "N") {
-            if(start1 <= Countries.size()-10){start1 += groupSize1;}
+            if(start1 <= Countries.size()-10 && (start1+groupSize1)<Countries.size()){start1 += groupSize1;}
             else{
-                cout << "ERROR: Cannot go further" << endl;
                 cout << endl;
+                cout << "ERROR: Cannot go further" << endl;
             }
         }
         else if(country == "P") {
             if(start1 >= 10){start1 -= groupSize1;}
             else{
-                cout << "ERROR: Cannot go back" << endl;
                 cout << endl;
+                cout << "ERROR: Cannot go back" << endl;
             }
         }
         else if(country == "R"){
             return "r";
         }
         else {
-            cout << "ERROR: Invalid input" << endl;
             cout << endl;
+            cout << "ERROR: Invalid input" << endl;
         }
     }
 }  //1 3
@@ -293,48 +293,48 @@ string flightsPerAirlineHelper(){
                     return "qwert";
                 }
                 else if(airline == "N") {
-                    if(start1 <= airliness.size()/2 - 10){start1 += groupSize1;}
+                    if(start1 <= airliness.size()/2 - 10 && (start1+groupSize1)<airliness.size()/2){start1 += groupSize1;}
                     else{
-                        cout << "ERROR: Cannot go further" << endl;
                         cout << endl;
+                        cout << "ERROR: Cannot go further" << endl;
                     }
                 }
                 else if(airline == "P") {
                     if(start1 >= 10){start1 -= groupSize1;}
                     else{
-                        cout << "ERROR: Cannot go back" << endl;
                         cout << endl;
+                        cout << "ERROR: Cannot go back" << endl;
                     }
                 }
                 else if(airline == "R"){
                     return "r";
                 }
                 else {
-                    cout << "ERROR: Invalid input" << endl;
                     cout << endl;
+                    cout << "ERROR: Invalid input" << endl;
                 }
             }
         }
         else if(country == "N") {
-            if(start1 <= Countries.size()-10){start1 += groupSize1;}
+            if(start1 <= Countries.size()-10 && (start1+groupSize1)<Countries.size()){start1 += groupSize1;}
             else{
-                cout << "ERROR: Cannot go further" << endl;
                 cout << endl;
+                cout << "ERROR: Cannot go further" << endl;
             }
         }
         else if(country == "P") {
             if(start1 >= 10){start1 -= groupSize1;}
             else{
-                cout << "ERROR: Cannot go back" << endl;
                 cout << endl;
+                cout << "ERROR: Cannot go back" << endl;
             }
         }
         else if(country == "R"){
             return "r";
         }
         else {
-            cout << "ERROR: Invalid input" << endl;
             cout << endl;
+            cout << "ERROR: Invalid input" << endl;
         }
     }
 }  //1 3
@@ -581,9 +581,9 @@ string destinationsPerAirportHelper(){
                             }
                             else{cout << "There are " << numCitiesDest(airport) << " different cities as destination from the airport " << airport << endl;}
                             if(numCountriesDest(airport) == 1){
-                                cout << "There is " << numCountriesDest(airport) << " airport as destination from the airport " << airport << endl;
+                                cout << "There is " << numCountriesDest(airport) << " country as destination from the airport " << airport << endl;
                             }
-                            else{cout << "There are " << numCountriesDest(airport) << " different airports as destination from the airport " << airport << endl;}
+                            else{cout << "There are " << numCountriesDest(airport) << " different countries as destination from the airport " << airport << endl;}
                             return "qwert";
                         }
                         else if(airport == "N") {
