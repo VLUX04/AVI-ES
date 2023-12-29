@@ -2,8 +2,7 @@
 #include "data_storage/Interface.h"
 
 int main() {
-
-    //Initialize();
+    Initialize();
     //AirlineReader();
     //AirportReader();
     //FlightsReader();
@@ -36,7 +35,8 @@ int main() {
     airpotsToFilter_.insert("YYZ");
     airpotsToFilter_.insert("MXP");
     filterAirpots(airpotsToFilter_);*/
-   bestFlightAirportToAirport("LED", "PCL");
+   //bestFlightAirportToAirport("LED", "PCL");
+   // countriesPerCity("London");
    //bestFlightCityToCity("Moscow", "Paris");
    //coordsBestFlight(55.591531,37.261486,48.725278,2.359444);
 

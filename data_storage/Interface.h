@@ -69,8 +69,8 @@ void Initialize() {
                 cout << "| 2. Number of flights given an airport                      |" << endl;
                 cout << "| 3. Number of flights given a city/airline                  |" << endl;
                 cout << "| 4. Number of  countries that a given airport/city flies to |" << endl;
-                cout << "| 5. Number of destinations available for a given airport    |" << endl; //(airports, cities or countries)
-                cout << "| 6. Number of reachable destinations from a given airport   |" << endl; //(airports, cities or countries)
+                cout << "| 5. Number of destinations available for a given airport    |" << endl;
+                cout << "| 6. Number of reachable destinations from a given airport   |" << endl;
                 cout << "|    in a maximum number of X stops                          |" << endl;
                 cout << "| 7. Trip with the maximum number of stops between them      |" << endl;
                 cout << "|    and corresponding pair of source-destination            |" << endl;
@@ -89,11 +89,12 @@ void Initialize() {
                 switch (input) {
                     case '1':
                         cout << endl;
-                        numberAirports();
-                        numberFlights();
+                        cout << "The global number of airports is " << numberAirports() << endl;
+                        cout << "The global number of flights is " << numberFlights() << endl;
                         break;
                     case '2':
                         cout << endl;
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
                         flightsAirportHelper();
                         break;
                     case '3':
@@ -113,7 +114,7 @@ void Initialize() {
                             cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
                             break;
                         }
-                        switch (input) {
+                        switch (city_airline) {
                             case '1':
                                 cout << endl;
                                 flightsPerCityHelper();
@@ -148,7 +149,7 @@ void Initialize() {
                             cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
                             break;
                         }
-                        switch (input) {
+                        switch (airport_city) {
                             case '1':
                                 cout << endl;
                                 countriesPerAirportHelper();
