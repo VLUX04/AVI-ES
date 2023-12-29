@@ -1,9 +1,6 @@
-//
-// Created by tomas on 26/12/2023.
-//
-
 #ifndef PROJECT_AIR_INTERFACE_H
 #define PROJECT_AIR_INTERFACE_H
+
 #include "Helpers.h"
 
 void Initialize() {
