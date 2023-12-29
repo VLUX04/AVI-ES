@@ -94,7 +94,6 @@ void Initialize() {
                         break;
                     case '2':
                         cout << endl;
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
                         flightsAirportHelper();
                         break;
                     case '3':
