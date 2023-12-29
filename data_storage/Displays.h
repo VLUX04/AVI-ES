@@ -20,6 +20,8 @@ int NumAirline =INT_MAX;
 string ChosedAirline;
 set<string> airpotsToFilter;
 
+bool checkIfAlreadySeen(Flight flight, vector<Flight> vector1);
+
 void numberAirlines(){
     cout << airlines.size()<< endl;
 }
@@ -276,47 +278,19 @@ void essentialAirports(){  //pus so a dar para ver o size
 }
 
 
-vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const string& target) {
+set<vector<Flight>> bestFlightAirportToAirport(const string& source, const string& target) {
 
-    /*pair<string, set<queue<Flight*>>> res;
-    Airport* ap1 = fn.findAirport(airport1);
-    Airport* ap2 = fn.findAirport(airport2);
-    res.first = airport1;
-    for (auto a : fn.getAirports()) a->setVisited(false);
-    queue<pair<Airport*, queue<Flight*>>> q;
-    q.push({ap1, {}});
-    ap1->setVisited(true);
-    while (!q.empty()) {
-        auto currentAirport = q.front().first;
-        auto currentPath = q.front().second;
-        q.pop();
-        for (auto flight : currentAirport->getFlights()) {
-            auto nextAirport = flight->getDestination();
-            if (checkWantedAirlines(flight, use)) {
-                auto newPath = currentPath;
-                newPath.push(flight);
-                if(newPath.size()>res.second.begin()->size())break;
-                if (nextAirport->getCode() == ap2->getCode()) {
-                    if (min > newPath.size()) {
-                        res.second.clear();
-                        min = newPath.size();
-                    }
-                    res.second.insert(newPath);
-                } else {
-                    q.push({nextAirport, newPath});
-                }
-            }
-        }
-    }*/
     Vertex<string>* v1;
     Vertex<string>* v2;
-    for(auto a: airports) {
-        if(source==a.get_AirportName() || source == a.get_AirportCode())
+
+    for (auto a : airports) {
+        if (source == a.get_AirportName() || source == a.get_AirportCode())
             v1 = connections.findVertex(a.get_AirportCode());
-        if(target==a.get_AirportName() || target == a.get_AirportCode())
+        if (target == a.get_AirportName() || target == a.get_AirportCode())
             v2 = connections.findVertex(a.get_AirportCode());
     }
-    vector<vector<Flight>> validItineraries;
+
+    set<vector<Flight>> validItineraries;
     queue<pair<Vertex<string>*, vector<Flight>>> q;
     set<Flight> flightsVisited;
     int minStops = INT_MAX;
@@ -324,10 +298,8 @@ vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const st
     q.push({v1, {}});
 
     while (!q.empty()) {
-        auto current = q.front();
-
-        Vertex<string>* currentVertex = current.first;
-        vector<Flight>& currentItinerary = current.second;
+        auto currentVertex = q.front().first;
+        auto currentItinerary = q.front().second;
 
         q.pop();
 
@@ -342,9 +314,9 @@ vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const st
                     if (newItinerary.size() < minStops) {
                         minStops = newItinerary.size();
                         validItineraries.clear();
-                        validItineraries.emplace_back(newItinerary);
+                        validItineraries.insert(newItinerary);
                     } else if (newItinerary.size() == minStops) {
-                        validItineraries.emplace_back(newItinerary);
+                        validItineraries.insert(newItinerary);
                     }
                 } else {
                     q.emplace(nextVertex, newItinerary);
@@ -353,8 +325,17 @@ vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const st
             }
         }
     }
-    for(auto in: flightsVisited){
-        if(in.get_Source() == "LED" && in.get_Target() == "AMS")cout << in.get_Airline()<< endl;
+
+    for(auto in1: validItineraries){
+        vector <Flight> tempVector = in1;
+        for(int i = 0; i <in1.size(); i++){
+            for(auto in : AirToAirAirline[{in1[i].get_Source(),in1[i].get_Target()}]){
+                if(in1[i].get_Airline() != in){
+                    tempVector[i] = Flight(in1[i].get_Source(),in1[i].get_Target(),in);
+                }
+            }
+        }
+        validItineraries.insert(tempVector);
     }
 
     if (minStops == INT_MAX) {
@@ -396,6 +377,14 @@ vector<vector<Flight>> bestFlightAirportToAirport(const string& source, const st
 
     }
     return validItineraries;
+
+}
+
+bool checkIfAlreadySeen(Flight flight, vector<Flight> flightsVisited) {
+    for(auto in : flightsVisited){
+        if(in.get_Airline() == flight.get_Airline() && in.get_Target() == flight.get_Target() && in.get_Source() == flight.get_Source())return true;
+    }
+    return false;
 }
 
 double toRadians(double degree) {
@@ -445,7 +434,7 @@ void coordsBestFlight( double lon, double lat, double targetLon,double targetLat
     }
     cout << destPossible.size() << endl;
 
-    vector<vector<vector<Flight>>> allPaths;
+    vector<set<vector<Flight>>> allPaths;
 
     for(auto in : sourcePossible){
         for(auto in1 : destPossible){
@@ -467,7 +456,7 @@ void bestFlightCityToCity(const string& sourceCity, const string& targetCity) {
     vector<Airport> sourceAirports = findAirportsInCity(sourceCity);
     vector<Airport> targetAirports = findAirportsInCity(targetCity);
 
-    vector<vector<vector<Flight>>> allPaths;
+    vector<set<vector<Flight>>> allPaths;
 
     for(auto in : sourceAirports){
         for(auto in1 : targetAirports){

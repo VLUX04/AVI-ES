@@ -9,7 +9,7 @@ bool Flight::operator==(const Flight& other) const {
 }
 
 bool Flight::operator<(const Flight& other) const {
-    if (airline_ != other.airline_) return airline_ < other.airline_;
     if (source_ != other.source_) return source_ < other.source_;
-    return target_ < other.target_;
+    if (target_ != other.target_) return target_ < other.target_;
+    return airline_ < other.airline_;
 }

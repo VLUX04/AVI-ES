@@ -11,6 +11,7 @@
 using namespace std;
 
 set<Flight> flights;
+map<pair<string,string>,set<string>> AirToAirAirline;
 
 Graph<string> connections; ///< Graph that contains the connections between airports.
 
@@ -42,6 +43,7 @@ void FlightsReader() {
         connections.addVertex(target);
         connections.findVertex(target)->setIndegree(connections.findVertex(target)->getIndegree()+1);
         connections.addEdge(source, target, airline);
+        AirToAirAirline[{source,target}].insert(airline);
     }
     file.close();
 }
