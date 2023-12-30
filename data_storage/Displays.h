@@ -422,7 +422,6 @@ void coordsBestFlight( double lon, double lat, double targetLon,double targetLat
         double temp = haversine(in.get_Latitude(),in.get_Longitude(),lon,lat);
         if(temp == min)sourcePossible.push_back(in);
     }
-    cout << sourcePossible.size() << endl;
     min = INT_MAX;
     vector<Airport> destPossible;
     for(const auto& in :airports){
@@ -433,10 +432,7 @@ void coordsBestFlight( double lon, double lat, double targetLon,double targetLat
         double temp = haversine(in.get_Latitude(),in.get_Longitude(),targetLon,targetLat);
         if(temp == min)destPossible.push_back(in);
     }
-    cout << destPossible.size() << endl;
-
     vector<set<vector<Flight>>> allPaths;
-
     for(const auto& in : sourcePossible){
         for(const auto& in1 : destPossible){
             allPaths.push_back(bestFlightAirportToAirport(in.get_AirportCode(),in1.get_AirportCode()));

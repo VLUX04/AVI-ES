@@ -472,5 +472,53 @@ string essentialAirportsHelper(){
     }
     else{return "qwert";}
 }  //1 9
-
+pair<double,double> chooseCordinates(){
+    string lat;
+    string lon;
+    pair<double,double> res;
+    while(true){
+        cout << "Choose a value for the latitude or 'R' to return: ";
+        cin >> lat;
+        if(lat == "R"){
+            res.first = 200.0;
+            res.second = 200.0;
+            return res;
+        }
+        try{
+            res.first = stod(lat);
+            if (cin.fail() || res.first < -90.0 || res.first > 90.0) {
+                throw invalid_argument("Invalid input. Please enter a valid latitude value (between -90.0 and +90.0).");
+            }
+            break;
+        }
+        catch(const invalid_argument& e){
+            cout << "Invalid Input." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+    cout << endl;
+    while(true){
+        cout << "Choose a value for the longitude or 'R' to return: ";
+        cin >> lon;
+        if(lon == "R"){
+            res.first = 200.0;
+            res.second = 200.0;
+            return res;
+        }
+        try{
+            res.second = stod(lon);
+            if (cin.fail() || res.second < -180.0 || res.second > 180.0) {
+                throw invalid_argument("Invalid input. Please enter a valid latitude value (between -180.0 and +180.0).");
+            }
+            break;
+        }
+        catch(const invalid_argument& e){
+            cout << "Invalid Input." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+    return res;
+}
 #endif //PROJECT_AIR_HELPERS_H

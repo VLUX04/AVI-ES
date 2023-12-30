@@ -10,10 +10,7 @@ void Initialize() {
     char input;
     int k;
     int stops;
-    string longitude;
-    string latitude;
-    string targetLongitude;
-    string targetLatitude;
+    pair<double,double> location;
     double lon;
     double lat;
     double targetLon;
@@ -316,59 +313,25 @@ void Initialize() {
                         break;
                     case '3':
                         cout << endl;
-                        cout << "Choose a value for the longitude of the source airport: ";
-                        getline(cin >> ws, longitude);
-                        lon = stod(longitude);
-                        if (cin.fail() || lon < -180.0 || lon > 180.0) {
-                            cin.clear();
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                            cout << endl;
-                            cout << "ERROR: Invalid input. Please enter a valid longitude value (between -180.0 and +180.0)." << endl;
+                        cout << "Choose the coordinates of the source airport: " << endl;
+                        location = chooseCordinates();
+                        if(location.first == 200.0 && location.second == 200.0){
                             position = 2;
                             break;
                         }
-                        cin.clear();
+                        lat = location.first;
+                        lon = location.second;
                         cout << endl;
-                        cout << "Choose a value for the latitude of the source airport: ";
-                        getline(cin >> ws, latitude);
-                        lat = stod(latitude);
-                        if (cin.fail() || lat < -90.0 || lat > 90.0) {
-                            cin.clear();
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                            cout << endl;
-                            cout << "ERROR: Invalid input. Please enter a valid latitude value (between -90.0 and +90.0)." << endl;
+                        cout << "Choose the coordinates of the target airport: " << endl;
+                        location = chooseCordinates();
+                        if(location.first == 200.0 && location.second == 200.0){
                             position = 2;
                             break;
                         }
-                        cin.clear();
-                        cout << endl;
-                        cout << "Choose a value for the longitude of the target airport: ";
-                        getline(cin >>ws, targetLongitude);
-                        targetLon = stod(targetLongitude);
-                        if (cin.fail() || targetLon < -180.0 || targetLon > 180.0) {
-                            cin.clear();
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                            cout << endl;
-                            cout << "ERROR: Invalid input. Please enter a valid longitude value (between -180.0 and +180.0)." << endl;
-                            position = 2;
-                            break;
-                        }
-                        cin.clear();
-                        cout << endl;
-                        cout << "Choose a value for the latitude of the target airport: ";
-                        getline(cin >> ws, targetLatitude);
-                        targetLat = stod(targetLatitude);
-                        if (cin.fail() || targetLat < -90.0 || targetLat > 90.0) {
-                            cin.clear();
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                            cout << endl;
-                            cout << "ERROR: Invalid input. Please enter a valid latitude value (between -90.0 and +90.0)." << endl;
-                            position = 2;
-                            break;
-                        }
-                        else {
-                            coordsBestFlight(lon,lat,targetLon,targetLat);
-                        }
+                        targetLat = location.first;
+                        targetLon = location.second;
+                        cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
+                        coordsBestFlight(lon,lat,targetLon,targetLat);
                         break;
                     case 'B':
                         position = 0;
