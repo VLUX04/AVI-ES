@@ -425,11 +425,11 @@ void coordsBestFlight( double lon, double lat, double targetLon,double targetLat
     cout << sourcePossible.size() << endl;
     min = INT_MAX;
     vector<Airport> destPossible;
-    for(auto in :airports){
+    for(const auto& in :airports){
         double temp = haversine(in.get_Latitude(),in.get_Longitude(),targetLon,targetLat);
         if(temp < min)min = temp;
     }
-    for(auto in :airports){
+    for(const auto& in :airports){
         double temp = haversine(in.get_Latitude(),in.get_Longitude(),targetLon,targetLat);
         if(temp == min)destPossible.push_back(in);
     }
@@ -437,8 +437,8 @@ void coordsBestFlight( double lon, double lat, double targetLon,double targetLat
 
     vector<set<vector<Flight>>> allPaths;
 
-    for(auto in : sourcePossible){
-        for(auto in1 : destPossible){
+    for(const auto& in : sourcePossible){
+        for(const auto& in1 : destPossible){
             allPaths.push_back(bestFlightAirportToAirport(in.get_AirportCode(),in1.get_AirportCode()));
         }
     }
@@ -459,8 +459,8 @@ void bestFlightCityToCity(const string& sourceCity, const string& targetCity) {
 
     vector<set<vector<Flight>>> allPaths;
 
-    for(auto in : sourceAirports){
-        for(auto in1 : targetAirports){
+    for(const auto& in : sourceAirports){
+        for(const auto& in1 : targetAirports){
             allPaths.push_back(bestFlightAirportToAirport(in.get_AirportCode(),in1.get_AirportCode()));
         }
     }
