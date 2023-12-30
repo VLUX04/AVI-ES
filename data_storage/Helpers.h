@@ -17,7 +17,7 @@ void displayGroupCountriesHelper(int start, int groupSize) {
     cout << "| Countries List                                             |" << endl;
     cout << "|------------------------------------------------------------|" << endl;
     // Display the current group of 10 elements
-    for (int i = start; i < start + groupSize && i < airports.size(); ++i) {
+    for (int i = start; i < start + groupSize && i < countries.size(); ++i) {
         string linha = multString(" ", 58 - countries[i].size());
         cout << "| " << countries[i] << linha << " |" << endl;
         cout << "|------------------------------------------------------------|" << endl;
@@ -75,7 +75,7 @@ void displayGroupArticulationsHelper(unordered_set<string> res, int start, int g
     cout << "| Essential airports List                                    |" << endl;
     cout << "|------------------------------------------------------------|" << endl;
     // Display the current group of 10 elements
-    for (int i = start; i < start + groupSize && i < airports.size(); ++i) {
+    for (int i = start; i < start + groupSize && i < essentialAirports.size(); ++i) {
         string linha = multString(" ", 58 - essentialAirports[i].size());
         cout << "| " << essentialAirports[i] << linha << " |" << endl;
         cout << "|------------------------------------------------------------|" << endl;
