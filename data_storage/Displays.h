@@ -288,21 +288,19 @@ unordered_set<string> articulationAirports(){
 
 
 set<vector<Flight>> bestFlightAirportToAirport(const string& source, const string& target) {
-
     Vertex<string>* v1;
     Vertex<string>* v2;
+    set<vector<Flight>> validItineraries;
+    queue<pair<Vertex<string>*, vector<Flight>>> q;
+    set<Flight> flightsVisited;
+    int minStops = INT_MAX;
 
-    for (auto a : airports) {
+    for (const auto& a : airports) {
         if (source == a.get_AirportName() || source == a.get_AirportCode())
             v1 = connections.findVertex(a.get_AirportCode());
         if (target == a.get_AirportName() || target == a.get_AirportCode())
             v2 = connections.findVertex(a.get_AirportCode());
     }
-
-    set<vector<Flight>> validItineraries;
-    queue<pair<Vertex<string>*, vector<Flight>>> q;
-    set<Flight> flightsVisited;
-    int minStops = INT_MAX;
 
     q.push({v1, {}});
 
@@ -348,13 +346,14 @@ set<vector<Flight>> bestFlightAirportToAirport(const string& source, const strin
     }
 
     if (minStops == INT_MAX) {
+        cout << endl;
         cout << "No valid flights found." << endl;
         return validItineraries;
     }
 
-    cout << "Best itineraries:" << endl;
+    cout << endl;
+    cout << "There are " << validItineraries.size() << " possible best itineraries:" << endl;
     set<string> diffAirlines;
-    cout << validItineraries.size() << endl;
     cout << endl;
     for (const auto& itinerary : validItineraries) {
         bool flag1 = true;
@@ -386,7 +385,6 @@ set<vector<Flight>> bestFlightAirportToAirport(const string& source, const strin
 
     }
     return validItineraries;
-
 }
 
 bool checkIfAlreadySeen(Flight flight, vector<Flight> flightsVisited) {
