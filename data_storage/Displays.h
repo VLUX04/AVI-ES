@@ -20,8 +20,6 @@ int NumAirline =INT_MAX;
 string ChosedAirline;
 set<string> airpotsToFilter;
 
-bool checkIfAlreadySeen(Flight flight, vector<Flight> vector1);
-
 void numberAirlines(){
     cout << airlines.size()<< endl;
 }
@@ -285,8 +283,6 @@ unordered_set<string> articulationAirports(){
     return res;
 }
 
-
-
 set<vector<Flight>> bestFlightAirportToAirport(const string& source, const string& target) {
     Vertex<string>* v1;
     Vertex<string>* v2;
@@ -352,9 +348,13 @@ set<vector<Flight>> bestFlightAirportToAirport(const string& source, const strin
     }
 
     cout << endl;
-    cout << "There are " << validItineraries.size() << " possible best itineraries:" << endl;
+    if(validItineraries.size() == 1){
+        cout << "There is " << validItineraries.size() << " possible best itinerary:" << endl;
+    }
+    else{cout << "There are " << validItineraries.size() << " possible best itineraries:" << endl;}
     set<string> diffAirlines;
     cout << endl;
+    cout << "Source -> Destiny | Airline" << endl;
     for (const auto& itinerary : validItineraries) {
         bool flag1 = true;
         bool flag2 = true;
@@ -379,19 +379,13 @@ set<vector<Flight>> bestFlightAirportToAirport(const string& source, const strin
             }
         }
         if(flag1 && diffAirlines.size() <= NumAirline && flag2 && flag3){
-            for (const auto& f : itinerary)cout << f.get_Source() << "->" << f.get_Target() << " (" << f.get_Airline() << ")" << endl;
+            cout << endl;
+            for (const auto& f : itinerary)cout << "  " << f.get_Source() << "       " << f.get_Target() << "       " << f.get_Airline() << endl;
             cout << endl;
         }
 
     }
     return validItineraries;
-}
-
-bool checkIfAlreadySeen(Flight flight, vector<Flight> flightsVisited) {
-    for(auto in : flightsVisited){
-        if(in.get_Airline() == flight.get_Airline() && in.get_Target() == flight.get_Target() && in.get_Source() == flight.get_Source())return true;
-    }
-    return false;
 }
 
 double toRadians(double degree) {

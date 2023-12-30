@@ -10,6 +10,14 @@ void Initialize() {
     char input;
     int k;
     int stops;
+    string longitude;
+    string latitude;
+    string targetLongitude;
+    string targetLatitude;
+    double lon;
+    double lat;
+    double targetLon;
+    double targetLat;
     string source;
     string destiny;
     char airport_city;
@@ -35,7 +43,7 @@ void Initialize() {
                 if (cin.peek() != '\n') {
                     cout << endl;
                     cout << "ERROR: Invalid input" << endl;
-                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     position = 0;
                     break;
                 }
@@ -82,7 +90,7 @@ void Initialize() {
                 if (cin.peek() != '\n') {
                     cout << endl;
                     cout << "ERROR: Invalid input" << endl;
-                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     position = 1;
                     break;
                 }
@@ -111,7 +119,7 @@ void Initialize() {
                         if (cin.peek() != '\n') {
                             cout << endl;
                             cout << "ERROR: Invalid input" << endl;
-                            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
                             break;
                         }
                         switch (city_airline) {
@@ -148,7 +156,7 @@ void Initialize() {
                         if (cin.peek() != '\n') {
                             cout << endl;
                             cout << "ERROR: Invalid input" << endl;
-                            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
                             break;
                         }
                         switch (airport_city) {
@@ -178,11 +186,11 @@ void Initialize() {
                         cout << endl;
                         cout << "Choose a maximum value for stops: ";
                         cin >> stops;
-                        if (std::cin.fail() || stops < 1) {
+                        if (cin.fail() || stops < 1) {
                             cin.clear();
-                            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
                             cout << endl;
-                            cout << "Invalid input. Please enter a valid integer." << std::endl;
+                            cout << "Invalid input. Please enter a valid integer." << endl;
                             position = 1;
                             break;
                         } else {
@@ -197,16 +205,14 @@ void Initialize() {
                         cout << endl;
                         cout << "Choose a value for K: ";
                         cin >> k;
-                        if (std::cin.fail() || k < 1) {
+                        if (cin.fail() || k < 1) {
                             cin.clear();
-                            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
                             cout << endl;
-                            cout << "ERROR: Invalid input. Please enter a valid integer." << std::endl;
+                            cout << "ERROR: Invalid input. Please enter a valid integer." << endl;
                             position = 1;
                             break;
-                        } else {
-                            greatestAirTrafficCapacity(k);
-                        }
+                        } else {greatestAirTrafficCapacity(k);}
                         break;
                     case '9':
                         cout << endl;
@@ -239,7 +245,7 @@ void Initialize() {
                 if (cin.peek() != '\n') {
                     cout << endl;
                     cout << "ERROR: Invalid input" << endl;
-                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     position = 2;
                     break;
                 }
@@ -254,7 +260,59 @@ void Initialize() {
                         break;
                     case '3':
                         cout << endl;
-
+                        cout << "Choose a value for the longitude of the source airport: ";
+                        getline(cin >> ws, longitude);
+                        lon = stod(longitude);
+                        if (cin.fail() || lon < -180.0 || lon > 180.0) {
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            cout << endl;
+                            cout << "ERROR: Invalid input. Please enter a valid longitude value (between -180.0 and +180.0)." << endl;
+                            position = 2;
+                            break;
+                        }
+                        cin.clear();
+                        cout << endl;
+                        cout << "Choose a value for the latitude of the source airport: ";
+                        getline(cin >> ws, latitude);
+                        lat = stod(latitude);
+                        if (cin.fail() || lat < -90.0 || lat > 90.0) {
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            cout << endl;
+                            cout << "ERROR: Invalid input. Please enter a valid latitude value (between -90.0 and +90.0)." << endl;
+                            position = 2;
+                            break;
+                        }
+                        cin.clear();
+                        cout << endl;
+                        cout << "Choose a value for the longitude of the target airport: ";
+                        getline(cin >>ws, targetLongitude);
+                        targetLon = stod(targetLongitude);
+                        if (cin.fail() || targetLon < -180.0 || targetLon > 180.0) {
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            cout << endl;
+                            cout << "ERROR: Invalid input. Please enter a valid longitude value (between -180.0 and +180.0)." << endl;
+                            position = 2;
+                            break;
+                        }
+                        cin.clear();
+                        cout << endl;
+                        cout << "Choose a value for the latitude of the target airport: ";
+                        getline(cin >> ws, targetLatitude);
+                        targetLat = stod(targetLatitude);
+                        if (cin.fail() || targetLat < -90.0 || targetLat > 90.0) {
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            cout << endl;
+                            cout << "ERROR: Invalid input. Please enter a valid latitude value (between -90.0 and +90.0)." << endl;
+                            position = 2;
+                            break;
+                        }
+                        else {
+                            coordsBestFlight(lon,lat,targetLon,targetLat);
+                        }
                         break;
                     case 'B':
                         position = 0;
