@@ -271,25 +271,20 @@ void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<
         l.insert(v->getInfo());
 }
 
-unordered_set<string> articulationPoints(){
+unordered_set<string> articulationAirports(){
     unordered_set<string> res;
     stack<string> s;
     int i = 0;
-    Graph<string> copy = connections;
-    for(auto vertex:copy.getVertexSet()){
+    for(auto vertex:undirectedConnections.getVertexSet()){
         vertex->setNum(i);
     }
     i++;
-    for(auto vertex:copy.getVertexSet()){
-        if(vertex->getNum() == 0){dfs_art(copy,vertex,s,res,i);}
+    for(auto vertex:undirectedConnections.getVertexSet()){
+        if(vertex->getNum() == 0){dfs_art(undirectedConnections,vertex,s,res,i);}
     }
     return res;
 }
-void essentialAirports(){  //pus so a dar para ver o size
-    unordered_set<string> res;
-    res = articulationPoints();
-    cout << "In total there are " << res.size() << " essential airports to the network's circulation capability" << endl;
-}
+
 
 
 set<vector<Flight>> bestFlightAirportToAirport(const string& source, const string& target) {
@@ -493,53 +488,5 @@ void filterChosedAirline(string ChosedAirline_){
 void filterAirpots(set<string> airpotsToFilter_){
     airpotsToFilter = airpotsToFilter_;
 }
-
-
-
-/*
-void teste(){
-    int adj = 0;
-    for(auto x: connections.getVertexSet()){
-        adj += x->getAdj().size();
-    }
-    cout << "original " << adj << endl;
-
-    Graph<string> copia;
-    int adj1 =0;
-    for (auto x : connections.getVertexSet()) {
-        Vertex<string>* newVertex = new Vertex<string>(*x);
-        for(auto e:x->getAdj()){
-            newVertex.addEdge
-        }
-
-        copia.addVertex(newVertex->getInfo());
-
-    }
-
-    for(auto x:copia.getVertexSet()){
-        adj1 += x->getAdj().size();
-    }
-    cout << "copia " << adj1 << endl;
-
-    for(auto x :copia.getVertexSet()){
-        for(auto edge: x->getAdj()){
-            copia.addEdge(edge.getDest()->getInfo(),x->getInfo()," ");
-        }
-    }
-    adj = 0;
-    for(auto x: connections.getVertexSet()){
-        adj += x->getAdj().size();
-    }
-    cout << " dps da copia original " << adj << endl;
-    adj1 = 0;
-    for(auto x:copia.getVertexSet()){
-        adj1 += x->getAdj().size();
-    }
-    cout << "copia " << adj1 << endl;
-}
- */
-
-
-
 
 #endif //PROJECT_AIR_DISPLAYS_H

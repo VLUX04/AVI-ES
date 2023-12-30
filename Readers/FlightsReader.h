@@ -14,6 +14,7 @@ set<Flight> flights;
 map<pair<string,string>,set<string>> AirToAirAirline;
 
 Graph<string> connections; ///< Graph that contains the connections between airports.
+Graph<string> undirectedConnections; ///< Undirected graph of the connections between airports.
 
 /**
  * @brief Reads flight data from a CSV file, populates a vector of Flight objects, and updates a graph of airport connections.
@@ -43,6 +44,11 @@ void FlightsReader() {
         connections.addVertex(target);
         connections.findVertex(target)->setIndegree(connections.findVertex(target)->getIndegree()+1);
         connections.addEdge(source, target, airline);
+        undirectedConnections.addVertex(source);
+        undirectedConnections.addVertex(target);
+        undirectedConnections.findVertex(target)->setIndegree(connections.findVertex(target)->getIndegree()+1);
+        undirectedConnections.addEdge(source, target, airline);
+        undirectedConnections.addEdge(target,source," ");
         AirToAirAirline[{source,target}].insert(airline);
     }
     file.close();

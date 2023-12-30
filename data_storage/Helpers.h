@@ -67,6 +67,20 @@ void displayGroupAirlineHelper(vector<Airline> airlinePerCountry,int start ,int 
         cout << "|------------------------------------------------------------|" << endl;
     }
 }
+void displayGroupArticulationsHelper(unordered_set<string> res, int start, int groupSize) {
+    vector<string>essentialAirports;
+    for(auto a:res){essentialAirports.push_back(a);}
+    cout << endl;
+    cout << "|------------------------------------------------------------|" << endl;
+    cout << "| Essential airports List                                    |" << endl;
+    cout << "|------------------------------------------------------------|" << endl;
+    // Display the current group of 10 elements
+    for (int i = start; i < start + groupSize && i < airports.size(); ++i) {
+        string linha = multString(" ", 58 - essentialAirports[i].size());
+        cout << "| " << essentialAirports[i] << linha << " |" << endl;
+        cout << "|------------------------------------------------------------|" << endl;
+    }
+}
 
 string flightsAirportHelper(){
     string country;
@@ -788,6 +802,48 @@ string reachableDestinationsHelper(int stops){
         }
     }
 } //1 6
+
+string essentialAirportsHelper(){
+    string input;
+    int start = 0;
+    int groupSize = 10;
+    unordered_set<string> res = articulationAirports();
+    cout << "In total there are " << res.size() << " essential airports to the network's circulation capability." << endl;
+    cout << "Enter 'Y' if you want to see the list of the essential airport or 'R' to return." << endl;
+    getline(cin >> ws,input);
+    if(input == "Y"){
+        while(start < res.size()){
+            displayGroupArticulationsHelper(res,start,groupSize);
+            cout << endl;
+            cout << "Display Tools: Enter 'N' to view the next " << groupSize << " airports, 'P' to see the previous "<< groupSize <<" or 'R' to return" << endl;
+            getline(cin >> ws,input);
+            if(input == "N") {
+                if(start <= res.size()-10 && (start+groupSize)<res.size()){
+                    start += groupSize;
+                }
+                else{
+                    cout << endl;
+                    cout << "ERROR: Cannot go further" << endl;
+                }
+            }
+            else if(input == "P") {
+                if(start >= 10){start -= groupSize;}
+                else{
+                    cout << endl;
+                    cout << "ERROR: Cannot go back" << endl;
+                }
+            }
+            else if(input == "R"){
+                return "r";
+            }
+            else {
+                cout << endl;
+                cout << "ERROR: Invalid input" << endl;
+            }
+        }
+    }
+    else{return "qwert";}
+}  //1 9
 
 string bestFlightAirportToAirportHelper(){
     list<string> airportCodes;

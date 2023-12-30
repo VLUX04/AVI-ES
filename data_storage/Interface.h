@@ -210,7 +210,7 @@ void Initialize() {
                         break;
                     case '9':
                         cout << endl;
-                        essentialAirports();
+                        essentialAirportsHelper();
                         break;
                     case 'B':
                         position = 0;

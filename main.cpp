@@ -34,6 +34,5 @@ int main() {
    //coordsBestFlight(55.591531,37.261486,48.725278,2.359444);
     //essentialAirports();
 
-
    return 0;
 }
