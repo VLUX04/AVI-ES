@@ -15,12 +15,14 @@ void Initialize() {
     double lat;
     double targetLon;
     double targetLat;
-    string source;
-    string destiny;
     char airport_city;
     char city_airline;
+    string source;
+    string destiny;
     string airport;
     string city;
+    string country;
+    string airline;
     int position = 0;
     while (true) {
         switch (position) {
@@ -99,7 +101,11 @@ void Initialize() {
                         cout << "The global number of flights is " << numberFlights() << endl;
                         break;
                     case '2':
-                        airport = selectCountryCityAirportHelper();
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        city = selectCityHelper(country);
+                        if(city=="r") break;
+                        airport = selectAirportHelper(country, city);
                         if(airport=="r") break;
                         cout << endl;
                         numberOut(airport);
@@ -124,7 +130,9 @@ void Initialize() {
                         }
                         switch (city_airline) {
                             case '1':
-                                city=selectCountryCityHelper();
+                                country=selectCountryHelper();
+                                if(country=="r") break;
+                                city=selectCityHelper(country);
                                 if(city=="r") break;
                                 cout << endl;
                                 if(flightsPerCity(city) == 1) {
@@ -133,8 +141,15 @@ void Initialize() {
                                 else{cout << endl << "There are " << flightsPerCity(city) << " flights from " << city << endl;}
                                 break;
                             case '2':
-                                cout << endl;
-                                flightsPerAirlineHelper();
+                                country = selectCountryHelper();
+                                if(country=="r") break;
+                                airline = selectAirlineHelper(country);
+                                if(airline=="r") break;
+
+                                if(flightsPerAirline(airline) == 1){
+                                    cout << endl << "There is " << flightsPerAirline(airline) << " flight from the airline " << airline << endl;
+                                }
+                                else{cout << endl << "There are " << flightsPerAirline(airline) << " flights from the airline " << airline << endl;}
                                 break;
                             case 'B':
                                 position = 1;
@@ -166,7 +181,11 @@ void Initialize() {
                         }
                         switch (airport_city) {
                             case '1':
-                                airport = selectCountryCityAirportHelper();
+                                country = selectCountryHelper();
+                                if(country=="r") break;
+                                city = selectCityHelper(country);
+                                if(city=="r") break;
+                                airport = selectAirportHelper(country, city);
                                 if(airport=="r") break;
                                 cout << endl;
                                 if(countriesPerAirport(airport) == 1){
@@ -175,8 +194,15 @@ void Initialize() {
                                 else{cout << endl << "There are " << countriesPerAirport(airport) << " reachable countries from the airport " << airport << endl;}
                                 break;
                             case '2':
+                                country = selectCountryHelper();
+                                if(country=="r") break;
+                                city = selectCityHelper(country);
+                                if(city=="r") break;
                                 cout << endl;
-                                countriesPerCityHelper();
+                                if(countriesPerCity(country,city) == 1){
+                                    cout << endl << "There is " << countriesPerCity(country,city) << " reachable country from the city " << city << endl;
+                                }
+                                else{cout << endl << "There are " << countriesPerCity(country,city) << " reachable countries from the city " << city << endl;}
                                 break;
                             case 'B':
                                 position = 1;
@@ -189,7 +215,11 @@ void Initialize() {
                         }
                         break;
                     case '5':
-                        airport = selectCountryCityAirportHelper();
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        city = selectCityHelper(country);
+                        if(city=="r") break;
+                        airport = selectAirportHelper(country, city);
                         if(airport=="r") break;
                         cout << endl;
                         if(numAirportsDest(airport) == 1){
@@ -217,7 +247,11 @@ void Initialize() {
                             position = 1;
                             break;
                         } else {
-                            airport = selectCountryCityAirportHelper();
+                            country = selectCountryHelper();
+                            if(country=="r") break;
+                            city = selectCityHelper(country);
+                            if(city=="r") break;
+                            airport = selectAirportHelper(country, city);
                             if(airport=="r") break;
                             cout << endl;
                             if(numAirportsDestAtDistance(airport,stops) == 1){
@@ -288,10 +322,20 @@ void Initialize() {
                 }
                 switch (input) {
                     case '1':
-                        source = selectCountryCityAirportHelper();
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        city = selectCityHelper(country);
+                        if(city=="r") break;
+                        source = selectAirportHelper(country, city);
                         if(source=="r") break;
-                        destiny = selectCountryCityAirportHelper();
+
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        city = selectCityHelper(country);
+                        if(city=="r") break;
+                        destiny = selectAirportHelper(country, city);
                         if(destiny=="r") break;
+
                         if(source==destiny) {
                             cout << endl;
                             cout << "ERROR: Invalid Input. The source cannot be the same as the destination." << endl;
@@ -300,10 +344,16 @@ void Initialize() {
                         bestFlightAirportToAirport(source, destiny);
                         break;
                     case '2':
-                        source = selectCountryCityHelper();
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        source = selectCityHelper(country);
                         if(source=="r") break;
-                        destiny = selectCountryCityHelper();
+
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        destiny = selectCityHelper(country);
                         if(destiny=="r") break;
+
                         if(source==destiny) {
                             cout << endl;
                             cout << "ERROR: Invalid Input. The source cannot be the same as the destination." << endl;
@@ -314,7 +364,7 @@ void Initialize() {
                     case '3':
                         cout << endl;
                         cout << "Choose the coordinates of the source airport: " << endl;
-                        location = chooseCordinates();
+                        location = chooseCoordinates();
                         if(location.first == 200.0 && location.second == 200.0){
                             position = 2;
                             break;
@@ -323,7 +373,7 @@ void Initialize() {
                         lon = location.second;
                         cout << endl;
                         cout << "Choose the coordinates of the target airport: " << endl;
-                        location = chooseCordinates();
+                        location = chooseCoordinates();
                         if(location.first == 200.0 && location.second == 200.0){
                             position = 2;
                             break;
