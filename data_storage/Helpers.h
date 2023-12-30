@@ -789,83 +789,81 @@ string reachableDestinationsHelper(int stops){
     }
 } //1 6
 
-string bestFlightAirportToAirportHelper(){
-    list<string> airportCodes;
-    for(auto a: airports){airportCodes.push_back(a.get_AirportCode());}
+string bestFlightAirportToAirportHelper() {
     string source;
     string destiny;
     int start1 = 0;
     int groupSize1 = 10;
-    while (start1 < airportCodes.size()) {
-        //displayGroupAirportsHelper(start1 ,groupSize1);
+    bool flag = false;
+    while (start1 < airports.size()) {
+        displayGroupAirportsHelper(airports, start1, groupSize1);
         cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
-        cout << "Select a source by code or name or a tool: ";
-        getline(cin,source);
-        Vertex<string>* v1;
-        for(auto a: airports) {
-            if(source==a.get_AirportName() || source == a.get_AirportCode())
-                v1 = connections.findVertex(a.get_AirportCode());
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "
+             << groupSize1 << " or 'R' to return" << endl;
+        cout << "Select a source by code or name or select a tool: ";
+        getline(cin >> ws, source);
+        for (const auto &a: airports) {
+            if (source == a.get_AirportName() || source == a.get_AirportCode())
+                flag = true;
         }
-        if (v1) {
+        if (flag) {
+            flag = false;
             start1 = 0;
-            while(start1 < airportCodes.size()) {
-                //displayGroupAirportsHelper(start1, groupSize1);
+            while (start1 < airports.size()) {
+                displayGroupAirportsHelper(airports, start1, groupSize1);
                 cout << endl;
                 cout << "Display Tools: Enter 'N' to view the next " << groupSize1
                      << " airports, 'P' to see the previous " << groupSize1 << " or 'R' to return" << endl;
-                cout << "Now select a destiny by code or name or a tool: ";
-                getline(cin,destiny);
-                Vertex<string> *v2 ;
-                for(auto a: airports) {
-                    if(destiny==a.get_AirportName() || destiny == a.get_AirportCode())
-                        v1 = connections.findVertex(a.get_AirportCode());
+                cout << "Select a destiny by code or name or select a tool: ";
+                getline(cin >> ws, destiny);
+                for (const auto &a: airports) {
+                    if (destiny == a.get_AirportName() || destiny == a.get_AirportCode())
+                        flag = true;
                 }
-                if (v2) { bestFlightAirportToAirport(source, destiny); }
-                else if (source == "N") {
-                    if (start1 <= airportCodes.size() - 10) { start1 += groupSize1; }
+                if (flag) {
+                    bestFlightAirportToAirport(source, destiny);
+                    return "qwert";
+                } else if (destiny == "N") {
+                    if (start1 <= airports.size() - 10 &&
+                        (start1 + groupSize1) < airports.size()) { start1 += groupSize1; }
                     else {
-                        cout << "ERROR: Cannot go further" << endl;
                         cout << endl;
+                        cout << "ERROR: Cannot go further" << endl;
                     }
-                }
-                else if (destiny == "P") {
+                } else if (destiny == "P") {
                     if (start1 >= 10) { start1 -= groupSize1; }
                     else {
-                        cout << "ERROR: Cannot go back" << endl;
                         cout << endl;
+                        cout << "ERROR: Cannot go back" << endl;
                     }
                 } else if (destiny == "R") {
                     return "r";
                 } else {
-                    cout << "ERROR: Invalid input" << endl;
                     cout << endl;
+                    cout << "ERROR: Invalid input" << endl;
                 }
             }
-        }
-        else if(source == "N") {
-            if(start1 <= airportCodes.size()-10){start1 += groupSize1;}
-            else{
+        } else if (source == "N") {
+            if (start1 <= airports.size() - 10 && (start1 + groupSize1) < airports.size()) { start1 += groupSize1; }
+            else {
+                cout << endl;
                 cout << "ERROR: Cannot go further" << endl;
-                cout << endl;
             }
-        }
-        else if(source == "P") {
-            if(start1 >= 10){start1 -= groupSize1;}
-            else{
+        } else if (source == "P") {
+            if (start1 >= 10) { start1 -= groupSize1; }
+            else {
+                cout << endl;
                 cout << "ERROR: Cannot go back" << endl;
-                cout << endl;
             }
-        }
-        else if(source == "R"){
+        } else if (source == "R") {
             return "r";
-        }
-        else {
-            cout << "ERROR: Invalid input" << endl;
+        } else {
             cout << endl;
+            cout << "ERROR: Invalid input" << endl;
         }
     }
 }
+
 
 string bestFlightCityToCityHelper(){/*
     set<string> cities;
