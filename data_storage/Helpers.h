@@ -121,6 +121,7 @@ string selectCountryHelper(){
             cout << "ERROR: Invalid input" << endl;
         }
     }
+    return "qwert";
 }
 string selectCityHelper(const string& country) {
     string city;
@@ -160,6 +161,7 @@ string selectCityHelper(const string& country) {
             cout << "ERROR: Invalid input" << endl;
         }
     }
+    return "qwert";
 }
 string selectAirportHelper(const string& country, const string& city) {
     int startAirport = 0;
@@ -209,6 +211,7 @@ string selectAirportHelper(const string& country, const string& city) {
             cout << "ERROR: Invalid input" << endl;
         }
     }
+    return "qwert";
 }
 string selectAirlineHelper(const string& country) {
     string airline;
@@ -254,6 +257,7 @@ string selectAirlineHelper(const string& country) {
             cout << "ERROR: Invalid input" << endl;
         }
     }
+    return "qwert";
 }
 string essentialAirportsHelper(){
     string input;
@@ -295,6 +299,7 @@ string essentialAirportsHelper(){
         }
     }
     else{return "qwert";}
+    return "qwert";
 }
 pair<double,double> chooseCoordinates(){
     string lat;
