@@ -411,7 +411,7 @@ double haversine(double lat1, double lon1, double lat2, double lon2) {
     return distance;
 }
 
-void coordsBestFlight( double lon, double lat, double targetLon,double targetLat){
+vector<set<vector<Flight>>> coordsBestFlight( double lon, double lat, double targetLon,double targetLat){
     double min = INT_MAX;
     vector<Airport> sourcePossible;
     for(auto in :airports){
@@ -435,9 +435,10 @@ void coordsBestFlight( double lon, double lat, double targetLon,double targetLat
     vector<set<vector<Flight>>> allPaths;
     for(const auto& in : sourcePossible){
         for(const auto& in1 : destPossible){
-            allPaths.push_back(bestFlightAirportToAirport(in.get_AirportCode(),in1.get_AirportCode()));
+            allPaths.emplace_back(bestFlightAirportToAirport(in.get_AirportCode(),in1.get_AirportCode()));
         }
     }
+    return allPaths;
 }
 
 vector<Airport> findAirportsInCity(const string& city) {
@@ -457,11 +458,62 @@ void bestFlightCityToCity(const string& sourceCity, const string& targetCity) {
 
     for(const auto& in : sourceAirports){
         for(const auto& in1 : targetAirports){
-            allPaths.push_back(bestFlightAirportToAirport(in.get_AirportCode(),in1.get_AirportCode()));
+            allPaths.emplace_back(bestFlightAirportToAirport(in.get_AirportCode(),in1.get_AirportCode()));
         }
     }
 }
+void bestFlightAirportToCity(const string& sourceAirport, const string& targetCity) {
+    string source;
+    vector<Airport> targetAirports = findAirportsInCity(targetCity);
+    for(auto x:airports){
+        if(x.get_AirportCode() == sourceAirport || x.get_AirportName() == sourceAirport){
+            source = x.get_AirportCode();
+            break;
+        }
+    }
+    vector<set<vector<Flight>>> allPaths;
+    for(const auto& in1 : targetAirports){
+        allPaths.emplace_back(bestFlightAirportToAirport(source,in1.get_AirportCode()));
+    }
+}
+void bestFlightCityToAirport(const string& sourceCity, const string& targetAirport) {
+    string target;
+    vector<Airport> sourceAirports = findAirportsInCity(sourceCity);
+    for(auto x:airports){
+        if(x.get_AirportCode() == targetAirport || x.get_AirportName() == targetAirport){
+            target = x.get_AirportCode();
+            break;
+        }
+    }
+    vector<set<vector<Flight>>> allPaths;
+    for(const auto& in1 : sourceAirports){
+        allPaths.emplace_back(bestFlightAirportToAirport(in1.get_AirportCode(),target));
+    }
+}
 
+void bestFlightCityToLocation(const string& sourceCity,double lon, double lat) {
+    vector<Airport> sourceAirports = findAirportsInCity(sourceCity);
+    vector<vector<set<vector<Flight>>>> allPaths;
+    for(const auto& in1 : sourceAirports){
+        allPaths.emplace_back(coordsBestFlight(in1.get_Latitude(),in1.get_Longitude(),lat,lon));
+    }
+}
+void bestFlightLocationToCity(double lon, double lat,const string& targetCity){
+    vector<Airport> targetAirports = findAirportsInCity(targetCity);
+    vector<vector<set<vector<Flight>>>> allPaths;
+    for(const auto& in1 : targetAirports){
+        allPaths.emplace_back(coordsBestFlight(lat,lon,in1.get_Latitude(),in1.get_Longitude()));
+    }
+}
+void bestFlightLocationToAirport(double targetLat,double targetLon,double lon, double lat){
+    vector<vector<set<vector<Flight>>>> allPaths;
+    allPaths.emplace_back(coordsBestFlight(lat,lon,targetLat,targetLon));
+}
+void bestFlightAirportToLocation(double lon, double lat,double targetLon,double targetLat){
+    vector<vector<set<vector<Flight>>>> allPaths;
+    allPaths.emplace_back(coordsBestFlight(lat,lon,targetLat,targetLon));
+
+}
 void filterNumAirline(int k){
     NumAirline = k;
 }

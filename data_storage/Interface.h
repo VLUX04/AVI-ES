@@ -17,6 +17,7 @@ void Initialize() {
     double targetLat;
     char airport_city;
     char city_airline;
+    bool flag = false;
     string source;
     string destiny;
     string airport;
@@ -306,9 +307,17 @@ void Initialize() {
                 cout << "|------------------------------------------------------------|" << endl;
                 cout << "| Best flight options given:                                 |" << endl;
                 cout << "|                                                            |" << endl;
-                cout << "| 1. Airport code or name                                    |" << endl;
-                cout << "| 2. City name                                               |" << endl;
+                cout << "| 1. Airport codes or names                                  |" << endl;
+                cout << "| 2. City names                                              |" << endl;
                 cout << "| 3. Geographical coordinates                                |" << endl;
+                cout << "| 4. Airport code or name and a city name                    |" << endl;
+                cout << "| 5. City name and an airport code or name                   |" << endl;
+                cout << "| 6. City name and a pair of geographical coordinates        |" << endl;
+                cout << "| 7. A pair of geographical coordinates and a city name      |" << endl;
+                cout << "| 8. A pair of geographical coordinates and an airport code  |" << endl;
+                cout << "|    or name                                                 |" << endl;
+                cout << "| 9. Airport code or name and a pair of geographical         |" << endl;
+                cout << "|    coordinates                                             |" << endl;
                 cout << "|                                                            |" << endl;
                 cout << "|------------------------------------------------------------|" << endl;
                 cout << " Enter the index number to select or 'B' to go back: ";
@@ -341,6 +350,7 @@ void Initialize() {
                             cout << "ERROR: Invalid Input. The source cannot be the same as the destination." << endl;
                             break;
                         }
+                        cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
                         bestFlightAirportToAirport(source, destiny);
                         break;
                     case '2':
@@ -359,6 +369,7 @@ void Initialize() {
                             cout << "ERROR: Invalid Input. The source cannot be the same as the destination." << endl;
                             break;
                         }
+                        cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
                         bestFlightCityToCity(source, destiny);
                         break;
                     case '3':
@@ -381,7 +392,163 @@ void Initialize() {
                         targetLat = location.first;
                         targetLon = location.second;
                         cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
-                        coordsBestFlight(lon,lat,targetLon,targetLat);
+                        coordsBestFlight(lat,lon,targetLat,targetLon);
+                        break;
+                    case '4':
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        city = selectCityHelper(country);
+                        if(city=="r") break;
+                        source = selectAirportHelper(country, city);
+                        if(source=="r") break;
+
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        destiny = selectCityHelper(country);
+                        if(destiny=="r") break;
+
+                        if(city==destiny) {
+                            cout << endl;
+                            cout << "ERROR: Invalid Input. The source cannot be the same as the destination." << endl;
+                            break;
+                        }
+                        cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
+                        bestFlightAirportToCity(source,destiny);
+                        break;
+                    case '5':
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        source = selectCityHelper(country);
+                        if(source=="r") break;
+
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        city = selectCityHelper(country);
+                        if(city=="r") break;
+                        destiny = selectAirportHelper(country, city);
+                        if(destiny=="r") break;
+
+                        if(source == city){
+                            cout << endl;
+                            cout << "ERROR: Invalid Input. The source cannot be the same as the destination." << endl;
+                            break;
+                        }
+                        cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
+                        bestFlightCityToAirport(source,destiny);
+                        break;
+                    case '6':
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        source = selectCityHelper(country);
+                        if(source=="r") break;
+
+                        cout << endl;
+                        cout << "Choose the coordinates of the target airport: " << endl;
+                        location = chooseCoordinates();
+                        if(location.first == 200.0 && location.second == 200.0){
+                            position = 2;
+                            break;
+                        }
+                        lat = location.first;
+                        lon = location.second;
+                        cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
+                        bestFlightCityToLocation(source,lon,lat);
+                        break;
+                    case '7':
+                        cout << endl;
+                        cout << "Choose the coordinates of the source airport: " << endl;
+                        location = chooseCoordinates();
+                        if(location.first == 200.0 && location.second == 200.0){
+                            position = 2;
+                            break;
+                        }
+                        lat = location.first;
+                        lon = location.second;
+
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        destiny = selectCityHelper(country);
+                        if(destiny=="r") break;
+
+                        cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
+                        bestFlightLocationToCity(lon,lat,destiny);
+                        break;
+                    case '8':
+                        cout << endl;
+                        cout << "Choose the coordinates of the source airport: " << endl;
+                        location = chooseCoordinates();
+                        if(location.first == 200.0 && location.second == 200.0){
+                            position = 2;
+                            break;
+                        }
+                        lat = location.first;
+                        lon = location.second;
+
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        city = selectCityHelper(country);
+                        if(city=="r") break;
+                        destiny = selectAirportHelper(country, city);
+                        if(destiny=="r") break;
+
+                        for(auto x:airports){
+                            if(x.get_AirportCode() == destiny && x.get_Longitude() == lon && x.get_Latitude() == lat){
+                                flag = true;
+                                break;
+                            }
+                            if(x.get_AirportCode() == destiny){
+                                targetLat = x.get_Latitude();
+                                targetLon = x.get_Longitude();
+                                break;
+                            }
+                        }
+                        if(flag){
+                            flag = false;
+                            cout << endl;
+                            cout << "ERROR: Invalid Input. The source cannot be the same as the destination." << endl;
+                            break;
+                        }
+                        cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
+                        bestFlightLocationToAirport(targetLat,targetLon,lon,lat);
+                        break;
+                    case '9':
+                        cout << endl;
+                        country = selectCountryHelper();
+                        if(country=="r") break;
+                        city = selectCityHelper(country);
+                        if(city=="r") break;
+                        source = selectAirportHelper(country, city);
+                        if(source=="r") break;
+
+                        cout << endl;
+                        cout << "Choose the coordinates of the target airport: " << endl;
+                        location = chooseCoordinates();
+                        if(location.first == 200.0 && location.second == 200.0){
+                            position = 2;
+                            break;
+                        }
+                        targetLat = location.first;
+                        targetLon = location.second;
+
+                        for(auto x:airports){
+                            if(x.get_AirportCode() == source && x.get_Longitude() == targetLon && x.get_Latitude() == targetLat){
+                                flag = true;
+                                break;
+                            }
+                            if(x.get_AirportCode() == source){
+                                lat = x.get_Latitude();
+                                lon = x.get_Longitude();
+                                break;
+                            }
+                        }
+                        if(flag){
+                            flag = false;
+                            cout << endl;
+                            cout << "ERROR: Invalid Input. The source cannot be the same as the destination." << endl;
+                            break;
+                        }
+                        cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
+                        bestFlightAirportToLocation(lon,lat,targetLon,targetLat);
                         break;
                     case 'B':
                         position = 0;
@@ -396,13 +563,21 @@ void Initialize() {
             case 3:
                 cout << endl;
                 cout << "|------------------------------------------------------------|" << endl;
-                cout << "|              BEST FLIGHT OPTION WITH FILTERS               |" << endl;
+                cout << "|                     BEST FLIGHT OPTION                     |" << endl;
                 cout << "|------------------------------------------------------------|" << endl;
                 cout << "| Best flight options given:                                 |" << endl;
                 cout << "|                                                            |" << endl;
-                cout << "| 1. Airport code or name                                    |" << endl;
-                cout << "| 2. City name                                               |" << endl;
+                cout << "| 1. Airport codes or names                                  |" << endl;
+                cout << "| 2. City names                                              |" << endl;
                 cout << "| 3. Geographical coordinates                                |" << endl;
+                cout << "| 4. Airport code or name and a city name                    |" << endl;
+                cout << "| 5. City name and an airport code or name                   |" << endl;
+                cout << "| 6. City name and a pair of geographical coordinates        |" << endl;
+                cout << "| 7. A pair of geographical coordinates and a city name      |" << endl;
+                cout << "| 8. A pair of geographical coordinates and an airport code  |" << endl;
+                cout << "|    or name                                                 |" << endl;
+                cout << "| 9. Airport code or name and a pair of geographical         |" << endl;
+                cout << "|    coordinates                                             |" << endl;
                 cout << "|                                                            |" << endl;
                 cout << "|------------------------------------------------------------|" << endl;
                 cout << " Enter the index number to select or 'B' to go back: ";

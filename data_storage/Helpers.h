@@ -165,24 +165,28 @@ string selectAirportHelper(const string& country, const string& city) {
     int startAirport = 0;
     int groupSize1 = 10;
     string airport;
-    vector<string> cityAirportCodes;
+    vector<string> cityAirportCodesAndNames;
     vector<Airport> cityAirports;
 
     for(const auto& a: airports){
-        if(a.get_Country() == country && a.get_City() == city){cityAirports.push_back(a);cityAirportCodes.push_back(a.get_AirportCode());}
+        if(a.get_Country() == country && a.get_City() == city){
+            cityAirports.push_back(a);
+            cityAirportCodesAndNames.push_back(a.get_AirportCode());
+            cityAirportCodesAndNames.push_back((a.get_AirportName()));
+        }
     }
 
     while(startAirport < cityAirports.size()){
         displayGroupAirportsHelper(cityAirports,startAirport,groupSize1);
         cout << endl;
         cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
-        cout << "Select a airport by code or a tool: ";
+        cout << "Select a airport by code or name or a tool: ";
         getline(cin >> ws,airport);
-        if(find(cityAirportCodes.begin(),cityAirportCodes.end(),airport) != cityAirportCodes.end()){
+        if(find(cityAirportCodesAndNames.begin(),cityAirportCodesAndNames.end(),airport) != cityAirportCodesAndNames.end()){
             return airport;
         }
         else if(airport == "N") {
-            if(startAirport <= cityAirportCodes.size()-10 && (startAirport+groupSize1)<cityAirportCodes.size()){
+            if(startAirport <= cityAirports.size()-10 && (startAirport+groupSize1)<cityAirports.size()){
                 startAirport += groupSize1;
             }
             else{
