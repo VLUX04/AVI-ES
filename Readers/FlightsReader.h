@@ -39,17 +39,19 @@ void FlightsReader() {
         string airline = file_text; ///< Airline code.
 
         flights.insert(Flight(source,target,airline));
+        if(source != "" && target != ""){
+            connections.addVertex(source);
+            connections.addVertex(target);
+            connections.findVertex(target)->setIndegree(connections.findVertex(target)->getIndegree()+1);
+            connections.addEdge(source, target, airline);
+            undirectedConnections.addVertex(source);
+            undirectedConnections.addVertex(target);
+            undirectedConnections.findVertex(target)->setIndegree(connections.findVertex(target)->getIndegree()+1);
+            undirectedConnections.addEdge(source, target, airline);
+            undirectedConnections.addEdge(target,source," ");
+            AirToAirAirline[{source,target}].insert(airline);
+        }
 
-        connections.addVertex(source);
-        connections.addVertex(target);
-        connections.findVertex(target)->setIndegree(connections.findVertex(target)->getIndegree()+1);
-        connections.addEdge(source, target, airline);
-        undirectedConnections.addVertex(source);
-        undirectedConnections.addVertex(target);
-        undirectedConnections.findVertex(target)->setIndegree(connections.findVertex(target)->getIndegree()+1);
-        undirectedConnections.addEdge(source, target, airline);
-        undirectedConnections.addEdge(target,source," ");
-        AirToAirAirline[{source,target}].insert(airline);
     }
     file.close();
 }

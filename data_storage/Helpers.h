@@ -81,6 +81,30 @@ void displayGroupArticulationsHelper(unordered_set<string> res, int start, int g
         cout << "|------------------------------------------------------------|" << endl;
     }
 }
+void displayGroupAirlinesHelper(int start, int groupSize) {
+    cout << endl;
+    cout << "|------------------------------------------------------------|" << endl;
+    cout << "| Airlines List                                              |" << endl;
+    cout << "|------------------------------------------------------------|" << endl;
+    // Display the current group of 10 elements
+    for (int i = start; i < start + groupSize && i < airlines.size(); ++i) {
+        string linha = multString(" ", 49 - airlines[i].get_AirlineCode().size() - airlines[i].get_AirlineName().size());
+        cout << "| Code: " << airlines[i].get_AirlineCode() << " (" << airlines[i].get_AirlineName() << ")" << linha << " |" << endl;
+        cout << "|------------------------------------------------------------|" << endl;
+    }
+}
+void displayGroupAirportsHelper(int start, int groupSize) {
+    cout << endl;
+    cout << "|------------------------------------------------------------|" << endl;
+    cout << "| Airports List                                              |" << endl;
+    cout << "|------------------------------------------------------------|" << endl;
+    // Display the current group of 10 elements
+    for (int i = start; i < start + groupSize && i < airports.size(); ++i) {
+        string linha = multString(" ", 49 - airports[i].get_AirportCode().size() - airports[i].get_AirportName().size());
+        cout << "| Code: " << airports[i].get_AirportCode() << " (" << airports[i].get_AirportName() << ")" << linha << " |" << endl;
+        cout << "|------------------------------------------------------------|" << endl;
+    }
+}
 
 string selectCountryHelper(){
     string country;
@@ -90,7 +114,7 @@ string selectCountryHelper(){
     while (startCountry < Countries.size()) {
         displayGroupCountriesHelper(startCountry,groupSize1);
         cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " countries, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " countries, 'P' to see the previous "<< groupSize1 <<" or 'R' to return." << endl;
         cout << "Select a country or a tool: ";
         getline(cin >> ws,country);
         auto it = Countries.find(country);
@@ -103,14 +127,14 @@ string selectCountryHelper(){
             }
             else{
                 cout << endl;
-                cout << "ERROR: Cannot go further" << endl;
+                cout << "ERROR: Cannot go further." << endl;
             }
         }
         else if(country == "P") {
             if(startCountry >= 10){startCountry -= groupSize1;}
             else{
                 cout << endl;
-                cout << "ERROR: Cannot go back" << endl;
+                cout << "ERROR: Cannot go back." << endl;
             }
         }
         else if(country == "R"){
@@ -118,9 +142,10 @@ string selectCountryHelper(){
         }
         else {
             cout << endl;
-            cout << "ERROR: Invalid input" << endl;
+            cout << "ERROR: Invalid input." << endl;
         }
     }
+    return "qwert";
 }
 string selectCityHelper(const string& country) {
     string city;
@@ -130,7 +155,7 @@ string selectCityHelper(const string& country) {
     while(startCity < Countries[country].size()){
         displayGroupCitiesHelper(country,startCity,groupSize1);
         cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " cities, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " cities, 'P' to see the previous "<< groupSize1 <<" or 'R' to return." << endl;
         cout << "Select a city or a tool: ";
         getline(cin >> ws,city);
         if(find(Countries[country].begin(),Countries[country].end(),city) != Countries[country].end()){
@@ -142,14 +167,14 @@ string selectCityHelper(const string& country) {
             }
             else{
                 cout << endl;
-                cout << "ERROR: Cannot go further" << endl;
+                cout << "ERROR: Cannot go further." << endl;
             }
         }
         else if(city == "P") {
             if(startCity >= 10){startCity -= groupSize1;}
             else{
                 cout << endl;
-                cout << "ERROR: Cannot go back" << endl;
+                cout << "ERROR: Cannot go back." << endl;
             }
         }
         else if(city == "R"){
@@ -157,9 +182,10 @@ string selectCityHelper(const string& country) {
         }
         else {
             cout << endl;
-            cout << "ERROR: Invalid input" << endl;
+            cout << "ERROR: Invalid input." << endl;
         }
     }
+    return "qwert";
 }
 string selectAirportHelper(const string& country, const string& city) {
     int startAirport = 0;
@@ -179,7 +205,7 @@ string selectAirportHelper(const string& country, const string& city) {
     while(startAirport < cityAirports.size()){
         displayGroupAirportsHelper(cityAirports,startAirport,groupSize1);
         cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 <<" or 'R' to return." << endl;
         cout << "Select a airport by code or name or a tool: ";
         getline(cin >> ws,airport);
         if(find(cityAirportCodesAndNames.begin(),cityAirportCodesAndNames.end(),airport) != cityAirportCodesAndNames.end()){
@@ -191,14 +217,14 @@ string selectAirportHelper(const string& country, const string& city) {
             }
             else{
                 cout << endl;
-                cout << "ERROR: Cannot go further" << endl;
+                cout << "ERROR: Cannot go further." << endl;
             }
         }
         else if(airport == "P") {
             if(startAirport >= 10){startAirport -= groupSize1;}
             else{
                 cout << endl;
-                cout << "ERROR: Cannot go back" << endl;
+                cout << "ERROR: Cannot go back." << endl;
             }
         }
         else if(airport == "R"){
@@ -206,9 +232,10 @@ string selectAirportHelper(const string& country, const string& city) {
         }
         else {
             cout << endl;
-            cout << "ERROR: Invalid input" << endl;
+            cout << "ERROR: Invalid input." << endl;
         }
     }
+    return "qwert";
 }
 string selectAirlineHelper(const string& country) {
     string airline;
@@ -226,7 +253,7 @@ string selectAirlineHelper(const string& country) {
     while(start1 < airlinesPerCountry.size()){
         displayGroupAirlineHelper(airlinesPerCountry,start1 ,groupSize1);
         cout << endl;
-        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airlines, 'P' to see the previous "<< groupSize1 <<" or 'R' to return" << endl;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airlines, 'P' to see the previous "<< groupSize1 <<" or 'R' to return." << endl;
         cout << "Select an airline by code or name or a tool: ";
         getline(cin >> ws, airline);
         if(find(airlinesStr.begin(),airlinesStr.end(),airline) != airlinesStr.end()) {
@@ -234,6 +261,54 @@ string selectAirlineHelper(const string& country) {
         }
         else if(airline == "N") {
             if(start1 <= airlinesPerCountry.size() - 10 && (start1+groupSize1)<airlinesPerCountry.size()){start1 += groupSize1;}
+            else{
+                cout << endl;
+                cout << "ERROR: Cannot go further." << endl;
+            }
+        }
+        else if(airline == "P") {
+            if(start1 >= 10){start1 -= groupSize1;}
+            else{
+                cout << endl;
+                cout << "ERROR: Cannot go back." << endl;
+            }
+        }
+        else if(airline == "R"){
+            return "r";
+        }
+        else {
+            cout << endl;
+            cout << "ERROR: Invalid input." << endl;
+        }
+    }
+    return "qwert";
+}
+
+string selectAirlinesHelper() {
+    string airline;
+    set<string> airlineCodes;
+    int start1 = 0;
+    int groupSize1 = 10;
+    vector<string>airlinesCodeAndName;
+    for(const auto& a: airlines){
+        airlinesCodeAndName.push_back(a.get_AirlineCode());
+        airlinesCodeAndName.push_back(a.get_AirlineName());
+    }
+    while(start1 < airlines.size()){
+        displayGroupAirlinesHelper(start1 ,groupSize1);
+        cout << endl;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airlines, 'P' to see the previous "<< groupSize1 <<", " << endl << "'R' to return or 'F' to finish the selection." << endl;
+        cout << endl << "Select an airline by code or name or a tool: ";
+        getline(cin >> ws, airline);
+        if(find(airlinesCodeAndName.begin(),airlinesCodeAndName.end(),airline) != airlinesCodeAndName.end()) {
+            for(const auto& a:airlines){
+                if(a.get_AirlineCode() == airline || a.get_AirlineName() == airline){
+                    airlineCodes.emplace(a.get_AirlineCode());
+                }
+            }
+        }
+        else if(airline == "N") {
+            if(start1 <= airlines.size() - 10 && (start1+groupSize1)<airlines.size()){start1 += groupSize1;}
             else{
                 cout << endl;
                 cout << "ERROR: Cannot go further" << endl;
@@ -247,13 +322,74 @@ string selectAirlineHelper(const string& country) {
             }
         }
         else if(airline == "R"){
+
             return "r";
+        }
+        else if(airline == "F"){
+            filterAirlines(airlineCodes);
+            return "finish";
         }
         else {
             cout << endl;
             cout << "ERROR: Invalid input" << endl;
         }
     }
+    return "qwert";
+}
+string selectAirportsHelper() {
+    int startAirport = 0;
+    int groupSize1 = 10;
+    string airport;
+    set<string> airportCodes;
+    vector<string> airportCodesAndNames;
+
+    for(const auto& a: airports){
+        airportCodesAndNames.push_back(a.get_AirportCode());
+        airportCodesAndNames.push_back((a.get_AirportName()));
+    }
+
+    while(startAirport < airports.size()){
+        displayGroupAirportsHelper(startAirport,groupSize1);
+        cout << endl;
+        cout << "Display Tools: Enter 'N' to view the next " << groupSize1 << " airports, 'P' to see the previous "<< groupSize1 << ", " << endl << "'R' to return or 'F' to finish the selection." << endl;
+        cout << endl << "Select a airport by code or name or a tool: ";
+        getline(cin >> ws,airport);
+        if(find(airportCodesAndNames.begin(),airportCodesAndNames.end(),airport) != airportCodesAndNames.end()){
+            for(const auto& a:airports){
+                if(a.get_AirportCode() == airport || a.get_AirportName() == airport){
+                    airportCodes.emplace(a.get_AirportCode());
+                }
+            }
+        }
+        else if(airport == "N") {
+            if(startAirport <= airlines.size()-10 && (startAirport+groupSize1)<airports.size()){
+                startAirport += groupSize1;
+            }
+            else{
+                cout << endl;
+                cout << "ERROR: Cannot go further" << endl;
+            }
+        }
+        else if(airport == "P") {
+            if(startAirport >= 10){startAirport -= groupSize1;}
+            else{
+                cout << endl;
+                cout << "ERROR: Cannot go back" << endl;
+            }
+        }
+        else if(airport == "R"){
+            return "r";
+        }
+        else if(airport == "F"){
+            filterAirpots(airportCodes);
+            return "finish";
+        }
+        else {
+            cout << endl;
+            cout << "ERROR: Invalid input" << endl;
+        }
+    }
+    return "qwert";
 }
 string essentialAirportsHelper(){
     string input;
@@ -294,7 +430,7 @@ string essentialAirportsHelper(){
             }
         }
     }
-    else{return "qwert";}
+    return "qwert";
 }
 pair<double,double> chooseCoordinates(){
     string lat;

@@ -17,12 +17,8 @@
 
 set<string> airlinesToFilter;
 int NumAirline =INT_MAX;
-string ChosedAirline;
 set<string> airpotsToFilter;
 
-void numberAirlines(){
-    cout << airlines.size()<< endl;
-}
 
 int numberAirports(){
     return airports.size();
@@ -212,6 +208,36 @@ void greatestAirTrafficCapacity(int k){
     }
     else{cout<<"Incorrect input (k is larger than number of airports)";}
 }
+void dfsConnected(Vertex<string> * v){
+    v->setVisited(true);
+    for(const auto& edge:v->getAdj()){
+        if(!edge.getDest()->isVisited()){
+            dfsConnected(edge.getDest());
+        }
+    }
+}
+
+void checkIsolatedAirportGroups(){
+    int res = 0;
+    for(auto x:undirectedConnections.getVertexSet()){
+        x->setVisited(false);
+    }
+    for(auto x:undirectedConnections.getVertexSet()){
+        if(!x->isVisited()){
+            res++;
+            dfsConnected(x);
+        }
+    }
+    if(res == 1){
+        cout << "All the airports are connected between them.";
+    }
+    else{
+        cout  << "There are " << res << " separated groups of airports that are connected between them.";
+    }
+    for(auto &x:undirectedConnections.getVertexSet()){
+        x->setVisited(false);
+    }
+}
 void dfs(Vertex<string>* v, vector<string> &path, vector<string> &maxPath, int &maxStops,set<pair<string,string>> &trips){
     v->setVisited(true);
     path.push_back(v->getInfo());
@@ -287,6 +313,7 @@ set<vector<Flight>> bestFlightAirportToAirport(const string& source, const strin
     Vertex<string>* v1;
     Vertex<string>* v2;
     set<vector<Flight>> validItineraries;
+    set<vector<Flight>> validItinerariesFiltered;
     queue<pair<Vertex<string>*, vector<Flight>>> q;
     set<Flight> flightsVisited;
     int minStops = INT_MAX;
@@ -347,45 +374,44 @@ set<vector<Flight>> bestFlightAirportToAirport(const string& source, const strin
         return validItineraries;
     }
 
-    cout << endl;
-    if(validItineraries.size() == 1){
-        cout << "There is " << validItineraries.size() << " possible best itinerary:" << endl;
-    }
-    else{cout << "There are " << validItineraries.size() << " possible best itineraries:" << endl;}
     set<string> diffAirlines;
-    cout << endl;
-    cout << "Source -> Destiny | Airline" << endl;
     for (const auto& itinerary : validItineraries) {
         bool flag1 = true;
         bool flag2 = true;
-        bool flag3 = true;
-        for (const auto& f : itinerary) {
+        for (const auto &f: itinerary) {
             diffAirlines.insert(f.get_Airline());
-            if(!airlinesToFilter.empty()){
-                flag1 = airlinesToFilter.find(f.get_Airline()) == airlinesToFilter.end();
-                if(!flag1)break;
+            if (!airlinesToFilter.empty()) {
+                flag1 = !(airlinesToFilter.find(f.get_Airline()) == airlinesToFilter.end());
+                if (!flag1)break;
             }
         }
-        for (const auto& f : itinerary) {
-            if(!ChosedAirline.empty()){
-                flag2 = ChosedAirline == f.get_Airline();
-                if(!flag2)break;
+        for (const auto &f: itinerary) {
+            if (!airpotsToFilter.empty()) {
+                flag2 = !((airpotsToFilter.find(f.get_Source()) == airpotsToFilter.end()) || (airpotsToFilter.find(f.get_Target()) == airpotsToFilter.end()));
+                if (!flag2)break;
             }
         }
-        for (const auto& f : itinerary) {
-            if(!airpotsToFilter.empty()){
-                flag3 = (airpotsToFilter.find(f.get_Source()) == airpotsToFilter.end()) && (airpotsToFilter.find(f.get_Target()) == airpotsToFilter.end());
-                if(!flag3)break;
-            }
+        if (flag1 && diffAirlines.size() <= NumAirline && flag2) {
+            validItinerariesFiltered.insert(itinerary);
         }
-        if(flag1 && diffAirlines.size() <= NumAirline && flag2 && flag3){
-            cout << endl;
-            for (const auto& f : itinerary)cout << "  " << f.get_Source() << "       " << f.get_Target() << "       " << f.get_Airline() << endl;
-            cout << endl;
-        }
-
     }
-    return validItineraries;
+    cout << endl;
+    if(validItinerariesFiltered.empty()){
+        cout << "There are no available flights according to your filters."<< endl;
+        return validItinerariesFiltered;
+    }
+    else if (validItinerariesFiltered.size() == 1) {
+        cout << "There is " << validItinerariesFiltered.size() << " possible best itinerary:" << endl;
+    } else { cout << "There are " << validItinerariesFiltered.size() << " possible best itineraries:" << endl; }
+    cout << endl;
+    cout << "Source -> Destiny | Airline" << endl;
+    for(auto flights:validItinerariesFiltered){
+        cout << endl;
+        for(auto itinerary:flights){
+            cout << "  " << itinerary.get_Source() << "       " << itinerary.get_Target() << "       " << itinerary.get_Airline() << endl;
+        }
+    }
+    return validItinerariesFiltered;
 }
 
 double toRadians(double degree) {
@@ -522,9 +548,6 @@ void filterAirlines(set<string> airlinesToFilter_){
     airlinesToFilter = airlinesToFilter_;
 }
 
-void filterChosedAirline(string ChosedAirline_){
-    ChosedAirline = ChosedAirline_;
-}
 void filterAirpots(set<string> airpotsToFilter_){
     airpotsToFilter = airpotsToFilter_;
 }
