@@ -17,7 +17,7 @@
 
 set<string> airlinesToFilter; ///< Set of airlines to filter during display operations.
 int NumAirline = INT_MAX; ///< Maximum number of airlines to consider during display operations.
-set<string> airpotsToFilter; ///< Set of airports to filter during display operations.
+set<string> airportsToFilter; ///< Set of airports to filter during display operations.
 
 
 /**
@@ -290,6 +290,10 @@ void greatestAirTrafficCapacity(int k){
     else{cout<<"Incorrect input (k is larger than number of airports)";}
 }
 
+/**
+ * @brief Depth-first search (DFS) algorithm to mark connected vertices starting from a given vertex.
+ * @param v Starting vertex for DFS.
+ */
 void dfsConnected(Vertex<string> * v){
     v->setVisited(true);
     for(const auto& edge:v->getAdj()){
@@ -299,6 +303,11 @@ void dfsConnected(Vertex<string> * v){
     }
 }
 
+/**
+ * @brief Checks and prints information about the connections between airports in the graph.
+ * The function initializes the visited flag for each vertex, performs DFS to find connected components,
+ * and then prints the result indicating whether all airports are connected or if there are separated groups.
+ */
 void checkIsolatedAirportGroups(){
     int res = 0;
     for(auto x:undirectedConnections.getVertexSet()){
@@ -311,10 +320,12 @@ void checkIsolatedAirportGroups(){
         }
     }
     if(res == 1){
-        cout << "All the airports are connected between them.";
+        cout << "All the airports are connected between them." << endl;
+        cout << endl;
     }
     else{
-        cout  << "There are " << res << " separated groups of airports that are connected between them.";
+        cout  << "There are " << res << " separated groups of airports that are connected between them." << endl;
+        cout << endl;
     }
     for(auto &x:undirectedConnections.getVertexSet()){
         x->setVisited(false);
@@ -499,8 +510,8 @@ set<vector<Flight>> bestFlightAirportToAirport(const string& source, const strin
             }
         }
         for (const auto &f: itinerary) {
-            if (!airpotsToFilter.empty()) {
-                flag2 = !((airpotsToFilter.find(f.get_Source()) == airpotsToFilter.end()) || (airpotsToFilter.find(f.get_Target()) == airpotsToFilter.end()));
+            if (!airportsToFilter.empty()) {
+                flag2 = !((airportsToFilter.find(f.get_Source()) == airportsToFilter.end()) || (airportsToFilter.find(f.get_Target()) == airportsToFilter.end()));
                 if (!flag2)break;
             }
         }
@@ -644,7 +655,7 @@ void bestFlightCityToCity(const string& sourceCity, const string& targetCity) {
 void bestFlightAirportToCity(const string& sourceAirport, const string& targetCity) {
     string source;
     vector<Airport> targetAirports = findAirportsInCity(targetCity);
-    for(auto x:airports){
+    for(const auto& x:airports){
         if(x.get_AirportCode() == sourceAirport || x.get_AirportName() == sourceAirport){
             source = x.get_AirportCode();
             break;
@@ -747,10 +758,10 @@ void filterAirlines(set<string> airlinesToFilter_){
 
 /**
  * @brief Filters the set of airports for the output.
- * @param airpotsToFilter_ Set of airports to include in the output.
+ * @param airportsToFilter_ Set of airports to include in the output.
  */
-void filterAirpots(set<string> airpotsToFilter_){
-    airpotsToFilter = airpotsToFilter_;
+void filterAirports(set<string> airportsToFilter_){
+    airportsToFilter = airportsToFilter_;
 }
 
 #endif //PROJECT_AIR_DISPLAYS_H

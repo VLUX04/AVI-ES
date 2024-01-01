@@ -121,6 +121,12 @@ void displayGroupArticulationsHelper(unordered_set<string> res, int start, int g
         cout << "|------------------------------------------------------------|" << endl;
     }
 }
+
+/**
+ * @brief Helper function to display a group of airlines.
+ * @param start Starting index of the group.
+ * @param groupSize Number of elements in the group.
+ */
 void displayGroupAirlinesHelper(int start, int groupSize) {
     cout << endl;
     cout << "|------------------------------------------------------------|" << endl;
@@ -133,6 +139,12 @@ void displayGroupAirlinesHelper(int start, int groupSize) {
         cout << "|------------------------------------------------------------|" << endl;
     }
 }
+
+/**
+ * @brief Helper function to display a group of airports.
+ * @param start Starting index of the group.
+ * @param groupSize Number of elements in the group.
+ */
 void displayGroupAirportsHelper(int start, int groupSize) {
     cout << endl;
     cout << "|------------------------------------------------------------|" << endl;
@@ -347,6 +359,10 @@ string selectAirlineHelper(const string& country) {
     return "qwert";
 }
 
+/**
+ * @brief Helper function to select the airlines to filter.
+ * @return User input for selection purposes.
+ */
 string selectAirlinesHelper() {
     string airline;
     set<string> airlineCodes;
@@ -399,6 +415,11 @@ string selectAirlinesHelper() {
     }
     return "qwert";
 }
+
+/**
+ * @brief Helper function to select the airports to filter.
+ * @return User input for selection purposes.
+ */
 string selectAirportsHelper() {
     int startAirport = 0;
     int groupSize1 = 10;
@@ -444,7 +465,7 @@ string selectAirportsHelper() {
             return "r";
         }
         else if(airport == "F"){
-            filterAirpots(airportCodes);
+            filterAirports(airportCodes);
             return "finish";
         }
         else {

@@ -3,6 +3,9 @@
 
 #include "Helpers.h"
 
+/**
+ * @brief Initializes the application and provides a menu-based interface for the various functionalities.
+ */
 void Initialize() {
     AirlineReader();
     AirportReader();
@@ -529,7 +532,7 @@ void Initialize() {
                         destiny = selectAirportHelper(country, city);
                         if (destiny == "r") break;
 
-                        for (auto x: airports) {
+                        for (const auto& x: airports) {
                             if (x.get_AirportCode() == destiny && x.get_Longitude() == lon && x.get_Latitude() == lat) {
                                 flag = true;
                                 break;
@@ -568,7 +571,7 @@ void Initialize() {
                         targetLat = location.first;
                         targetLon = location.second;
 
-                        for (auto x: airports) {
+                        for (const auto& x: airports) {
                             if (x.get_AirportCode() == source && x.get_Longitude() == targetLon &&
                                 x.get_Latitude() == targetLat) {
                                 flag = true;
@@ -596,7 +599,7 @@ void Initialize() {
                         switch (input) {
                             case 'Y':
                                 airlinesToFilter.clear();
-                                airpotsToFilter.clear();
+                                airportsToFilter.clear();
                                 NumAirline = INT_MAX;
                                 position = 0;
                                 break;
@@ -672,7 +675,7 @@ void Initialize() {
                         switch (input) {
                             case 'Y':
                                 airlinesToFilter.clear();
-                                airpotsToFilter.clear();
+                                airportsToFilter.clear();
                                 NumAirline = INT_MAX;
                                 position = 0;
                                 break;
