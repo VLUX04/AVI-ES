@@ -514,15 +514,17 @@ set<vector<Flight>> bestFlightAirportToAirport(const string& source, const strin
         return validItinerariesFiltered;
     }
     else if (validItinerariesFiltered.size() == 1) {
-        cout << "There is " << validItinerariesFiltered.size() << " possible best itinerary:" << endl;
-    } else { cout << "There are " << validItinerariesFiltered.size() << " possible best itineraries:" << endl; }
+        cout << "There is " << validItinerariesFiltered.size() << " possible best itinerary from " << source << " to " << target << " :" << endl;
+    } else { cout << "There are " << validItinerariesFiltered.size() << " possible best itineraries from " << source << " to " << target << " :" << endl;}
     cout << endl;
-    cout << "Source -> Destiny | Airline" << endl;
+    cout << "|-------------------|---------|" << endl;
+    cout << "| Source -> Destiny | Airline |" << endl;
+    cout << "|-------------------|---------|" << endl;
     for(auto flights:validItinerariesFiltered){
-        cout << endl;
         for(auto itinerary:flights){
-            cout << "  " << itinerary.get_Source() << "       " << itinerary.get_Target() << "       " << itinerary.get_Airline() << endl;
+            cout << "|  " << itinerary.get_Source() << "   ->   " << itinerary.get_Target() << "   |   " << itinerary.get_Airline() << "   |" << endl;
         }
+        cout << "|-------------------|---------|" << endl;
 
     }
     return validItinerariesFiltered;
