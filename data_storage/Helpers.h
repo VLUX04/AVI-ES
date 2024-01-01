@@ -2,6 +2,12 @@
 #define PROJECT_AIR_HELPERS_H
 #include "Displays.h"
 
+/**
+ * @brief Generates a string by repeating the input character array a specified number of times.
+ * @param charr Input character array.
+ * @param repetition Number of times to repeat the input character array.
+ * @return The resulting string.
+ */
 string multString(const char *const charr, int repetition) {
     std::string result;
     for (int i = 0; i < repetition; i++) {
@@ -9,6 +15,12 @@ string multString(const char *const charr, int repetition) {
     }
     return result;
 }
+
+/**
+ * @brief Helper function to display a group of countries.
+ * @param start Starting index of the group.
+ * @param groupSize Number of elements in the group.
+ */
 void displayGroupCountriesHelper(int start, int groupSize) {
     vector<string> countries;
     for(const auto& a:Countries){countries.push_back(a.first);}
@@ -23,6 +35,13 @@ void displayGroupCountriesHelper(int start, int groupSize) {
         cout << "|------------------------------------------------------------|" << endl;
     }
 }
+
+/**
+ * @brief Helper function to display a group of airports.
+ * @param cityAirports Vector of airports to display.
+ * @param start Starting index of the group.
+ * @param groupSize Number of elements in the group.
+ */
 void displayGroupAirportsHelper(vector<Airport> cityAirports,int start, int groupSize) {
     cout << endl;
     cout << "|------------------------------------------------------------|" << endl;
@@ -35,6 +54,13 @@ void displayGroupAirportsHelper(vector<Airport> cityAirports,int start, int grou
         cout << "|------------------------------------------------------------|" << endl;
     }
 }
+
+/**
+ * @brief Helper function to display a group of cities in a country.
+ * @param country Name of the country.
+ * @param start Starting index of the group.
+ * @param groupSize Number of elements in the group.
+ */
 void displayGroupCitiesHelper(const string& country,int start ,int groupSize) {
     vector<string> cities;
     for(const auto& a:Countries){
@@ -54,6 +80,13 @@ void displayGroupCitiesHelper(const string& country,int start ,int groupSize) {
         cout << "|------------------------------------------------------------|" << endl;
     }
 }
+
+/**
+ * @brief Helper function to display a group of airlines in a country.
+ * @param airlinePerCountry Vector of airlines to display.
+ * @param start Starting index of the group.
+ * @param groupSize Number of elements in the group.
+ */
 void displayGroupAirlineHelper(vector<Airline> airlinePerCountry,int start ,int groupSize) {
     string linha = multString(" ",34 - airlinePerCountry[0].get_Country().size());
     cout << endl;
@@ -67,6 +100,13 @@ void displayGroupAirlineHelper(vector<Airline> airlinePerCountry,int start ,int 
         cout << "|------------------------------------------------------------|" << endl;
     }
 }
+
+/**
+ * @brief Helper function to display a group of essential airports.
+ * @param res Set of essential airports.
+ * @param start Starting index of the group.
+ * @param groupSize Number of elements in the group.
+ */
 void displayGroupArticulationsHelper(unordered_set<string> res, int start, int groupSize) {
     vector<string>essentialAirports;
     for(const auto& a:res){essentialAirports.push_back(a);}
@@ -106,6 +146,10 @@ void displayGroupAirportsHelper(int start, int groupSize) {
     }
 }
 
+/**
+ * @brief Helper function to select a country from the list.
+ * @return Selected country.
+ */
 string selectCountryHelper(){
     string country;
     int startCountry = 0;
@@ -147,6 +191,12 @@ string selectCountryHelper(){
     }
     return "qwert";
 }
+
+/**
+ * @brief Helper function to select a city from a country.
+ * @param country Name of the country.
+ * @return Selected city.
+ */
 string selectCityHelper(const string& country) {
     string city;
     int startCity = 0;
@@ -187,6 +237,13 @@ string selectCityHelper(const string& country) {
     }
     return "qwert";
 }
+
+/**
+ * @brief Helper function to select an airport from a city.
+ * @param country Name of the country.
+ * @param city Name of the city.
+ * @return Selected airport.
+ */
 string selectAirportHelper(const string& country, const string& city) {
     int startAirport = 0;
     int groupSize1 = 10;
@@ -237,6 +294,12 @@ string selectAirportHelper(const string& country, const string& city) {
     }
     return "qwert";
 }
+
+/**
+ * @brief Helper function to select an airline from a country.
+ * @param country Name of the country.
+ * @return Selected airline.
+ */
 string selectAirlineHelper(const string& country) {
     string airline;
     int start1 = 0;
@@ -391,6 +454,12 @@ string selectAirportsHelper() {
     }
     return "qwert";
 }
+
+/**
+ * @brief Helper function to output the number of essential airports and if wanted
+ *   display the essential airports list.
+ * @return string for user option selection.
+ */
 string essentialAirportsHelper(){
     string input;
     int start = 0;
@@ -432,6 +501,11 @@ string essentialAirportsHelper(){
     }
     return "qwert";
 }
+
+/**
+ * @brief Helper function to choose coordinates.
+ * @return Pair of latitude and longitude.
+ */
 pair<double,double> chooseCoordinates(){
     string lat;
     string lon;

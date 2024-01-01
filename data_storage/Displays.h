@@ -15,32 +15,49 @@
 #include "../Readers/AirportReader.h"
 #include "../Readers/FlightsReader.h"
 
-set<string> airlinesToFilter;
-int NumAirline =INT_MAX;
-set<string> airpotsToFilter;
+set<string> airlinesToFilter; ///< Set of airlines to filter during display operations.
+int NumAirline = INT_MAX; ///< Maximum number of airlines to consider during display operations.
+set<string> airpotsToFilter; ///< Set of airports to filter during display operations.
 
 
+/**
+ * @brief Returns the number of airports in the dataset.
+ * @return The number of airports.
+ */
 int numberAirports(){
     return airports.size();
 }
 
+/**
+ * @brief Returns the number of flights in the dataset.
+ * @return The number of flights.
+ */
 int numberFlights(){
     return flights.size();
 }
 
-void numberOut(string airport){
+/**
+ * @brief Displays the number of flights out of a specific airport and the number of airlines they are from.
+ * @param airport The code of the airport.
+ */
+void numberOut(const string& airport){
     cout << endl;
     cout << "The number of flights out of " << airport << " is " << connections.findVertex(airport)->getAdj().size();
     set<string> numAirlines;
-    for(auto in : connections.findVertex(airport)->getAdj()){
+    for(const auto& in : connections.findVertex(airport)->getAdj()){
         numAirlines.insert(in.getWeight());
     }
     cout << " and they are from " << numAirlines.size() << " different airlines." << endl;
 }
 
-int flightsPerCity(string city){
+/**
+ * @brief Returns the number of flights per city.
+ * @param city The name of the city.
+ * @return The total number of flights from airports in the specified city.
+ */
+int flightsPerCity(const string& city){
     int count = 0;
-    for(auto in : airports){
+    for(const auto& in : airports){
         if(in.get_City() == city){
             if(connections.findVertex(in.get_AirportCode()) != nullptr){
                 count += connections.findVertex(in.get_AirportCode())->getAdj().size();
@@ -50,12 +67,17 @@ int flightsPerCity(string city){
     return count;
 }
 
-int flightsPerAirline(string name){
+/**
+ * @brief Returns the number of flights of a specific airline.
+ * @param name The name or code of the airline.
+ * @return The total number of flights operated by the specified airline.
+ */
+int flightsPerAirline(const string& name){
     int count = 0;
-    for(auto in : airlines){
+    for(const auto& in : airlines){
         if(in.get_AirlineName() == name || in.get_AirlineCode() == name){
             for(auto in1 : connections.getVertexSet()){
-                for(auto in2 : in1->getAdj()){
+                for(const auto& in2 : in1->getAdj()){
                     if(in2.getWeight() == in.get_AirlineCode())count++;
                 }
             }
@@ -64,13 +86,19 @@ int flightsPerAirline(string name){
     return count;
 }
 
-int countriesPerCity(string country, string city){
+/**
+ * @brief Returns the number of reachable countries from a specific city.
+ * @param country The name of the city's country.
+ * @param city The name of the city.
+ * @return The number of unique countries that can be reached from airports in the specified city.
+ */
+int countriesPerCity(const string& country, const string& city){
     set<string> countries;
-    for(auto in : airports){
+    for(const auto& in : airports){
         if(in.get_City() == city && in.get_Country() == country){
             if(connections.findVertex(in.get_AirportCode()) != nullptr){
-                for(auto in1 : connections.findVertex(in.get_AirportCode())->getAdj()){
-                    for(auto in2 : airports){
+                for(const auto& in1 : connections.findVertex(in.get_AirportCode())->getAdj()){
+                    for(const auto& in2 : airports){
                         if(in2.get_AirportCode() == in1.getDest()->getInfo()){
                             countries.insert(in2.get_Country());
                         }
@@ -83,12 +111,17 @@ int countriesPerCity(string country, string city){
     return countries.size();
 }
 
-int countriesPerAirport(string code){
+/**
+ * @brief Returns the number of reachable countries from a specific airport.
+ * @param code The code of the airport.
+ * @return The number of unique countries that can be reached from the specified airport.
+ */
+int countriesPerAirport(const string& code){
     set<string> countries;
-    for(auto in : airports){
+    for(const auto& in : airports){
         if(in.get_AirportCode() == code && connections.findVertex(code) != nullptr){
-            for(auto in1 : connections.findVertex(code)->getAdj()){
-                for(auto in2 : airports){
+            for(const auto& in1 : connections.findVertex(code)->getAdj()){
+                for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
                         countries.insert(in2.get_Country());
                     }
@@ -99,12 +132,17 @@ int countriesPerAirport(string code){
     return countries.size();
 }
 
-int numAirportsDest(string airport){
+/**
+ * @brief Returns the number of reachable airports from a specific airport.
+ * @param airport The code or name of the airport.
+ * @return The number of unique airports that can be reached from the specified airport.
+ */
+int numAirportsDest(const string& airport){
     set<string> airportss;
-    for(auto in : airports){
+    for(const auto& in : airports){
         if(in.get_AirportCode() == airport && connections.findVertex(airport) != nullptr){
-            for(auto in1 : connections.findVertex(airport)->getAdj()){
-                for(auto in2 : airports){
+            for(const auto& in1 : connections.findVertex(airport)->getAdj()){
+                for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
                         airportss.insert(in2.get_AirportCode());
                     }
@@ -115,12 +153,18 @@ int numAirportsDest(string airport){
     return airportss.size();
 
 }
-int numCitiesDest(string airport){
+
+/**
+ * @brief Returns the number of reachable cities from a specific airport.
+ * @param airport The code or name of the airport.
+ * @return The number of unique cities that can be reached from the specified airport.
+ */
+int numCitiesDest(const string& airport){
     set<string> cities;
-    for(auto in : airports){
+    for(const auto& in : airports){
         if(in.get_AirportCode() == airport && connections.findVertex(airport) != nullptr){
-            for(auto in1 : connections.findVertex(airport)->getAdj()){
-                for(auto in2 : airports){
+            for(const auto& in1 : connections.findVertex(airport)->getAdj()){
+                for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
                         cities.insert(in2.get_City());
                     }
@@ -130,12 +174,18 @@ int numCitiesDest(string airport){
     }
     return cities.size();
 }
-int numCountriesDest(string airport){
+
+/**
+ * @brief Returns the number of reachable countries from a specific airport.
+ * @param airport The code or name of the airport.
+ * @return The number of unique countries that can be reached from the specified airport.
+ */
+int numCountriesDest(const string& airport){
     set<string> countries;
-    for(auto in : airports){
+    for(const auto& in : airports){
         if(in.get_AirportCode() == airport && connections.findVertex(airport) != nullptr){
-            for(auto in1 : connections.findVertex(airport)->getAdj()){
-                for(auto in2 : airports){
+            for(const auto& in1 : connections.findVertex(airport)->getAdj()){
+                for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
                         countries.insert(in2.get_Country());
                     }
@@ -146,11 +196,17 @@ int numCountriesDest(string airport){
     return countries.size();
 }
 
-int countriesPerAirportAtDistance(string airport,int k){
+/**
+ * @brief Returns the number of countries with destinations with a certain number of flight stops from a given airport.
+ * @param airport The code of the source airport.
+ * @param k The number of flight stops.
+ * @return The number of countries reachable from the source airport with the specified number of flight stops.
+ */
+int countriesPerAirportAtDistance(const string& airport,int k){
     set<string> countries;
     for(int i = 1; i <= k; i++){
-        for(auto in : connections.nodesAtDistanceBFS(airport,i)){
-            for(auto in1 : airports){
+        for(const auto& in : connections.nodesAtDistanceBFS(airport,i)){
+            for(const auto& in1 : airports){
                 if(in1.get_AirportCode() == in){
                     countries.insert(in1.get_Country());
                 }
@@ -160,11 +216,17 @@ int countriesPerAirportAtDistance(string airport,int k){
     return countries.size();
 }
 
-int numAirportsDestAtDistance(string airport,int k){
+/**
+ * @brief Returns the number of airports with destinations with a certain number of flight stops from a given airport.
+ * @param airport The code of the source airport.
+ * @param k The number of flight stops.
+ * @return The number of airports reachable from the source airport with the specified number of flight stops.
+ */
+int numAirportsDestAtDistance(const string& airport,int k){
     set<string> airportss;
     for(int i = 1; i <= k; i++){
-        for(auto in : connections.nodesAtDistanceBFS(airport,i)){
-            for(auto in1 : airports){
+        for(const auto& in : connections.nodesAtDistanceBFS(airport,i)){
+            for(const auto& in1 : airports){
                 if(in1.get_AirportCode() == in){
                     airportss.insert(in1.get_AirportCode());
                 }
@@ -174,11 +236,18 @@ int numAirportsDestAtDistance(string airport,int k){
     return airportss.size();
 
 }
-int numCitiesDestAtDistance(string airport,int k){
+
+/**
+ * @brief Returns the number of cities with destinations with a certain number of flight stops from a given airport.
+ * @param airport The code of the source airport.
+ * @param k The number of flight stops.
+ * @return The number of cities reachable from the source airport with the specified number of flight stops.
+ */
+int numCitiesDestAtDistance(const string& airport,int k){
     set<string> cities;
     for(int i = 1; i <= k; i++){
-        for(auto in : connections.nodesAtDistanceBFS(airport,i)){
-            for(auto in1 : airports){
+        for(const auto& in : connections.nodesAtDistanceBFS(airport,i)){
+            for(const auto& in1 : airports){
                 if(in1.get_AirportCode() == in){
                     cities.insert(in1.get_City());
                 }
@@ -188,12 +257,24 @@ int numCitiesDestAtDistance(string airport,int k){
     return cities.size();
 }
 
-bool airportCompareByFlights(Airport a, Airport b){
+/**
+ * @brief Compares two airports based on their air traffic capacity.
+ * @param a The first airport for comparison.
+ * @param b The second airport for comparison.
+ * @return True if the air traffic capacity of airport 'a' is greater than that of airport 'b',
+ *         or if the capacities are equal, compare based on airport codes; False otherwise.
+ */
+bool airportCompareByFlights(const Airport& a, const Airport& b){
     size_t adj1= connections.findVertex(a.get_AirportCode())->getAdj().size() + connections.findVertex(a.get_AirportCode())->getIndegree();
     size_t adj2= connections.findVertex(b.get_AirportCode())->getAdj().size() + connections.findVertex(b.get_AirportCode())->getIndegree();
     if(adj1!=adj2)return adj1> adj2;
     else{return a.get_AirportCode()>b.get_AirportCode();}
 }
+
+/**
+ * @brief Displays the top k airports with the greatest air traffic capacity.
+ * @param k The number of top airports to display.
+ */
 void greatestAirTrafficCapacity(int k){
     if(k<=airports.size()) {
         vector<Airport> airportss = airports;
@@ -208,6 +289,7 @@ void greatestAirTrafficCapacity(int k){
     }
     else{cout<<"Incorrect input (k is larger than number of airports)";}
 }
+
 void dfsConnected(Vertex<string> * v){
     v->setVisited(true);
     for(const auto& edge:v->getAdj()){
@@ -238,6 +320,15 @@ void checkIsolatedAirportGroups(){
         x->setVisited(false);
     }
 }
+
+/**
+ * @brief Performs depth-first search starting from a given vertex.
+ * @param v The starting vertex.
+ * @param path Vector to store the current path.
+ * @param maxPath Vector to store the maximum path.
+ * @param maxStops Reference to the maximum number of stops.
+ * @param trips Set to store pairs of source and destination of trips.
+ */
 void dfs(Vertex<string>* v, vector<string> &path, vector<string> &maxPath, int &maxStops,set<pair<string,string>> &trips){
     v->setVisited(true);
     path.push_back(v->getInfo());
@@ -246,6 +337,10 @@ void dfs(Vertex<string>* v, vector<string> &path, vector<string> &maxPath, int &
     }
 
 }
+
+/**
+ * @brief Finds and prints the maximum number of stops in trips between airports.
+ */
 void maxTrip(){
     int maxStops=0;
     set<pair<string,string>> trips;
@@ -273,13 +368,21 @@ void maxTrip(){
     }
 }
 
+/**
+ * @brief Performs depth-first search for finding articulation points in an undirected graph.
+ * @param q The graph.
+ * @param v The current vertex.
+ * @param s Stack to keep track of visited vertices.
+ * @param l Set to store articulation points.
+ * @param i Reference to an integer used for numbering vertices.
+ */
 void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<string> &l, int & i){
     v->setNum(i);
     v->setLow(i);
     i++;
     int children = 0;
     s.push(v->getInfo());
-    for(Edge<string> edge:v->getAdj()){
+    for(const Edge<string>& edge:v->getAdj()){
         if(edge.getDest()->getNum() == 0){
             children++;
             dfs_art(q,edge.getDest(),s,l,i);
@@ -295,6 +398,10 @@ void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<
         l.insert(v->getInfo());
 }
 
+/**
+ * @brief Finds articulation points in the graph and returns a set of those points.
+ * @return Set of articulation points.
+ */
 unordered_set<string> articulationAirports(){
     unordered_set<string> res;
     stack<string> s;
@@ -309,6 +416,12 @@ unordered_set<string> articulationAirports(){
     return res;
 }
 
+/**
+ * @brief Finds the best flights (least stops) between two airports and returns a set of valid itineraries.
+ * @param source The source airport code or name.
+ * @param target The target airport code or name.
+ * @return Set of valid itineraries.
+ */
 set<vector<Flight>> bestFlightAirportToAirport(const string& source, const string& target) {
     Vertex<string>* v1;
     Vertex<string>* v2;
@@ -410,14 +523,28 @@ set<vector<Flight>> bestFlightAirportToAirport(const string& source, const strin
         for(auto itinerary:flights){
             cout << "  " << itinerary.get_Source() << "       " << itinerary.get_Target() << "       " << itinerary.get_Airline() << endl;
         }
+
     }
     return validItinerariesFiltered;
 }
 
+/**
+ * @brief Converts degrees to radians.
+ * @param degree The angle in degrees.
+ * @return The angle in radians.
+ */
 double toRadians(double degree) {
     return degree * (M_PI / 180.0);
 }
 
+/**
+ * @brief Calculates the Haversine distance between two sets of coordinates.
+ * @param lat1 Latitude of the first location.
+ * @param lon1 Longitude of the first location.
+ * @param lat2 Latitude of the second location.
+ * @param lon2 Longitude of the second location.
+ * @return The Haversine distance between the two locations.
+ */
 double haversine(double lat1, double lon1, double lat2, double lon2) {
     lat1 = toRadians(lat1);
     lon1 = toRadians(lon1);
@@ -437,14 +564,22 @@ double haversine(double lat1, double lon1, double lat2, double lon2) {
     return distance;
 }
 
+/**
+ * @brief Finds the best flights between two locations and returns a set of valid itineraries.
+ * @param lon Longitude of the source location.
+ * @param lat Latitude of the source location.
+ * @param targetLon Longitude of the target location.
+ * @param targetLat Latitude of the target location.
+ * @return Set of valid itineraries.
+ */
 vector<set<vector<Flight>>> coordsBestFlight( double lon, double lat, double targetLon,double targetLat){
     double min = INT_MAX;
     vector<Airport> sourcePossible;
-    for(auto in :airports){
+    for(const auto& in :airports){
         double temp = haversine(in.get_Latitude(),in.get_Longitude(),lon,lat);
         if(temp < min)min = temp;
     }
-    for(auto in :airports){
+    for(const auto& in :airports){
         double temp = haversine(in.get_Latitude(),in.get_Longitude(),lon,lat);
         if(temp == min)sourcePossible.push_back(in);
     }
@@ -467,6 +602,11 @@ vector<set<vector<Flight>>> coordsBestFlight( double lon, double lat, double tar
     return allPaths;
 }
 
+/**
+ * @brief Finds airports in a given city.
+ * @param city The name of the city.
+ * @return Vector of the airports in the city.
+ */
 vector<Airport> findAirportsInCity(const string& city) {
     vector<Airport> cityAirports;
     for(const auto& a: airports) {
@@ -476,6 +616,11 @@ vector<Airport> findAirportsInCity(const string& city) {
     return cityAirports;
 }
 
+/**
+ * @brief Finds the best flights between two cities.
+ * @param sourceCity The name of the source city.
+ * @param targetCity The name of the target city.
+ */
 void bestFlightCityToCity(const string& sourceCity, const string& targetCity) {
     vector<Airport> sourceAirports = findAirportsInCity(sourceCity);
     vector<Airport> targetAirports = findAirportsInCity(targetCity);
@@ -488,6 +633,12 @@ void bestFlightCityToCity(const string& sourceCity, const string& targetCity) {
         }
     }
 }
+
+/**
+ * @brief Finds the best flights from an airport to a city.
+ * @param sourceAirport The code or name of the source airport.
+ * @param targetCity The name of the target city.
+ */
 void bestFlightAirportToCity(const string& sourceAirport, const string& targetCity) {
     string source;
     vector<Airport> targetAirports = findAirportsInCity(targetCity);
@@ -502,10 +653,16 @@ void bestFlightAirportToCity(const string& sourceAirport, const string& targetCi
         allPaths.emplace_back(bestFlightAirportToAirport(source,in1.get_AirportCode()));
     }
 }
+
+/**
+ * @brief Finds the best flights from a city to an airport.
+ * @param sourceCity The name of the source city.
+ * @param targetAirport The code or name of the target airport.
+ */
 void bestFlightCityToAirport(const string& sourceCity, const string& targetAirport) {
     string target;
     vector<Airport> sourceAirports = findAirportsInCity(sourceCity);
-    for(auto x:airports){
+    for(const auto& x:airports){
         if(x.get_AirportCode() == targetAirport || x.get_AirportName() == targetAirport){
             target = x.get_AirportCode();
             break;
@@ -517,6 +674,12 @@ void bestFlightCityToAirport(const string& sourceCity, const string& targetAirpo
     }
 }
 
+/**
+ * @brief Finds the best flights from a city to a location.
+ * @param sourceCity The name of the source city.
+ * @param lon Longitude of the target location.
+ * @param lat Latitude of the target location.
+ */
 void bestFlightCityToLocation(const string& sourceCity,double lon, double lat) {
     vector<Airport> sourceAirports = findAirportsInCity(sourceCity);
     vector<vector<set<vector<Flight>>>> allPaths;
@@ -524,6 +687,13 @@ void bestFlightCityToLocation(const string& sourceCity,double lon, double lat) {
         allPaths.emplace_back(coordsBestFlight(in1.get_Latitude(),in1.get_Longitude(),lat,lon));
     }
 }
+
+/**
+ * @brief Finds the best flights from a location to a city.
+ * @param lon Longitude of the source location.
+ * @param lat Latitude of the source location.
+ * @param targetCity The name of the target city.
+ */
 void bestFlightLocationToCity(double lon, double lat,const string& targetCity){
     vector<Airport> targetAirports = findAirportsInCity(targetCity);
     vector<vector<set<vector<Flight>>>> allPaths;
@@ -531,23 +701,52 @@ void bestFlightLocationToCity(double lon, double lat,const string& targetCity){
         allPaths.emplace_back(coordsBestFlight(lat,lon,in1.get_Latitude(),in1.get_Longitude()));
     }
 }
+
+/**
+ * @brief Finds the best flights from a location to an airport.
+ * @param targetLat Latitude of the target location.
+ * @param targetLon Longitude of the target location.
+ * @param lon Longitude of the source location.
+ * @param lat Latitude of the source location.
+ */
 void bestFlightLocationToAirport(double targetLat,double targetLon,double lon, double lat){
     vector<vector<set<vector<Flight>>>> allPaths;
     allPaths.emplace_back(coordsBestFlight(lat,lon,targetLat,targetLon));
 }
+
+/**
+ * @brief Finds the best flights from an airport to a location.
+ * @param lon Longitude of the source location.
+ * @param lat Latitude of the source location.
+ * @param targetLon Longitude of the target location.
+ * @param targetLat Latitude of the target location.
+ */
 void bestFlightAirportToLocation(double lon, double lat,double targetLon,double targetLat){
     vector<vector<set<vector<Flight>>>> allPaths;
     allPaths.emplace_back(coordsBestFlight(lat,lon,targetLat,targetLon));
 
 }
+
+/**
+ * @brief Filters the number of allowed airlines in the output.
+ * @param k The maximum number of different airlines in the output.
+ */
 void filterNumAirline(int k){
     NumAirline = k;
 }
 
+/**
+ * @brief Filters the set of airlines for the output.
+ * @param airlinesToFilter_ Set of airlines to include in the output.
+ */
 void filterAirlines(set<string> airlinesToFilter_){
     airlinesToFilter = airlinesToFilter_;
 }
 
+/**
+ * @brief Filters the set of airports for the output.
+ * @param airpotsToFilter_ Set of airports to include in the output.
+ */
 void filterAirpots(set<string> airpotsToFilter_){
     airpotsToFilter = airpotsToFilter_;
 }
