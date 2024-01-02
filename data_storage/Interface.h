@@ -16,6 +16,7 @@ void Initialize() {
     AirlineReader();
     AirportReader();
     FlightsReader();
+    char returnChar;
     char input;
     int k;
     int stops;
@@ -111,6 +112,9 @@ void Initialize() {
                         cout << "The global number of airports is " << numberAirports() << endl;
                         cout << "The global number of flights is " << numberFlights() << endl;
                         checkIsolatedAirportGroups();
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case '2':
                         country = selectCountryHelper();
@@ -121,6 +125,9 @@ void Initialize() {
                         if (airport == "r") break;
                         cout << endl;
                         numberOut(airport);
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case '3':
                         cout << endl;
@@ -154,6 +161,9 @@ void Initialize() {
                                     cout << endl << "There are " << flightsPerCity(city) << " flights from " << city
                                          << endl;
                                 }
+                                cout << endl;
+                                cout << "Enter any key to return:" << endl;
+                                cin >> returnChar;
                                 break;
                             case '2':
                                 country = selectCountryHelper();
@@ -168,6 +178,9 @@ void Initialize() {
                                     cout << endl << "There are " << flightsPerAirline(airline)
                                          << " flights from the airline " << airline << endl;
                                 }
+                                cout << endl;
+                                cout << "Enter any key to return:" << endl;
+                                cin >> returnChar;
                                 break;
                             case 'B':
                                 position = 1;
@@ -213,6 +226,9 @@ void Initialize() {
                                     cout << endl << "There are " << countriesPerAirport(airport)
                                          << " reachable countries from the airport " << airport << endl;
                                 }
+                                cout << endl;
+                                cout << "Enter any key to return:" << endl;
+                                cin >> returnChar;
                                 break;
                             case '2':
                                 country = selectCountryHelper();
@@ -227,6 +243,9 @@ void Initialize() {
                                     cout << endl << "There are " << countriesPerCity(country, city)
                                          << " reachable countries from the city " << city << endl;
                                 }
+                                cout << endl;
+                                cout << "Enter any key to return:" << endl;
+                                cin >> returnChar;
                                 break;
                             case 'B':
                                 position = 1;
@@ -267,6 +286,9 @@ void Initialize() {
                             cout << "There are " << numCountriesDest(airport)
                                  << " different countries as destination from the airport " << airport << endl;
                         }
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case '6':
                         cout << endl;
@@ -314,6 +336,9 @@ void Initialize() {
                                      << " reachable countries from the airport " << airport << " with " << stops
                                      << " stops." << endl;
                             }
+                            cout << endl;
+                            cout << "Enter any key to return:" << endl;
+                            cin >> returnChar;
                         }
                         break;
                     case '7':
@@ -331,11 +356,17 @@ void Initialize() {
                             cout << "ERROR: Invalid input. Please enter a valid integer." << endl;
                             position = 1;
                             break;
-                        } else { greatestAirTrafficCapacity(k); }
+                        } else { greatestAirTrafficCapacity(k);
+                            cout << endl;
+                            cout << "Enter any key to return:" << endl;
+                            cin >> returnChar;}
                         break;
                     case '9':
                         cout << endl;
                         essentialAirportsHelper();
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case 'B':
                         position = 0;
@@ -399,6 +430,9 @@ void Initialize() {
                         }
                         cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
                         bestFlightAirportToAirport(source, destiny);
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case '2':
                         country = selectCountryHelper();
@@ -418,6 +452,9 @@ void Initialize() {
                         }
                         cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
                         bestFlightCityToCity(source, destiny);
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case '3':
                         cout << endl;
@@ -440,6 +477,9 @@ void Initialize() {
                         targetLon = location.second;
                         cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
                         coordsBestFlight(lat, lon, targetLat, targetLon);
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case '4':
                         country = selectCountryHelper();
@@ -461,6 +501,9 @@ void Initialize() {
                         }
                         cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
                         bestFlightAirportToCity(source, destiny);
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case '5':
                         country = selectCountryHelper();
@@ -482,6 +525,9 @@ void Initialize() {
                         }
                         cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
                         bestFlightCityToAirport(source, destiny);
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case '6':
                         country = selectCountryHelper();
@@ -519,6 +565,9 @@ void Initialize() {
 
                         cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
                         bestFlightLocationToCity(lon, lat, destiny);
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case '8':
                         cout << endl;
@@ -597,6 +646,9 @@ void Initialize() {
                         }
                         cout << endl << "Wait a moment. We are calculating the best flight options..." << endl;
                         bestFlightAirportToLocation(lon, lat, targetLon, targetLat);
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case 'B':
                         cout << endl << "All the previous filters will be discarded, are you sure you want to go back?";
@@ -608,6 +660,9 @@ void Initialize() {
                                 airportsToFilter.clear();
                                 NumAirline = INT_MAX;
                                 position = 0;
+                                cout << endl;
+                                cout << "Enter any key to return:" << endl;
+                                cin >> returnChar;
                                 break;
                             case 'N':
                                 break;
@@ -651,6 +706,9 @@ void Initialize() {
                     case '1':
                         cout << endl;
                         selectAirlinesHelper();
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case '2':
                         cout << endl;
@@ -665,11 +723,17 @@ void Initialize() {
                             break;
                         } else {
                             filterNumAirline(airlineNumber);
+                            cout << endl;
+                            cout << "Enter any key to return:" << endl;
+                            cin >> returnChar;
                             break;
                         }
                     case '3':
                         cout << endl;
                         selectAirportsHelper();
+                        cout << endl;
+                        cout << "Enter any key to return:" << endl;
+                        cin >> returnChar;
                         break;
                     case 'F':
                         position = 2;
@@ -684,6 +748,9 @@ void Initialize() {
                                 airportsToFilter.clear();
                                 NumAirline = INT_MAX;
                                 position = 0;
+                                cout << endl;
+                                cout << "Enter any key to return:" << endl;
+                                cin >> returnChar;
                                 break;
                             case 'N':
                                 break;

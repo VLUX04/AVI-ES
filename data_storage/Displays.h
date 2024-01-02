@@ -64,7 +64,7 @@ void numberOut(const string& airport){
 
 /**
  * @brief Returns the number of flights per city.
- * Complexity: O(V).
+ * Complexity: O(V^2).
  * @param city The name of the city.
  * @return The total number of flights from airports in the specified city.
  */
@@ -129,14 +129,14 @@ int countriesPerCity(const string& country, const string& city){
 /**
  * @brief Returns the number of reachable countries from a specific airport.
  * Complexity: O(V^3 * log C).
- * @param code The code of the airport.
+ * @param code The code or name of the airport.
  * @return The number of unique countries that can be reached from the specified airport.
  */
 int countriesPerAirport(const string& code){
     set<string> countries;
     for(const auto& in : airports){
-        if(in.get_AirportCode() == code && connections.findVertex(code) != nullptr){
-            for(const auto& in1 : connections.findVertex(code)->getAdj()){
+        if((in.get_AirportCode() == code || in.get_AirportName() == code) && connections.findVertex(in.get_AirportCode()) != nullptr){
+            for(const auto& in1 : connections.findVertex(in.get_AirportCode())->getAdj()){
                 for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
                         countries.insert(in2.get_Country());
@@ -157,8 +157,8 @@ int countriesPerAirport(const string& code){
 int numAirportsDest(const string& airport){
     set<string> airportss;
     for(const auto& in : airports){
-        if((in.get_AirportCode() == airport || in.get_AirportName() == airport) && connections.findVertex(airport) != nullptr){
-            for(const auto& in1 : connections.findVertex(airport)->getAdj()){
+        if((in.get_AirportCode() == airport || in.get_AirportName() == airport) && connections.findVertex(in.get_AirportCode()) != nullptr){
+            for(const auto& in1 : connections.findVertex(in.get_AirportCode())->getAdj()){
                 for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
                         airportss.insert(in2.get_AirportCode());
@@ -180,8 +180,8 @@ int numAirportsDest(const string& airport){
 int numCitiesDest(const string& airport){
     set<string> cities;
     for(const auto& in : airports){
-        if((in.get_AirportCode() == airport  || in.get_AirportName() == airport) && connections.findVertex(airport) != nullptr){
-            for(const auto& in1 : connections.findVertex(airport)->getAdj()){
+        if((in.get_AirportCode() == airport  || in.get_AirportName() == airport) && connections.findVertex(in.get_AirportCode()) != nullptr){
+            for(const auto& in1 : connections.findVertex(in.get_AirportCode())->getAdj()){
                 for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
                         cities.insert(in2.get_City());
@@ -202,8 +202,8 @@ int numCitiesDest(const string& airport){
 int numCountriesDest(const string& airport){
     set<string> countries;
     for(const auto& in : airports){
-        if((in.get_AirportCode() == airport || in.get_AirportName() == airport) && connections.findVertex(airport) != nullptr){
-            for(const auto& in1 : connections.findVertex(airport)->getAdj()){
+        if((in.get_AirportCode() == airport || in.get_AirportName() == airport) && connections.findVertex(in.get_AirportCode()) != nullptr){
+            for(const auto& in1 : connections.findVertex(in.get_AirportCode())->getAdj()){
                 for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
                         countries.insert(in2.get_Country());
@@ -217,15 +217,21 @@ int numCountriesDest(const string& airport){
 
 /**
  * @brief Returns the number of countries with destinations with a certain number of flight stops from a given airport.
- * Complexity: O((V + E) * V * log C).
+ * Complexity: O(V + (V + E) * V * log C).
  * @param airport The code of the source airport.
  * @param k The number of flight stops.
  * @return The number of countries reachable from the source airport with the specified number of flight stops.
  */
 int countriesPerAirportAtDistance(const string& airport,int k){
     set<string> countries;
+    string code;
+    for(const auto& in : airports){
+        if(in.get_AirportCode() == airport || in.get_AirportName() == airport){
+            code = in.get_AirportCode();
+        }
+    }
     for(int i = 1; i <= k; i++){
-        for(const auto& in : connections.nodesAtDistanceBFS(airport,i)){
+        for(const auto& in : connections.nodesAtDistanceBFS(code,i)){
             for(const auto& in1 : airports){
                 if(in1.get_AirportCode() == in){
                     countries.insert(in1.get_Country());
@@ -238,15 +244,21 @@ int countriesPerAirportAtDistance(const string& airport,int k){
 
 /**
  * @brief Returns the number of airports with destinations with a certain number of flight stops from a given airport.
- * Complexity: O((V + E) * V * log C).
- * @param airport The code of the source airport.
+ * Complexity: O(V + (V + E) * V * log C).
+ * @param airport The code or name of the source airport.
  * @param k The number of flight stops.
  * @return The number of airports reachable from the source airport with the specified number of flight stops.
  */
 int numAirportsDestAtDistance(const string& airport,int k){
     set<string> airportss;
+    string code;
+    for(const auto& in : airports){
+        if(in.get_AirportCode() == airport || in.get_AirportName() == airport){
+            code = in.get_AirportCode();
+        }
+    }
     for(int i = 1; i <= k; i++){
-        for(const auto& in : connections.nodesAtDistanceBFS(airport,i)){
+        for(const auto& in : connections.nodesAtDistanceBFS(code,i)){
             for(const auto& in1 : airports){
                 if(in1.get_AirportCode() == in){
                     airportss.insert(in1.get_AirportCode());
@@ -260,15 +272,21 @@ int numAirportsDestAtDistance(const string& airport,int k){
 
 /**
  * @brief Returns the number of cities with destinations with a certain number of flight stops from a given airport.
- * Complexity: O((V + E) * V * log C).
+ * Complexity: O(V + (V + E) * V * log C).
  * @param airport The code of the source airport.
  * @param k The number of flight stops.
  * @return The number of cities reachable from the source airport with the specified number of flight stops.
  */
 int numCitiesDestAtDistance(const string& airport,int k){
     set<string> cities;
+    string code;
+    for(const auto& in : airports){
+        if(in.get_AirportCode() == airport || in.get_AirportName() == airport){
+            code = in.get_AirportCode();
+        }
+    }
     for(int i = 1; i <= k; i++){
-        for(const auto& in : connections.nodesAtDistanceBFS(airport,i)){
+        for(const auto& in : connections.nodesAtDistanceBFS(code,i)){
             for(const auto& in1 : airports){
                 if(in1.get_AirportCode() == in){
                     cities.insert(in1.get_City());
@@ -288,10 +306,18 @@ int numCitiesDestAtDistance(const string& airport,int k){
  *         or if the capacities are equal, compare based on airport codes; False otherwise.
  */
 bool airportCompareByFlights(const Airport& a, const Airport& b){
-    size_t adj1= connections.findVertex(a.get_AirportCode())->getAdj().size() + connections.findVertex(a.get_AirportCode())->getIndegree();
-    size_t adj2= connections.findVertex(b.get_AirportCode())->getAdj().size() + connections.findVertex(b.get_AirportCode())->getIndegree();
-    if(adj1!=adj2)return adj1> adj2;
-    else{return a.get_AirportCode()>b.get_AirportCode();}
+    Vertex<string>* vertexA = connections.findVertex(a.get_AirportCode());
+    Vertex<string>* vertexB = connections.findVertex(b.get_AirportCode());
+    if (!vertexA || !vertexB) {
+        return vertexA != nullptr;
+    }
+    size_t adj1 = vertexA->getAdj().size() + vertexA->getIndegree();
+    size_t adj2 = vertexB->getAdj().size() + vertexB->getIndegree();
+    if (adj1 != adj2) {
+        return adj1 > adj2;
+    } else {
+        return a.get_AirportCode() > b.get_AirportCode();
+    }
 }
 
 /**
@@ -302,9 +328,7 @@ bool airportCompareByFlights(const Airport& a, const Airport& b){
 void greatestAirTrafficCapacity(int k){
     if(k<=airports.size()) {
         vector<Airport> airportss = airports;
-        sort(airportss.begin(), airportss.end(), [](const Airport &a, const Airport &b) {
-            return airportCompareByFlights(a, b);
-        });
+        sort(airportss.begin(), airportss.end(), [](const Airport &a, const Airport &b) {return airportCompareByFlights(a, b);});
         cout << "The top " << k << " airports with the greatest air traffic capacity are:" << endl;
         cout << "  Airport Code   Air traffic capacity" << endl;
         for (int i = 0; i < k; i++) {

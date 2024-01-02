@@ -547,8 +547,8 @@ pair<double,double> chooseCoordinates(){
         }
         try{
             res.first = stod(lat);
-            if (cin.fail() || res.first < -90.0 || res.first > 90.0) {
-                throw invalid_argument("Invalid input. Please enter a valid latitude value (between -90.0 and +90.0).");
+            if (cin.fail() || res.first < -180.0 || res.first > 180.0) {
+                throw invalid_argument("Invalid input. Please enter a valid latitude value (between -180.0 and +180.0).");
             }
             break;
         }

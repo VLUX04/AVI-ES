@@ -43,7 +43,7 @@ void FlightsReader() {
         string airline = file_text;
 
         flights.insert(Flight(source,target,airline));
-        if(source != "" && target != ""){
+        if(!source.empty() && !target.empty()){
             connections.addVertex(source);
             connections.addVertex(target);
             connections.findVertex(target)->setIndegree(connections.findVertex(target)->getIndegree()+1);
