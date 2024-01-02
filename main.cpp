@@ -2,10 +2,10 @@
 #include "data_storage/Interface.h"
 
 int main() {
-    //Initialize();
-    AirlineReader();
-    AirportReader();
-    FlightsReader();
+    Initialize();
+    //AirlineReader();
+    //AirportReader();
+    //FlightsReader();
     //numberOut("MAG");
     //flightsPerCity("Paris");
     //cout << flightsPerAirline("DTA");

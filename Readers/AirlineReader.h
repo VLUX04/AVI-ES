@@ -29,9 +29,9 @@ vector<Airline> airlines; ///< Vector that stores all the airline objects from t
  * @brief Reads airline data from a CSV file and populates a vector of Airline objects.
  */
 void AirlineReader() {
-    string FILENAME = "dataset/airlines.csv"; ///< File path for the airline CSV file.
-    ifstream file; ///< Input file stream.
-    string file_text; ///< Variable to store each line of the file.
+    string FILENAME = "dataset/airlines.csv";
+    ifstream file;
+    string file_text;
 
     file.open(FILENAME);
 
@@ -39,16 +39,16 @@ void AirlineReader() {
 
     while(!file.eof()) {
         getline(file, file_text, ',');
-        string airlineCode = file_text; ///< Airline code.
+        string airlineCode = file_text;
 
         getline(file, file_text, ',');
-        string airlineName = file_text; ///< Airline name.
+        string airlineName = file_text;
 
         getline(file, file_text, ',');
-        string callSign = file_text; ///< Airline call sign.
+        string callSign = file_text;
 
         getline(file, file_text);
-        string country = file_text; ///< Country where the airline is based.
+        string country = file_text;
 
         airlines.emplace_back(airlineCode, airlineName, callSign, country);
     }

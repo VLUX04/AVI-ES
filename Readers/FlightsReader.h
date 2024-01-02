@@ -17,7 +17,6 @@ using namespace std;
 
 set<Flight> flights; ///< Set that contains all the flights.
 map<pair<string,string>,set<string>> AirToAirAirline; ///< Map that contains source and destination of the flights and its respective airline.
-
 Graph<string> connections; ///< Graph that contains the connections between airports.
 Graph<string> undirectedConnections; ///< Undirected graph of the connections between airports.
 
@@ -25,9 +24,9 @@ Graph<string> undirectedConnections; ///< Undirected graph of the connections be
  * @brief Reads flight data from a CSV file, populates a set of Flight objects, and updates a graph of airport connections and its undirected graph.
  */
 void FlightsReader() {
-    string FILENAME = "dataset/flights.csv"; ///< File path for the flight data CSV file.
-    ifstream file; ///< Input file stream.
-    string file_text; ///< Variable to store each line of the file.
+    string FILENAME = "dataset/flights.csv";
+    ifstream file;
+    string file_text;
 
     file.open(FILENAME);
 
@@ -35,13 +34,13 @@ void FlightsReader() {
 
     while(!file.eof()) {
         getline(file, file_text, ',');
-        string source = file_text; ///< Source airport code.
+        string source = file_text;
 
         getline(file, file_text, ',');
-        string target = file_text; ///< Target airport code.
+        string target = file_text;
 
         getline(file, file_text);
-        string airline = file_text; ///< Airline code.
+        string airline = file_text;
 
         flights.insert(Flight(source,target,airline));
         if(source != "" && target != ""){

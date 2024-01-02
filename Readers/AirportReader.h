@@ -12,6 +12,7 @@
 #include "../Classes/Airport.h"
 
 using namespace std;
+
 map<string,set<string>> Countries; ///< Map that contains the cities of every country.
 set<string> Cities; ///< Set that contains all the cities.
 vector<Airport> airports; ///< Vector that stores all the airport objects from the CSV file.
@@ -20,9 +21,9 @@ vector<Airport> airports; ///< Vector that stores all the airport objects from t
  * @brief Reads airport data from a CSV file and populates a vector of Airport objects.
  */
 void AirportReader() {
-    string FILENAME = "dataset/airports.csv"; ///< File path for the airport data CSV file.
-    ifstream file; ///< Input file stream.
-    string file_text; ///< Variable to store each line of the file.
+    string FILENAME = "dataset/airports.csv";
+    ifstream file;
+    string file_text;
 
     file.open(FILENAME);
 
@@ -30,24 +31,25 @@ void AirportReader() {
 
     while(!file.eof()) {
         getline(file, file_text, ',');
-        string airportCode = file_text; ///< Airport code.
+        string airportCode = file_text;
 
         getline(file, file_text, ',');
-        string airportName = file_text; ///< Airport name.
+        string airportName = file_text;
 
         getline(file, file_text, ',');
-        string city = file_text; ///< City where the airport is located.
+        string city = file_text;
 
         getline(file, file_text, ',');
-        string country = file_text; ///< Country where the airport is located.
+        string country = file_text;
 
         getline(file, file_text, ',');
         string helper = file_text;
-        double latitude = atof(helper.c_str()); ///< Latitude of the airport's location.
+        double latitude = atof(helper.c_str());
 
         getline(file, file_text);
         helper = file_text;
-        double longitude = atof(helper.c_str()); ///< Longitude of the airport's location.
+        double longitude = atof(helper.c_str());
+
         if(!country.empty()) Countries[country].insert(city);
         Cities.insert(city);
         airports.emplace_back(airportCode, airportName, city, country, latitude, longitude);
