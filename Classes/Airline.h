@@ -38,12 +38,6 @@ public:
     string get_AirlineName() const;
 
     /**
-     * @brief Getter function for the call sign of the airline.
-     * @return The call sign.
-     */
-    string get_CallSign() const;
-
-    /**
      * @brief Getter function for the country where the airline is based.
      * @return The country.
      */

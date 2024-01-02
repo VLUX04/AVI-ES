@@ -10,14 +10,14 @@
 
 using namespace std;
 
-set<Flight> flights;
-map<pair<string,string>,set<string>> AirToAirAirline;
+set<Flight> flights; ///< Set that contains all the flights.
+map<pair<string,string>,set<string>> AirToAirAirline; ///< Map that contains source and destination of the flights and its respective airline.
 
 Graph<string> connections; ///< Graph that contains the connections between airports.
 Graph<string> undirectedConnections; ///< Undirected graph of the connections between airports.
 
 /**
- * @brief Reads flight data from a CSV file, populates a vector of Flight objects, and updates a graph of airport connections.
+ * @brief Reads flight data from a CSV file, populates a set of Flight objects, and updates a graph of airport connections and its undirected graph.
  */
 void FlightsReader() {
     string FILENAME = "dataset/flights.csv"; ///< File path for the flight data CSV file.

@@ -7,8 +7,8 @@
 #include "../Classes/Airport.h"
 
 using namespace std;
-map<string,set<string>> Countries;
-set<string> Cities;
+map<string,set<string>> Countries; ///< Map that contains the cities of every country.
+set<string> Cities; ///< Set that contains all the cities.
 vector<Airport> airports; ///< Vector that stores all the airport objects from the CSV file.
 
 /**

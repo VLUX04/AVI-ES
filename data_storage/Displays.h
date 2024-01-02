@@ -37,7 +37,8 @@ int numberFlights(){
 }
 
 /**
- * @brief Displays the number of flights out of a specific airport and the number of airlines they are from.
+ * @brief Displays the number of flights out of a specific airport and the number of different airlines they are from.
+ * Complexity: O(V + N * log N).
  * @param airport The code of the airport.
  */
 void numberOut(const string& airport){
@@ -52,6 +53,7 @@ void numberOut(const string& airport){
 
 /**
  * @brief Returns the number of flights per city.
+ * Complexity: O(V).
  * @param city The name of the city.
  * @return The total number of flights from airports in the specified city.
  */
@@ -69,6 +71,7 @@ int flightsPerCity(const string& city){
 
 /**
  * @brief Returns the number of flights of a specific airline.
+ * Complexity: O(N * V * E).
  * @param name The name or code of the airline.
  * @return The total number of flights operated by the specified airline.
  */
@@ -88,6 +91,7 @@ int flightsPerAirline(const string& name){
 
 /**
  * @brief Returns the number of reachable countries from a specific city.
+ * Complexity: O(V^3 * N * log C).
  * @param country The name of the city's country.
  * @param city The name of the city.
  * @return The number of unique countries that can be reached from airports in the specified city.
@@ -113,6 +117,7 @@ int countriesPerCity(const string& country, const string& city){
 
 /**
  * @brief Returns the number of reachable countries from a specific airport.
+ * Complexity: O(V^3 * log C).
  * @param code The code of the airport.
  * @return The number of unique countries that can be reached from the specified airport.
  */
@@ -134,13 +139,14 @@ int countriesPerAirport(const string& code){
 
 /**
  * @brief Returns the number of reachable airports from a specific airport.
+ * Complexity: O(V^3 * log C).
  * @param airport The code or name of the airport.
  * @return The number of unique airports that can be reached from the specified airport.
  */
 int numAirportsDest(const string& airport){
     set<string> airportss;
     for(const auto& in : airports){
-        if(in.get_AirportCode() == airport && connections.findVertex(airport) != nullptr){
+        if((in.get_AirportCode() == airport || in.get_AirportName() == airport) && connections.findVertex(airport) != nullptr){
             for(const auto& in1 : connections.findVertex(airport)->getAdj()){
                 for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
@@ -156,13 +162,14 @@ int numAirportsDest(const string& airport){
 
 /**
  * @brief Returns the number of reachable cities from a specific airport.
+ * Complexity: O(V^3 * log C).
  * @param airport The code or name of the airport.
  * @return The number of unique cities that can be reached from the specified airport.
  */
 int numCitiesDest(const string& airport){
     set<string> cities;
     for(const auto& in : airports){
-        if(in.get_AirportCode() == airport && connections.findVertex(airport) != nullptr){
+        if((in.get_AirportCode() == airport  || in.get_AirportName() == airport) && connections.findVertex(airport) != nullptr){
             for(const auto& in1 : connections.findVertex(airport)->getAdj()){
                 for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
@@ -177,13 +184,14 @@ int numCitiesDest(const string& airport){
 
 /**
  * @brief Returns the number of reachable countries from a specific airport.
+ * Complexity: O(V^3 * log C).
  * @param airport The code or name of the airport.
  * @return The number of unique countries that can be reached from the specified airport.
  */
 int numCountriesDest(const string& airport){
     set<string> countries;
     for(const auto& in : airports){
-        if(in.get_AirportCode() == airport && connections.findVertex(airport) != nullptr){
+        if((in.get_AirportCode() == airport || in.get_AirportName() == airport) && connections.findVertex(airport) != nullptr){
             for(const auto& in1 : connections.findVertex(airport)->getAdj()){
                 for(const auto& in2 : airports){
                     if(in2.get_AirportCode() == in1.getDest()->getInfo()){
@@ -198,6 +206,7 @@ int numCountriesDest(const string& airport){
 
 /**
  * @brief Returns the number of countries with destinations with a certain number of flight stops from a given airport.
+ * Complexity: O((V + E) * V * log C).
  * @param airport The code of the source airport.
  * @param k The number of flight stops.
  * @return The number of countries reachable from the source airport with the specified number of flight stops.
@@ -218,6 +227,7 @@ int countriesPerAirportAtDistance(const string& airport,int k){
 
 /**
  * @brief Returns the number of airports with destinations with a certain number of flight stops from a given airport.
+ * Complexity: O((V + E) * V * log C).
  * @param airport The code of the source airport.
  * @param k The number of flight stops.
  * @return The number of airports reachable from the source airport with the specified number of flight stops.
@@ -239,6 +249,7 @@ int numAirportsDestAtDistance(const string& airport,int k){
 
 /**
  * @brief Returns the number of cities with destinations with a certain number of flight stops from a given airport.
+ * Complexity: O((V + E) * V * log C).
  * @param airport The code of the source airport.
  * @param k The number of flight stops.
  * @return The number of cities reachable from the source airport with the specified number of flight stops.
@@ -259,6 +270,7 @@ int numCitiesDestAtDistance(const string& airport,int k){
 
 /**
  * @brief Compares two airports based on their air traffic capacity.
+ * Complexity: O(V).
  * @param a The first airport for comparison.
  * @param b The second airport for comparison.
  * @return True if the air traffic capacity of airport 'a' is greater than that of airport 'b',
@@ -273,6 +285,7 @@ bool airportCompareByFlights(const Airport& a, const Airport& b){
 
 /**
  * @brief Displays the top k airports with the greatest air traffic capacity.
+ * Complexity: O(V * log V).
  * @param k The number of top airports to display.
  */
 void greatestAirTrafficCapacity(int k){
@@ -292,6 +305,7 @@ void greatestAirTrafficCapacity(int k){
 
 /**
  * @brief Depth-first search (DFS) algorithm to mark connected vertices starting from a given vertex.
+ * Complexity: O(V + E).
  * @param v Starting vertex for DFS.
  */
 void dfsConnected(Vertex<string> * v){
@@ -305,6 +319,7 @@ void dfsConnected(Vertex<string> * v){
 
 /**
  * @brief Checks and prints information about the connections between airports in the graph.
+ * Complexity: O(V * (V + E)).
  * The function initializes the visited flag for each vertex, performs DFS to find connected components,
  * and then prints the result indicating whether all airports are connected or if there are separated groups.
  */
@@ -334,6 +349,7 @@ void checkIsolatedAirportGroups(){
 
 /**
  * @brief Performs depth-first search starting from a given vertex.
+ * Complexity: O(V + E).
  * @param v The starting vertex.
  * @param path Vector to store the current path.
  * @param maxPath Vector to store the maximum path.
@@ -351,6 +367,7 @@ void dfs(Vertex<string>* v, vector<string> &path, vector<string> &maxPath, int &
 
 /**
  * @brief Finds and prints the maximum number of stops in trips between airports.
+ * Complexity: O(V^2 * (V + E)).
  */
 void maxTrip(){
     int maxStops=0;
@@ -381,6 +398,7 @@ void maxTrip(){
 
 /**
  * @brief Performs depth-first search for finding articulation points in an undirected graph.
+ * Complexity: O(V + E).
  * @param q The graph.
  * @param v The current vertex.
  * @param s Stack to keep track of visited vertices.
@@ -411,6 +429,7 @@ void dfs_art(Graph<string> q, Vertex<string> * v,stack<string> &s,unordered_set<
 
 /**
  * @brief Finds articulation points in the graph and returns a set of those points.
+ * Complexity: O(V * (V + E)).
  * @return Set of articulation points.
  */
 unordered_set<string> articulationAirports(){
@@ -429,6 +448,7 @@ unordered_set<string> articulationAirports(){
 
 /**
  * @brief Finds the best flights (least stops) between two airports and returns a set of valid itineraries.
+ * Complexity: O(A + N * log C + (V * F * log C)).
  * @param source The source airport code or name.
  * @param target The target airport code or name.
  * @return Set of valid itineraries.
@@ -552,6 +572,7 @@ double toRadians(double degree) {
 
 /**
  * @brief Calculates the Haversine distance between two sets of coordinates.
+ * Complexity: O(1).
  * @param lat1 Latitude of the first location.
  * @param lon1 Longitude of the first location.
  * @param lat2 Latitude of the second location.
@@ -579,31 +600,32 @@ double haversine(double lat1, double lon1, double lat2, double lon2) {
 
 /**
  * @brief Finds the best flights between two locations and returns a set of valid itineraries.
+ * Complexity: O(V + (N * M) * (A + N * log C + (V * F * log C))).
  * @param lon Longitude of the source location.
  * @param lat Latitude of the source location.
  * @param targetLon Longitude of the target location.
  * @param targetLat Latitude of the target location.
  * @return Set of valid itineraries.
  */
-vector<set<vector<Flight>>> coordsBestFlight( double lon, double lat, double targetLon,double targetLat){
+vector<set<vector<Flight>>> coordsBestFlight( double lat, double lon, double targetLat,double targetLon){
     double min = INT_MAX;
     vector<Airport> sourcePossible;
     for(const auto& in :airports){
-        double temp = haversine(in.get_Latitude(),in.get_Longitude(),lon,lat);
+        double temp = haversine(in.get_Latitude(),in.get_Longitude(),lat,lon);
         if(temp < min)min = temp;
     }
     for(const auto& in :airports){
-        double temp = haversine(in.get_Latitude(),in.get_Longitude(),lon,lat);
+        double temp = haversine(in.get_Latitude(),in.get_Longitude(),lat,lon);
         if(temp == min)sourcePossible.push_back(in);
     }
     min = INT_MAX;
     vector<Airport> destPossible;
     for(const auto& in :airports){
-        double temp = haversine(in.get_Latitude(),in.get_Longitude(),targetLon,targetLat);
+        double temp = haversine(in.get_Latitude(),in.get_Longitude(),targetLat,targetLon);
         if(temp < min)min = temp;
     }
     for(const auto& in :airports){
-        double temp = haversine(in.get_Latitude(),in.get_Longitude(),targetLon,targetLat);
+        double temp = haversine(in.get_Latitude(),in.get_Longitude(),targetLat,targetLon);
         if(temp == min)destPossible.push_back(in);
     }
     vector<set<vector<Flight>>> allPaths;
@@ -617,6 +639,7 @@ vector<set<vector<Flight>>> coordsBestFlight( double lon, double lat, double tar
 
 /**
  * @brief Finds airports in a given city.
+ * Complexity: O(V).
  * @param city The name of the city.
  * @return Vector of the airports in the city.
  */
@@ -631,6 +654,7 @@ vector<Airport> findAirportsInCity(const string& city) {
 
 /**
  * @brief Finds the best flights between two cities.
+ * Complexity: O(V + (N * M) * (A + N * log C + (V * F * log C))).
  * @param sourceCity The name of the source city.
  * @param targetCity The name of the target city.
  */
@@ -649,6 +673,7 @@ void bestFlightCityToCity(const string& sourceCity, const string& targetCity) {
 
 /**
  * @brief Finds the best flights from an airport to a city.
+ * Complexity: O(V + N * (A + N * log C + (V * F * log C))).
  * @param sourceAirport The code or name of the source airport.
  * @param targetCity The name of the target city.
  */
@@ -669,6 +694,7 @@ void bestFlightAirportToCity(const string& sourceAirport, const string& targetCi
 
 /**
  * @brief Finds the best flights from a city to an airport.
+ * Complexity: O(V + N * (A + N * log C + (V * F * log C))).
  * @param sourceCity The name of the source city.
  * @param targetAirport The code or name of the target airport.
  */
@@ -689,6 +715,7 @@ void bestFlightCityToAirport(const string& sourceCity, const string& targetAirpo
 
 /**
  * @brief Finds the best flights from a city to a location.
+ * Complexity: O(V + N * (A + N * log C + (V * F * log C))).
  * @param sourceCity The name of the source city.
  * @param lon Longitude of the target location.
  * @param lat Latitude of the target location.
@@ -703,6 +730,7 @@ void bestFlightCityToLocation(const string& sourceCity,double lon, double lat) {
 
 /**
  * @brief Finds the best flights from a location to a city.
+ * Complexity: O(V + N * (A + N * log C + (V * F * log C))).
  * @param lon Longitude of the source location.
  * @param lat Latitude of the source location.
  * @param targetCity The name of the target city.
@@ -717,6 +745,7 @@ void bestFlightLocationToCity(double lon, double lat,const string& targetCity){
 
 /**
  * @brief Finds the best flights from a location to an airport.
+ * Complexity: O(V + (N * M) * (A + N * log C + (V * F * log C))).
  * @param targetLat Latitude of the target location.
  * @param targetLon Longitude of the target location.
  * @param lon Longitude of the source location.
@@ -729,6 +758,7 @@ void bestFlightLocationToAirport(double targetLat,double targetLon,double lon, d
 
 /**
  * @brief Finds the best flights from an airport to a location.
+ * Complexity: O(V + (N * M) * (A + N * log C + (V * F * log C)))
  * @param lon Longitude of the source location.
  * @param lat Latitude of the source location.
  * @param targetLon Longitude of the target location.

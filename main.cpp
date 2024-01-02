@@ -2,10 +2,10 @@
 #include "data_storage/Interface.h"
 
 int main() {
-    Initialize();
-    //AirlineReader();
-    //AirportReader();
-    //FlightsReader();
+    //Initialize();
+    AirlineReader();
+    AirportReader();
+    FlightsReader();
     //numberOut("MAG");
     //flightsPerCity("Paris");
     //cout << flightsPerAirline("DTA");
@@ -31,7 +31,7 @@ int main() {
 
 
    //bestFlightCityToCity("Moscow", "Paris");
-   //coordsBestFlight(55.591531,37.261486,48.725278,2.359444);
+    //coordsBestFlight(38.781311,-9.135919,46.927744,28.930978);
     //essentialAirports();
     //46.927744,28.930978 lat,lon kiv
     //38.781311,-9.135919 lat,lon lisbon
