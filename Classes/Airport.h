@@ -1,3 +1,8 @@
+/**
+ * @file Airport.h
+ * @brief Header file of the Airport class.
+ */
+
 #ifndef Project_Air_AIRPORT_H
 #define Project_Air_AIRPORT_H
 

@@ -1,3 +1,10 @@
+/**
+ * @file Displays.h
+ * @brief Header file containing display-related functionalities.
+ * This file includes various functions for displaying statistics, filtering flights, and finding the best flight options.
+ * It uses functionalities from the "Helpers.h" file and data structures defined in the "Graph.h" file.
+ */
+
 #ifndef PROJECT_AIR_DISPLAYS_H
 #define PROJECT_AIR_DISPLAYS_H
 

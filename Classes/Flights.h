@@ -1,3 +1,8 @@
+/**
+ * @file Flights.h
+ * @brief Header file of the Flights class.
+ */
+
 #ifndef Project_Air_FLIGHTS_H
 #define Project_Air_FLIGHTS_H
 

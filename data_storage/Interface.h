@@ -1,3 +1,9 @@
+/**
+ * @file Interface.h
+ * @brief Header file containing functions to initialize and provide a menu-based interface for the application.
+ * The user can interactively navigate through different options and perform tasks such as obtaining statistics, finding the best flight options, and applying filters.
+ */
+
 #ifndef PROJECT_AIR_INTERFACE_H
 #define PROJECT_AIR_INTERFACE_H
 

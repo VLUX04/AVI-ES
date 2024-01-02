@@ -1,3 +1,8 @@
+/**
+ * @file Airline.h
+ * @brief Header file of the Airline class.
+ */
+
 #ifndef Project_Air_AIRLINE_H
 #define Project_Air_AIRLINE_H
 

@@ -1,3 +1,8 @@
+/**
+ * @file Graph.h
+ * @brief Header file that contains the implementation of a graph and all its wanted functionalities.
+ */
+
 #ifndef GRAPH_H_
 #define GRAPH_H_
 

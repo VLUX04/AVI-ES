@@ -1,3 +1,9 @@
+/**
+ * @file Helpers.h
+ * @brief Header file containing helper functions that facilitate the interactive display and selection of countries, cities, airports, and airlines.
+ * The functions offer a user-friendly interface for navigating through lists and making selections based on specific criteria.
+ */
+
 #ifndef PROJECT_AIR_HELPERS_H
 #define PROJECT_AIR_HELPERS_H
 #include "Displays.h"

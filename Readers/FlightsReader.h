@@ -1,3 +1,8 @@
+/**
+ * @file FlightsReader.h
+ * @brief Header file containing functions to read flights data from a CSV file.
+ */
+
 #ifndef Project_Air_FLIGHTSREADER_H
 #define Project_Air_FLIGHTSREADER_H
 

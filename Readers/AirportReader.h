@@ -1,3 +1,8 @@
+/**
+ * @file AirportReader.h
+ * @brief Header file containing functions to read airport data from a CSV file.
+ */
+
 #ifndef Project_Air_AIRPORTREADER_H
 #define Project_Air_AIRPORTREADER_H
 

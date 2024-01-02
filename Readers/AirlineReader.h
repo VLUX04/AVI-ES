@@ -1,3 +1,8 @@
+/**
+ * @file AirlineReader.h
+ * @brief Header file containing functions to read airline data from a CSV file.
+ */
+
 #ifndef Project_Air_AIRLINEREADER_H
 #define Project_Air_AIRLINEREADER_H
 
