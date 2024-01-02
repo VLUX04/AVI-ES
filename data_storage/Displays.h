@@ -50,12 +50,16 @@ int numberFlights(){
  */
 void numberOut(const string& airport){
     cout << endl;
-    cout << "The number of flights out of " << airport << " is " << connections.findVertex(airport)->getAdj().size();
-    set<string> numAirlines;
-    for(const auto& in : connections.findVertex(airport)->getAdj()){
-        numAirlines.insert(in.getWeight());
+    for(auto in : airports){
+        if(in.get_AirportCode() == airport || in.get_AirportName() == airport){
+            cout << "The number of flights out of " << airport << " is " << connections.findVertex(in.get_AirportCode())->getAdj().size();
+            set<string> numAirlines;
+            for(const auto& in : connections.findVertex(in.get_AirportCode())->getAdj()){
+                numAirlines.insert(in.getWeight());
+            }
+            cout << " and they are from " << numAirlines.size() << " different airlines." << endl;
+        }
     }
-    cout << " and they are from " << numAirlines.size() << " different airlines." << endl;
 }
 
 /**
