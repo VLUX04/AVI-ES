@@ -29,7 +29,7 @@ vector<Airline> airlines; ///< Vector that stores all the airline objects from t
  * @brief Reads airline data from a CSV file and populates a vector of Airline objects.
  */
 void AirlineReader() {
-    string FILENAME = "dataset/airlines.csv";
+    string FILENAME = "Dataset/airlines.csv";
     ifstream file;
     string file_text;
 

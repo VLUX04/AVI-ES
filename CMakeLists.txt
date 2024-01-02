@@ -7,6 +7,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_executable(Project_Air main.cpp Classes/Airline.cpp Classes/Airline.h Classes/Airport.cpp Classes/Airport.h Classes/Flights.cpp Classes/Flights.h
         Readers/AirlineReader.h Readers/AirportReader.h Readers/FlightsReader.h Readers/Graph.h
-        data_storage/Displays.h
-        data_storage/Interface.h
-        data_storage/Helpers.h)
+        DataStorage/Displays.h
+        DataStorage/Interface.h
+        DataStorage/Helpers.h)

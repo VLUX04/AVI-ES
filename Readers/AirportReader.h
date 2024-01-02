@@ -21,7 +21,7 @@ vector<Airport> airports; ///< Vector that stores all the airport objects from t
  * @brief Reads airport data from a CSV file and populates a vector of Airport objects.
  */
 void AirportReader() {
-    string FILENAME = "dataset/airports.csv";
+    string FILENAME = "Dataset/airports.csv";
     ifstream file;
     string file_text;
 

@@ -28,7 +28,7 @@ set<string> airportsToFilter; ///< Set of airports to filter during display oper
 
 
 /**
- * @brief Returns the number of airports in the dataset.
+ * @brief Returns the number of airports in the Dataset.
  * @return The number of airports.
  */
 int numberAirports(){
@@ -36,7 +36,7 @@ int numberAirports(){
 }
 
 /**
- * @brief Returns the number of flights in the dataset.
+ * @brief Returns the number of flights in the Dataset.
  * @return The number of flights.
  */
 int numberFlights(){

@@ -24,7 +24,7 @@ Graph<string> undirectedConnections; ///< Undirected graph of the connections be
  * @brief Reads flight data from a CSV file, populates a set of Flight objects, and updates a graph of airport connections and its undirected graph.
  */
 void FlightsReader() {
-    string FILENAME = "dataset/flights.csv";
+    string FILENAME = "Dataset/flights.csv";
     ifstream file;
     string file_text;
 
